@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 import { SectionHeader } from "./SectionHeader";
 import { Slider } from "@/components/ui/slider";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, CartesianGrid } from "recharts";
+import { useLang } from "./LangContext";
+import { t } from "./translations";
 
 type Inputs = { price: number; equity: number; years: number; appr: number; yld: number };
 
@@ -26,6 +28,9 @@ const fmtFull = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
 
 export function RoiSimulator() {
+  const { lang } = useLang();
+  const tx = t(lang).roi;
+
   const [inp, setInp] = useState<Inputs>({ price: 2_500_000, equity: 30, years: 10, appr: 6.5, yld: 5.0 });
   const base = useMemo(() => compute(inp), [inp]);
   const conservative = useMemo(() => compute({ ...inp, appr: 3.5, yld: 4.0 }), [inp]);
@@ -36,52 +41,52 @@ export function RoiSimulator() {
     for (let y = 0; y <= inp.years; y++) {
       arr.push({
         year: `Y${y}`,
-        Conservative: Math.round(inp.price * Math.pow(1 + 3.5 / 100, y)),
-        "Base Case": Math.round(inp.price * Math.pow(1 + inp.appr / 100, y)),
-        "Bull Case": Math.round(inp.price * Math.pow(1 + 9.0 / 100, y)),
+        [tx.scenarios[0]]: Math.round(inp.price * Math.pow(1 + 3.5 / 100, y)),
+        [tx.scenarios[1]]: Math.round(inp.price * Math.pow(1 + inp.appr / 100, y)),
+        [tx.scenarios[2]]: Math.round(inp.price * Math.pow(1 + 9.0 / 100, y)),
       });
     }
     return arr;
-  }, [inp]);
+  }, [inp, tx.scenarios]);
 
-  const sliders = [
-    { key: "price" as const, label: "Purchase Price", min: 500_000, max: 5_000_000, step: 100_000, format: (v: number) => fmtFull(v) },
-    { key: "equity" as const, label: "Equity Contribution", min: 10, max: 50, step: 5, format: (v: number) => `${v}%` },
-    { key: "years" as const, label: "Holding Period", min: 1, max: 25, step: 1, format: (v: number) => `${v} yrs` },
-    { key: "appr" as const, label: "Annual Appreciation", min: 1, max: 15, step: 0.5, format: (v: number) => `${v.toFixed(1)}%` },
-    { key: "yld" as const, label: "Annual Rental Yield", min: 2, max: 10, step: 0.5, format: (v: number) => `${v.toFixed(1)}%` },
+  const sliderDefs = [
+    { key: "price" as const, min: 500_000, max: 5_000_000, step: 100_000, format: (v: number) => fmtFull(v) },
+    { key: "equity" as const, min: 10, max: 50, step: 5, format: (v: number) => `${v}%` },
+    { key: "years" as const, min: 1, max: 25, step: 1, format: (v: number) => `${v} yrs` },
+    { key: "appr" as const, min: 1, max: 15, step: 0.5, format: (v: number) => `${v.toFixed(1)}%` },
+    { key: "yld" as const, min: 2, max: 10, step: 0.5, format: (v: number) => `${v.toFixed(1)}%` },
   ];
 
-  const metrics = [
-    { label: "Total Asset Value", value: fmt(base.totalAssetValue), pct: `+${(((base.totalAssetValue - inp.price) / inp.price) * 100).toFixed(1)}%` },
-    { label: "Capital Gain", value: fmt(base.capitalGain), pct: `${((base.capitalGain / inp.price) * 100).toFixed(1)}%` },
-    { label: "CAGR", value: `${base.cagr.toFixed(2)}%`, pct: `${inp.years}-yr Compounded` },
-    { label: "Cumulative Rental", value: fmt(base.rentalIncome), pct: `${fmt(base.annualRental)} / yr` },
-    { label: "Total Return", value: fmt(base.totalReturn), pct: `${((base.totalReturn / inp.price) * 100).toFixed(1)}% ROI` },
+  const metricValues = [
+    { value: fmt(base.totalAssetValue), pct: `+${(((base.totalAssetValue - inp.price) / inp.price) * 100).toFixed(1)}%` },
+    { value: fmt(base.capitalGain), pct: `${((base.capitalGain / inp.price) * 100).toFixed(1)}%` },
+    { value: `${base.cagr.toFixed(2)}%`, pct: `${inp.years}-yr ${tx.cagrSuffix}` },
+    { value: fmt(base.rentalIncome), pct: `${fmt(base.annualRental)} / yr` },
+    { value: fmt(base.totalReturn), pct: `${((base.totalReturn / inp.price) * 100).toFixed(1)}% ROI` },
   ];
 
   const scenarios = [
-    { name: "Conservative", appr: "3.5%", yld: "4.0%", data: conservative, highlight: false },
-    { name: "Base Case", appr: `${inp.appr.toFixed(1)}%`, yld: `${inp.yld.toFixed(1)}%`, data: base, highlight: true },
-    { name: "Bull Case", appr: "9.0%", yld: "6.5%", data: bull, highlight: false },
+    { name: tx.scenarios[0], appr: "3.5%", yld: "4.0%", data: conservative, highlight: false },
+    { name: tx.scenarios[1], appr: `${inp.appr.toFixed(1)}%`, yld: `${inp.yld.toFixed(1)}%`, data: base, highlight: true },
+    { name: tx.scenarios[2], appr: "9.0%", yld: "6.5%", data: bull, highlight: false },
   ];
 
   return (
     <section id="simulator" className="py-28 md:py-36 bg-background">
       <div className="mx-auto max-w-7xl px-6">
         <SectionHeader
-          eyebrow="06 / Investment Scenario Modeling"
-          title="ROI Simulator"
-          subtitle="Institutional-Grade Multi-Scenario Capital Return Modeling and Cash Flow Analysis."
+          eyebrow={tx.eyebrow}
+          title={tx.title}
+          subtitle={tx.subtitle}
         />
 
         <div className="mt-14 grid lg:grid-cols-[400px_1fr] gap-8">
           <div className="panel-dark rounded-2xl p-8 space-y-8">
-            <p className="label-eyebrow text-[var(--gold)]">Allocation Inputs</p>
-            {sliders.map((s) => (
+            <p className="label-eyebrow text-[var(--gold)]">{tx.inputsLabel}</p>
+            {sliderDefs.map((s, i) => (
               <div key={s.key}>
                 <div className="flex items-baseline justify-between mb-3">
-                  <label className="text-white/70 text-sm">{s.label}</label>
+                  <label className="text-white/70 text-sm">{tx.sliders[i].label}</label>
                   <span className="font-display text-[var(--gold)] font-medium tabular-nums">{s.format(inp[s.key])}</span>
                 </div>
                 <Slider
@@ -101,17 +106,17 @@ export function RoiSimulator() {
 
           <div className="space-y-6">
             <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
-              {metrics.map((m) => (
-                <div key={m.label} className="border border-border rounded-xl p-5 bg-card">
-                  <p className="text-[10px] tracking-widest uppercase text-muted-foreground">{m.label}</p>
-                  <p className="font-display text-xl mt-2 font-semibold tabular-nums">{m.value}</p>
-                  <p className="text-xs text-[var(--emerald-brand)] mt-1 tabular-nums">{m.pct}</p>
+              {tx.metrics.map((label, i) => (
+                <div key={label} className="border border-border rounded-xl p-5 bg-card">
+                  <p className="text-[10px] tracking-widest uppercase text-muted-foreground">{label}</p>
+                  <p className="font-display text-xl mt-2 font-semibold tabular-nums">{metricValues[i].value}</p>
+                  <p className="text-xs text-[var(--emerald-brand)] mt-1 tabular-nums">{metricValues[i].pct}</p>
                 </div>
               ))}
             </div>
 
             <div className="panel-dark rounded-2xl p-6">
-              <p className="label-eyebrow text-[var(--gold)] mb-4">Asset Value Trajectory · {inp.years}-Year Horizon</p>
+              <p className="label-eyebrow text-[var(--gold)] mb-4">{tx.chartLabel} · {inp.years}-{tx.yearHorizon}</p>
               <div className="h-[320px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
@@ -124,9 +129,9 @@ export function RoiSimulator() {
                       formatter={(v: any) => fmtFull(v)}
                     />
                     <Legend wrapperStyle={{ fontSize: 12, color: "#fff" }} />
-                    <Line type="monotone" dataKey="Conservative" stroke="#6b7280" strokeWidth={2} dot={false} />
-                    <Line type="monotone" dataKey="Base Case" stroke="#d4af37" strokeWidth={3} dot={false} />
-                    <Line type="monotone" dataKey="Bull Case" stroke="#14a76c" strokeWidth={2} dot={false} />
+                    <Line type="monotone" dataKey={tx.scenarios[0]} stroke="#6b7280" strokeWidth={2} dot={false} />
+                    <Line type="monotone" dataKey={tx.scenarios[1]} stroke="#d4af37" strokeWidth={3} dot={false} />
+                    <Line type="monotone" dataKey={tx.scenarios[2]} stroke="#14a76c" strokeWidth={2} dot={false} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -134,32 +139,28 @@ export function RoiSimulator() {
 
             <div className="border border-border rounded-2xl overflow-hidden">
               <div className="p-6 border-b border-border">
-                <p className="label-eyebrow text-[var(--emerald-brand)]">Scenario Comparison</p>
-                <h3 className="font-display text-xl mt-1 font-semibold">Three-Case Return Modeling</h3>
+                <p className="label-eyebrow text-[var(--emerald-brand)]">{tx.scenarioLabel}</p>
+                <h3 className="font-display text-xl mt-1 font-semibold">{tx.scenarioTitle}</h3>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="text-left text-[10px] uppercase tracking-widest text-muted-foreground border-b border-border">
-                      <th className="p-4">Scenario</th>
-                      <th className="p-4">Appr / Yield</th>
-                      <th className="p-4">Total Asset Value</th>
-                      <th className="p-4">Capital Gain</th>
-                      <th className="p-4">Rental Income</th>
-                      <th className="p-4">Total Return</th>
-                      <th className="p-4">CAGR</th>
+                      {tx.tableHeaders.map((h) => (
+                        <th key={h} className="p-4">{h}</th>
+                      ))}
                     </tr>
                   </thead>
                   <tbody>
                     {scenarios.map((s) => (
                       <tr
                         key={s.name}
-                        className={`border-b border-border last:border-0 ${s.highlight ? "bg-[var(--gold)]/8" : ""}`}
+                        className={`border-b border-border last:border-0`}
                         style={s.highlight ? { background: "rgba(212,175,55,0.08)" } : undefined}
                       >
                         <td className="p-4 font-medium">
                           {s.name}
-                          {s.highlight && <span className="ml-2 text-[10px] text-[var(--gold)] uppercase tracking-widest">Live</span>}
+                          {s.highlight && <span className="ml-2 text-[10px] text-[var(--gold)] uppercase tracking-widest">{tx.live}</span>}
                         </td>
                         <td className="p-4 text-muted-foreground tabular-nums">{s.appr} / {s.yld}</td>
                         <td className="p-4 tabular-nums">{fmt(s.data.totalAssetValue)}</td>
@@ -176,11 +177,7 @@ export function RoiSimulator() {
           </div>
         </div>
 
-        <p className="mt-10 text-xs text-muted-foreground max-w-4xl leading-relaxed">
-          This simulation presents illustrative scenarios for educational purposes. Past performance
-          does not guarantee future results. Actual returns may differ materially based on market
-          volatility, currency fluctuations, tenant changes, and other factors.
-        </p>
+        <p className="mt-10 text-xs text-muted-foreground max-w-4xl leading-relaxed">{tx.disclaimer}</p>
       </div>
     </section>
   );

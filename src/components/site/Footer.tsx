@@ -1,6 +1,11 @@
 import { NAV_LINKS, IMAGES } from "./data";
+import { useLang } from "./LangContext";
+import { t } from "./translations";
 
 export function Footer() {
+  const { lang } = useLang();
+  const tx = t(lang);
+
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
@@ -14,17 +19,16 @@ export function Footer() {
             <span className="font-display tracking-[0.3em] text-sm">PHAM TRI</span>
           </div>
           <p className="mt-5 text-white/55 text-sm max-w-md leading-relaxed">
-            Sovereign Capital — the institutional gateway to Can Tho Zone 4, Southern Vietnam's last
-            sovereign growth corridor.
+            {tx.footer.tagline}
           </p>
         </div>
         <div>
           <p className="label-eyebrow text-white/40 mb-4">Navigate</p>
           <ul className="space-y-2.5">
-            {NAV_LINKS.map((l) => (
+            {NAV_LINKS.map((l, i) => (
               <li key={l.id}>
                 <button onClick={() => scrollTo(l.id)} className="text-white/70 hover:text-[var(--emerald-brand)] text-sm">
-                  {l.label}
+                  {tx.nav.links[i]}
                 </button>
               </li>
             ))}
@@ -41,7 +45,7 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-white/40">
-          <p>© 2026 Pham Tri Sovereign Capital. All rights reserved.</p>
+          <p>{tx.footer.rights}</p>
           <p className="md:text-right max-w-xl">
             Institutional allocation platform. Access and participation require verified qualified
             investor status under applicable jurisdictional regulations.

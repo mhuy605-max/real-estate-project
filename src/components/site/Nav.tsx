@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Menu, X, ChevronDown, Lock } from "lucide-react";
 import { NAV_LINKS, LANGUAGES, IMAGES } from "./data";
+import { useLang } from "./LangContext";
+import { t } from "./translations";
+import type { Lang } from "./LangContext";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -11,10 +14,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 
 export function Nav() {
+  const { lang, setLang } = useLang();
+  const tx = t(lang);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("");
   const [scrolled, setScrolled] = useState(false);
-  const [lang, setLang] = useState(LANGUAGES[0]);
   const [loginOpen, setLoginOpen] = useState(false);
 
   useEffect(() => {
@@ -57,7 +61,7 @@ export function Nav() {
           </button>
 
           <nav className="hidden lg:flex items-center gap-7">
-            {NAV_LINKS.map((l) => (
+            {NAV_LINKS.map((l, i) => (
               <button
                 key={l.id}
                 onClick={() => scrollTo(l.id)}
@@ -65,7 +69,7 @@ export function Nav() {
                   active === l.id ? "text-[var(--emerald-brand)]" : "text-white/70 hover:text-white"
                 }`}
               >
-                {l.label}
+                {tx.nav.links[i]}
               </button>
             ))}
           </nav>
@@ -73,11 +77,11 @@ export function Nav() {
           <div className="flex items-center gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger className="hidden md:flex items-center gap-1 text-xs tracking-widest uppercase text-white/70 hover:text-white">
-                {lang.code.toUpperCase()} <ChevronDown className="w-3 h-3" />
+                {lang.toUpperCase()} <ChevronDown className="w-3 h-3" />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 {LANGUAGES.map((l) => (
-                  <DropdownMenuItem key={l.code} onClick={() => setLang(l)}>
+                  <DropdownMenuItem key={l.code} onClick={() => setLang(l.code as Lang)}>
                     {l.label}
                   </DropdownMenuItem>
                 ))}
@@ -88,7 +92,7 @@ export function Nav() {
               onClick={() => setLoginOpen(true)}
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-[11px] tracking-[0.2em] uppercase gold-gradient text-black font-semibold rounded-sm hover:opacity-90"
             >
-              <Lock className="w-3 h-3" /> Secure Login
+              <Lock className="w-3 h-3" /> {tx.nav.secureLogin}
             </button>
 
             <button
@@ -125,13 +129,13 @@ export function Nav() {
             <button onClick={() => setOpen(false)} aria-label="Close menu"><X className="w-5 h-5" /></button>
           </div>
           <nav className="flex flex-col gap-5">
-            {NAV_LINKS.map((l) => (
+            {NAV_LINKS.map((l, i) => (
               <button
                 key={l.id}
                 onClick={() => scrollTo(l.id)}
                 className="text-left text-lg font-display tracking-wide text-white/90 hover:text-[var(--emerald-brand)]"
               >
-                {l.label}
+                {tx.nav.links[i]}
               </button>
             ))}
           </nav>
@@ -141,9 +145,9 @@ export function Nav() {
               {LANGUAGES.map((l) => (
                 <button
                   key={l.code}
-                  onClick={() => setLang(l)}
+                  onClick={() => setLang(l.code as Lang)}
                   className={`px-3 py-1 text-xs border ${
-                    lang.code === l.code
+                    lang === l.code
                       ? "border-[var(--emerald-brand)] text-[var(--emerald-brand)]"
                       : "border-white/20 text-white/70"
                   }`}
@@ -159,13 +163,10 @@ export function Nav() {
       <Dialog open={loginOpen} onOpenChange={setLoginOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="font-display tracking-wide">Institutional Access</DialogTitle>
-            <DialogDescription>
-              Secure login is reserved for qualified institutional investors. Please contact your
-              relationship manager to receive credentials.
-            </DialogDescription>
+            <DialogTitle className="font-display tracking-wide">{tx.nav.loginTitle}</DialogTitle>
+            <DialogDescription>{tx.nav.loginDesc}</DialogDescription>
           </DialogHeader>
-          <Button disabled className="w-full">Credentials Required</Button>
+          <Button disabled className="w-full">{tx.nav.loginBtn}</Button>
         </DialogContent>
       </Dialog>
     </>
