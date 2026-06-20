@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useLang } from "@/components/site/LangContext";
 import { t } from "@/components/site/translations";
+import { usePortal } from "@/lib/portal/store";
 import { WpReveal } from "./WpReveal";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -42,6 +43,7 @@ export function WpLeadForm() {
   const { lang } = useLang();
   const wp = t(lang).wp;
   const fm = wp.form;
+  const { submitLead } = usePortal();
 
   const [moveIn, setMoveIn] = useState<Date | undefined>();
   const [priorities, setPriorities] = useState<string[]>([]);
@@ -57,9 +59,20 @@ export function WpLeadForm() {
     setValue("priorities", next);
   };
 
-  const onSubmit = async (_data: FormValues) => {
-    // TODO: POST to CRM/email endpoint once backend is wired
+  const onSubmit = async (data: FormValues) => {
     await new Promise((r) => setTimeout(r, 400));
+    submitLead({
+      name: data.name,
+      phone: data.phone,
+      customerType: data.customerType,
+      area: data.area,
+      budget: data.budget,
+      propertyType: data.propertyType,
+      size: data.size,
+      moveIn: data.moveIn ? format(data.moveIn, "yyyy-MM-dd") : undefined,
+      priorities: data.priorities,
+      notes: data.notes,
+    });
     toast.success(fm.success);
     reset();
     setPriorities([]);

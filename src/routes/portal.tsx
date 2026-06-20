@@ -1,5 +1,4 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
-import { PortalProvider } from "@/lib/portal/store";
 
 export const Route = createFileRoute("/portal")({
   head: () => ({
@@ -14,10 +13,8 @@ export const Route = createFileRoute("/portal")({
 
 function PortalLayout() {
   return (
-    <PortalProvider>
-      <div className="portal-app font-inter">
-        <Outlet />
-      </div>
-    </PortalProvider>
+    <div className="font-inter">
+      <Outlet />
+    </div>
   );
 }
