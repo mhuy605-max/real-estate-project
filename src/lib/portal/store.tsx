@@ -72,10 +72,10 @@ const nowIso = () => new Date().toISOString();
 const seed: PortalState = {
   users: [
     {
-      uid: "admin",
-      password: "admin123",
+      uid: "noah",
+      password: "noah123",
       role: "admin",
-      name: "MR. PHAM",
+      name: "NOAH",
     },
     {
       uid: "kim",
