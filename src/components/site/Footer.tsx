@@ -16,7 +16,10 @@ export function Footer() {
         <div className="md:col-span-2">
           <div className="flex items-center gap-3 text-white">
             <img src={IMAGES.withLogo} alt="WITH" className="h-9 w-auto" />
-            <span className="font-display tracking-[0.3em] text-sm">PHAM TRI</span>
+            <div className="flex flex-col leading-tight">
+              <span className="font-display tracking-[0.3em] text-sm">WITH</span>
+              <span className="font-display tracking-[0.3em] text-[11px] text-white/50">PHAM TRI</span>
+            </div>
           </div>
           <p className="mt-5 text-white/55 text-sm max-w-md leading-relaxed">
             {tx.footer.tagline}

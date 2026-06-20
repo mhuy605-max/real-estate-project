@@ -125,7 +125,7 @@ const translations = {
     },
     flagship: {
       eyebrow: "05 / Flagship Asset Vehicles",
-      title: "Three Flagship Investment Assets · Detailed Analysis",
+      title: "Four Flagship Investment Assets · Detailed Analysis",
       subtitle: "Institutional-Grade Premium Asset Research — Building-Level Investment Thesis, Cash Flow Structure, and Risk-Adjusted Return Profiles.",
       cta: "Request Private Allocation",
       footer: "Individual building asset allocations are subject to international foreign quota restrictions managed exclusively by WITH Real Estate, in partnership with authorized institutional distributors. Availability and terms are reserved for qualified institutional investors only.",
@@ -147,6 +147,14 @@ const translations = {
           details: [["Occupancy Rate", "94% – 98%"], ["Target Tenant", "Medical & Education Pros"], ["Lease Currency", "USD + VND Hybrid"], ["Investment Grade", "Institutional AA+"]],
         },
         {
+          code: "Building C", name: "Prime Office Tower", stats: "52-Story Class-A · 380 Units",
+          overview: "Ultra-premium office accommodating multinational shipping lines and logistics operators tied directly to the Tran De Deep Sea Port pipeline, the anchor corporate address of Zone 4.",
+          thesis: "Sovereign-tenanted cash flow asset capturing direct exposure to the Tran De port logistics buildout. Multi-national lease durations underwrite predictable, USD-denominated income.",
+          drivers: ["Direct expressway link to Tran De Deep Sea Port", "Multinational maritime carrier headquarters", "State-backed entity tenancy demand", "Class-A infrastructure specifications", "USD-denominated corporate lease structure"],
+          metrics: [["Expected Yield", "6.0% – 6.8%"], ["Capital Appreciation", "5.5% – 7.1% / yr"], ["Investment Grade", "A"], ["Avg Unit Size", "484 – 3,444 sqft"]],
+          details: [["Occupancy Rate", "89% – 93%"], ["Target Tenant", "MNCs & State Entities"], ["Lease Currency", "USD Corporate"], ["Investment Grade", "Institutional A"]],
+        },
+        {
           code: "Building D", name: "Prime Office Tower", stats: "52-Story Class-A · 380 Units",
           overview: "Ultra-premium office accommodating multinational shipping lines and logistics operators tied directly to the Tran De Deep Sea Port pipeline, the anchor corporate address of Zone 4.",
           thesis: "Sovereign-tenanted cash flow asset capturing direct exposure to the Tran De port logistics buildout. Multi-national lease durations underwrite predictable, USD-denominated income.",
@@ -163,7 +171,7 @@ const translations = {
       inputsLabel: "Allocation Inputs",
       sliders: [
         { label: "Purchase Price" },
-        { label: "Equity Contribution" },
+        { label: "Equity Ratio" },
         { label: "Holding Period" },
         { label: "Annual Appreciation" },
         { label: "Annual Rental Yield" },
@@ -423,7 +431,7 @@ const translations = {
     },
     flagship: {
       eyebrow: "05 / 플래그십 자산 차량",
-      title: "3대 플래그십 자산군 상세 분석",
+      title: "4대 플래그십 자산군 상세 분석",
       subtitle: "기관 투자자 전용 프리미엄 자산 분석 — 건물별 투자 논리, 수익 구조, 위험 조정 자본 수익률 종합 평가.",
       cta: "PRIVATE ALLOCATION 신청",
       footer: "개별 건물 자산 배분은 승인된 기관 배분사와 협력하여 WITH 부동산(WITH Real Estate)이 독점 관리하는 국제 외국인 할당량(Foreign Quota) 제한을 적용받습니다. 가용성 및 조건은 자격을 갖춘 기관 투자자에게만 제공됩니다.",
@@ -445,6 +453,14 @@ const translations = {
           details: [["입주율", "94% – 98%"], ["목표 임차인", "의료 & 교육 전문직"], ["임대 통화", "USD + VND 혼합"], ["투자 등급", "기관 AA+"]],
         },
         {
+          code: "Building C", name: "프라임 오피스 타워", stats: "52층 Class-A · 380실",
+          overview: "쩐데 심해항구 파이프라인에 직접 연결된 다국적 해운사와 물류 운영사를 수용하는 울트라 프리미엄 오피스로, 4구역의 앵커 기업 주소지입니다.",
+          thesis: "쩐데 항구 물류 개발에 대한 직접 노출을 포착하는 국책 임차 현금흐름 자산. 다국적 임대 기간이 예측 가능한 USD 표시 소득을 보장합니다.",
+          drivers: ["쩐데 심해항구 직통 고속도로 연결", "다국적 해운사 본사", "국책 기관 임차 수요", "Class-A 인프라 사양", "USD 표시 기업 임대 구조"],
+          metrics: [["기대 수익률", "6.0% – 6.8%"], ["자산 가치 상승", "5.5% – 7.1% / 년"], ["투자 등급", "A"], ["평균 면적", "45 – 320 m²"]],
+          details: [["입주율", "89% – 93%"], ["목표 임차인", "다국적기업 & 국책기관"], ["임대 통화", "USD 기업"], ["투자 등급", "기관 A"]],
+        },
+        {
           code: "Building D", name: "프라임 오피스 타워", stats: "52층 Class-A · 380실",
           overview: "쩐데 심해항구 파이프라인에 직접 연결된 다국적 해운사와 물류 운영사를 수용하는 울트라 프리미엄 오피스로, 4구역의 앵커 기업 주소지입니다.",
           thesis: "쩐데 항구 물류 개발에 대한 직접 노출을 포착하는 국책 임차 현금흐름 자산. 다국적 임대 기간이 예측 가능한 USD 표시 소득을 보장합니다.",
@@ -461,7 +477,7 @@ const translations = {
       inputsLabel: "배분 입력값",
       sliders: [
         { label: "매입 가격" },
-        { label: "자기 자본 비율" },
+        { label: "자본 비율" },
         { label: "보유 기간" },
         { label: "연간 자산 가치 상승률" },
         { label: "연간 임대 수익률" },
@@ -721,7 +737,7 @@ const translations = {
     },
     flagship: {
       eyebrow: "05 / 旗舰资产载体",
-      title: "三大旗舰投资资产详细分析",
+      title: "四大旗舰投资资产详细分析",
       subtitle: "机构级优质资产研究 — 楼栋级投资逻辑、现金流结构和风险调整回报画像。",
       cta: "申请私人配售",
       footer: "各楼栋资产配置须遵守由WITH Real Estate与授权机构分销商合作独家管理的国际外资配额（Foreign Quota）限制。可用性和条款仅面向合格机构投资者。",
@@ -743,6 +759,14 @@ const translations = {
           details: [["入住率", "94% – 98%"], ["目标租户", "医疗及教育专业人士"], ["租约货币", "美元+越南盾混合"], ["投资等级", "机构 AA+"]],
         },
         {
+          code: "C座", name: "甲级写字楼", stats: "52层甲级 · 380间",
+          overview: "直接与陈德深水港管道相连的跨国航运公司和物流运营商的超高端写字楼，是第四区的锚定企业地址。",
+          thesis: "捕获陈德港物流开发直接敞口的主权租户现金流资产。跨国租约期限为可预测的美元计价收入提供保障。",
+          drivers: ["直通陈德深水港高速公路", "跨国海运公司总部", "国有实体租赁需求", "甲级基础设施规范", "美元计价企业租约结构"],
+          metrics: [["预期收益率", "6.0% – 6.8%"], ["资产增值", "5.5% – 7.1% / 年"], ["投资等级", "A"], ["平均面积", "45 – 320 m²"]],
+          details: [["入住率", "89% – 93%"], ["目标租户", "跨国企业及国有实体"], ["租约货币", "美元企业"], ["投资等级", "机构 A"]],
+        },
+        {
           code: "D座", name: "甲级写字楼", stats: "52层甲级 · 380间",
           overview: "直接与陈德深水港管道相连的跨国航运公司和物流运营商的超高端写字楼，是第四区的锚定企业地址。",
           thesis: "捕获陈德港物流开发直接敞口的主权租户现金流资产。跨国租约期限为可预测的美元计价收入提供保障。",
@@ -759,7 +783,7 @@ const translations = {
       inputsLabel: "配置输入参数",
       sliders: [
         { label: "购买价格" },
-        { label: "自有资金比例" },
+        { label: "资金比例" },
         { label: "持有期限" },
         { label: "年均增值率" },
         { label: "年均租金收益率" },
@@ -1019,7 +1043,7 @@ const translations = {
     },
     flagship: {
       eyebrow: "05 / Tài Sản Flagship",
-      title: "Ba Tài Sản Flagship Chi Tiết Phân Tích",
+      title: "Bốn Tài Sản Flagship Chi Tiết Phân Tích",
       subtitle: "Phân Tích Tài Sản Cao Cấp Dành Cho Nhà Đầu Tư Định Chế — Luận Điểm Đầu Tư Theo Tòa Nhà, Cấu Trúc Dòng Tiền, Và Lợi Suất Điều Chỉnh Rủi Ro.",
       cta: "Yêu Cầu Phân Bổ Riêng",
       footer: "Phân bổ tài sản từng tòa nhà phải tuân theo các hạn chế room khối ngoại (Foreign Quota) quốc tế được quản lý độc quyền bởi WITH Real Estate phối hợp cùng các nhà phân phối định chế được ủy quyền. Tính sẵn có và điều khoản chỉ dành cho nhà đầu tư định chế có tư cách.",
@@ -1041,6 +1065,14 @@ const translations = {
           details: [["Tỷ Lệ Lấp Đầy", "94% – 98%"], ["Khách Thuê Mục Tiêu", "Y Tế & Giáo Dục"], ["Tiền Tệ Thuê", "USD + VND Hỗn Hợp"], ["Hạng Đầu Tư", "Định Chế AA+"]],
         },
         {
+          code: "Tòa C", name: "Tháp Văn Phòng Hạng A", stats: "52 Tầng Hạng A · 380 Căn",
+          overview: "Văn phòng siêu cao cấp phục vụ các hãng vận tải biển đa quốc gia và nhà khai thác logistics gắn trực tiếp với đường ống Siêu cảng Trần Đề, địa chỉ doanh nghiệp neo đậu của Khu 4.",
+          thesis: "Tài sản dòng tiền thuê nhà nước nắm bắt trực tiếp tiếp xúc phát triển logistics cảng Trần Đề. Thời hạn thuê đa quốc gia bảo lãnh thu nhập bằng USD có thể dự đoán.",
+          drivers: ["Liên kết cao tốc trực tiếp đến Siêu cảng Trần Đề", "Trụ sở hãng vận tải biển đa quốc gia", "Nhu cầu thuê thực thể nhà nước", "Thông số kỹ thuật cơ sở hạ tầng Hạng A", "Cấu trúc thuê doanh nghiệp bằng USD"],
+          metrics: [["Lợi Suất Kỳ Vọng", "6.0% – 6.8%"], ["Tăng Giá Vốn", "5.5% – 7.1% / năm"], ["Hạng Đầu Tư", "A"], ["Diện Tích TB", "45 – 320 m²"]],
+          details: [["Tỷ Lệ Lấp Đầy", "89% – 93%"], ["Khách Thuê Mục Tiêu", "MNC & Thực Thể Nhà Nước"], ["Tiền Tệ Thuê", "USD Doanh Nghiệp"], ["Hạng Đầu Tư", "Định Chế A"]],
+        },
+        {
           code: "Tòa D", name: "Tháp Văn Phòng Hạng A", stats: "52 Tầng Hạng A · 380 Căn",
           overview: "Văn phòng siêu cao cấp phục vụ các hãng vận tải biển đa quốc gia và nhà khai thác logistics gắn trực tiếp với đường ống Siêu cảng Trần Đề, địa chỉ doanh nghiệp neo đậu của Khu 4.",
           thesis: "Tài sản dòng tiền thuê nhà nước nắm bắt trực tiếp tiếp xúc phát triển logistics cảng Trần Đề. Thời hạn thuê đa quốc gia bảo lãnh thu nhập bằng USD có thể dự đoán.",
@@ -1057,7 +1089,7 @@ const translations = {
       inputsLabel: "Tham Số Phân Bổ",
       sliders: [
         { label: "Giá Mua" },
-        { label: "Tỷ Lệ Vốn Tự Có" },
+        { label: "Tỷ Lệ Vốn" },
         { label: "Thời Gian Nắm Giữ" },
         { label: "Tỷ Lệ Tăng Giá Hàng Năm" },
         { label: "Lợi Suất Thuê Hàng Năm" },

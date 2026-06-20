@@ -60,6 +60,7 @@ import {
   getInvestors,
   getStaff,
   usePortal,
+  type ActivityLog,
   type ConsultationLead,
   type InvestorProfile,
   type VipGrade,
@@ -92,7 +93,8 @@ function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("crm");
 
   if (!user) return <Navigate to="/portal/login" replace />;
-  if (user.role !== "admin" && user.role !== "staff") return <Navigate to="/portal/investor" replace />;
+  if (user.role === "staff") return <Navigate to="/portal/staff" replace />;
+  if (user.role !== "admin") return <Navigate to="/portal/investor" replace />;
 
   const totalAUM = investors.reduce((s, i) => s + i.currentValue, 0);
   const avgROI = investors.length === 0 ? 0
@@ -850,6 +852,14 @@ function GlobalInquiriesTab({ T }: { T: PortalT }) {
 }
 
 // ─── System Tab ────────────────────────────────────────────────────────────────
+function ActivityPill({ role }: { role: ActivityLog["actorRole"] }) {
+  return (
+    <span className={`inline-flex px-1.5 py-0.5 text-[9px] tracking-wide rounded font-medium ${role === "admin" ? "bg-[#14a76c]/12 text-[#14a76c]" : "bg-[#d4af37]/12 text-[#d4af37]"}`}>
+      {role}
+    </span>
+  );
+}
+
 function SystemTab({ onBackup, T }: { onBackup: () => void; T: PortalT }) {
   const { state } = usePortal();
   const ts = T.admin.system;
@@ -857,23 +867,55 @@ function SystemTab({ onBackup, T }: { onBackup: () => void; T: PortalT }) {
   const investors = getInvestors(state.users);
 
   return (
-    <div className={`${CARD} border ${BORDER} rounded-lg p-5`}>
-      <div className="flex items-center gap-2 mb-5">
-        <Database className="h-4 w-4 text-[#14a76c]" />
-        <p className={EYEBROW}>{ts.title}</p>
+    <div className="space-y-5">
+      <div className={`${CARD} border ${BORDER} rounded-lg p-5`}>
+        <div className="flex items-center gap-2 mb-5">
+          <Database className="h-4 w-4 text-[#14a76c]" />
+          <p className={EYEBROW}>{ts.title}</p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mb-5">
+          {[[ts.totalInvestors, String(investors.length)], [ts.dataSize, dataSize], [ts.lastSaved, new Date(state.system.lastSaved).toLocaleString()], [ts.lastBackup, new Date(state.system.lastBackup).toLocaleString()]].map(([label, value]) => (
+            <div key={label} className="bg-[#111] border border-white/[0.06] rounded px-4 py-3">
+              <p className={`${EYEBROW} mb-1.5`}>{label}</p>
+              <p className="font-mono text-[12px] text-white/80">{value}</p>
+            </div>
+          ))}
+        </div>
+        <div className="border-t border-white/[0.07] pt-5">
+          <button onClick={onBackup} className="inline-flex items-center gap-2 px-5 py-2 text-[11px] tracking-[0.12em] uppercase font-semibold bg-[#14a76c] text-white rounded hover:bg-[#0f8a59] transition-colors">
+            <Database className="h-3.5 w-3.5" />{ts.backupBtn}
+          </button>
+        </div>
       </div>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mb-5">
-        {[[ts.totalInvestors, String(investors.length)], [ts.dataSize, dataSize], [ts.lastSaved, new Date(state.system.lastSaved).toLocaleString()], [ts.lastBackup, new Date(state.system.lastBackup).toLocaleString()]].map(([label, value]) => (
-          <div key={label} className="bg-[#111] border border-white/[0.06] rounded px-4 py-3">
-            <p className={`${EYEBROW} mb-1.5`}>{label}</p>
-            <p className="font-mono text-[12px] text-white/80">{value}</p>
+
+      {/* Activity Log */}
+      <div className={`${CARD} border ${BORDER} rounded-lg overflow-hidden`}>
+        <div className="flex items-center gap-2 px-5 py-4 border-b border-white/[0.07]">
+          <ClipboardList className="h-4 w-4 text-[#14a76c]" />
+          <p className={EYEBROW}>{ts.activityLog}</p>
+          <span className="ml-auto text-[10px] text-white/30">{state.activityLog.length} entries</span>
+        </div>
+        {state.activityLog.length === 0 ? (
+          <div className="px-5 py-8 text-center"><p className={`text-[12px] ${MUTED}`}>No activity recorded yet.</p></div>
+        ) : (
+          <div className="divide-y divide-white/[0.05]">
+            {state.activityLog.slice(0, 50).map((entry) => (
+              <div key={entry.id} className="flex items-start gap-3 px-5 py-3 hover:bg-white/[0.02] transition-colors">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-[12px] font-medium text-white/85">{entry.actorName}</span>
+                    <ActivityPill role={entry.actorRole} />
+                    <span className={`text-[12px] ${MUTED}`}>{entry.action}</span>
+                  </div>
+                  <p className="text-[11px] text-white/45 mt-0.5 truncate">{entry.detail}</p>
+                </div>
+                <span className="text-[10px] text-white/30 tabular-nums shrink-0 mt-0.5">
+                  {new Date(entry.timestamp).toLocaleString()}
+                </span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div className="border-t border-white/[0.07] pt-5">
-        <button onClick={onBackup} className="inline-flex items-center gap-2 px-5 py-2 text-[11px] tracking-[0.12em] uppercase font-semibold bg-[#14a76c] text-white rounded hover:bg-[#0f8a59] transition-colors">
-          <Database className="h-3.5 w-3.5" />{ts.backupBtn}
-        </button>
+        )}
       </div>
     </div>
   );

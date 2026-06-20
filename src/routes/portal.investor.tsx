@@ -62,7 +62,9 @@ function InvestorDashboard() {
   );
 
   if (!user) return <Navigate to="/portal/login" replace />;
-  if (user.role !== "investor") return <Navigate to="/portal/admin" replace />;
+  if (user.role === "admin") return <Navigate to="/portal/admin" replace />;
+  if (user.role === "staff") return <Navigate to="/portal/staff" replace />;
+  if (user.role !== "investor") return <Navigate to="/portal/login" replace />;
   if (!investor) return null;
 
   const roi = ((investor.currentValue - investor.purchasePrice) / investor.purchasePrice) * 100;

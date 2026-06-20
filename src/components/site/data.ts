@@ -4,13 +4,18 @@ import siteplan from "@/assets/siteplan.jpg";
 import withLogo from "@/assets/with-logo.png";
 import withLogoDark from "@/assets/with-logo-dark.jpg";
 import withLogoBlack from "@/assets/with-logo-black.png";
+import towerA from "@/assets/tower_A.png";
+import towerB from "@/assets/tower_B.png";
+import towerC from "@/assets/tower_C.png";
+import towerD from "@/assets/tower_D.png";
 
 export const IMAGES = {
   hero,
   masterplan: siteplan,
-  buildingA: river,
-  buildingB: hero,
-  buildingD: river,
+  buildingA: towerA,
+  buildingB: towerB,
+  buildingC: towerC,
+  buildingD: towerD,
   retail: siteplan,
   withLogo,
   withLogoDark,

@@ -7,7 +7,7 @@ import { t } from "./translations";
 
 const TERRA_URL = "https://www.terragroup.co.kr/?zarsrc=410&utm_source=zalo&utm_medium=zalo&utm_campaign=zalo&gidzl=g1rRLqyeanMX0rbHGJAH5gKEM5TSRP8IlbWBK55loHkt2mKBMMkS6hrSLbWFRSiUuLi1NZ7N1VjpJ2kG5G";
 
-const BUILDING_IMAGES = [IMAGES.buildingA, IMAGES.buildingB, IMAGES.buildingD];
+const BUILDING_IMAGES = [IMAGES.buildingA, IMAGES.buildingB, IMAGES.buildingC, IMAGES.buildingD];
 
 export function Flagship() {
   const { lang } = useLang();

@@ -27,6 +27,7 @@ export interface Inquiry {
   status: "Pending" | "Answered";
   reply?: string;
   repliedAt?: string;
+  repliedBy?: string;
 }
 
 export interface ConsultationLead {
@@ -43,6 +44,16 @@ export interface ConsultationLead {
   priorities?: string[];
   notes?: string;
   status: "New" | "Contacted" | "Closed";
+}
+
+export interface ActivityLog {
+  id: string;
+  actorId: string;
+  actorName: string;
+  actorRole: "admin" | "staff";
+  action: string;
+  detail: string;
+  timestamp: string;
 }
 
 export interface InvestorProfile {
@@ -88,6 +99,7 @@ interface PortalState {
   users: AnyUser[];
   inquiries: Inquiry[];
   leads: ConsultationLead[];
+  activityLog: ActivityLog[];
   system: SystemMeta;
   session: AnyUser | null;
 }
@@ -98,6 +110,7 @@ const nowDisplay = () => new Date().toISOString().slice(0, 16).replace("T", " ")
 const seed: PortalState = {
   users: [
     { uid: "noah", password: "noah123", role: "admin", name: "NOAH" },
+    { uid: "sara", password: "sara123", role: "staff", name: "SARA NGUYEN", department: "Sales" },
     {
       uid: "kim", password: "kim123", role: "investor", name: "KIM SEO-JUN",
       unit: "Zone 4 Premium – A동 1204호", nationality: "South Korea",
@@ -133,7 +146,7 @@ const seed: PortalState = {
       body: "When can I expect the next rental distribution?",
       createdAt: "2026-06-10", status: "Answered",
       reply: "Dividends are processed monthly on the 5th. Your next distribution is scheduled for July 5.",
-      repliedAt: "2026-06-11",
+      repliedAt: "2026-06-11", repliedBy: "NOAH",
     },
     {
       id: "q2", investorId: "lee", title: "Pending rent on June",
@@ -150,6 +163,13 @@ const seed: PortalState = {
       priorities: ["Near work", "Good transportation", "Security"],
       notes: "Looking for a fully furnished apartment close to the CBD.",
       status: "New",
+    },
+  ],
+  activityLog: [
+    {
+      id: "log1", actorId: "noah", actorName: "NOAH", actorRole: "admin",
+      action: "Replied to inquiry", detail: "Next dividend timing?",
+      timestamp: "2026-06-11T08:14:00Z",
     },
   ],
   system: { lastSaved: nowIso(), lastBackup: "2026-06-18T03:00:00Z" },
@@ -205,37 +225,97 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const replyInquiry = useCallback((inquiryId: string, reply: string) => {
-    setState((s) => ({
-      ...s,
-      inquiries: s.inquiries.map((q) => q.id === inquiryId ? { ...q, reply, status: "Answered", repliedAt: new Date().toISOString().slice(0, 10) } : q),
-      system: { ...s.system, lastSaved: nowIso() },
-    }));
+    setState((s) => {
+      const actor = s.session as AdminProfile | StaffProfile | null;
+      const inquiry = s.inquiries.find((q) => q.id === inquiryId);
+      const logEntry: ActivityLog = {
+        id: `log${Date.now()}`,
+        actorId: actor?.uid ?? "?",
+        actorName: actor?.name ?? "Unknown",
+        actorRole: (actor?.role ?? "staff") as "admin" | "staff",
+        action: "Replied to inquiry",
+        detail: inquiry?.title ?? inquiryId,
+        timestamp: nowIso(),
+      };
+      return {
+        ...s,
+        inquiries: s.inquiries.map((q) =>
+          q.id === inquiryId
+            ? { ...q, reply, status: "Answered", repliedAt: new Date().toISOString().slice(0, 10), repliedBy: actor?.name }
+            : q
+        ),
+        activityLog: [logEntry, ...s.activityLog],
+        system: { ...s.system, lastSaved: nowIso() },
+      };
+    });
   }, []);
 
   const updateInvestor = useCallback((uid: string, patch: Partial<Pick<InvestorProfile, "currentValue" | "rentStatus">>, newReport?: { title: string; content: string }) => {
-    setState((s) => ({
-      ...s,
-      users: s.users.map((u) => {
-        if (u.uid !== uid || u.role !== "investor") return u;
-        const next: InvestorProfile = { ...u, ...patch };
-        if (newReport?.title && newReport?.content) {
-          next.reports = [{ id: `r${Date.now()}`, timestamp: new Date().toISOString().slice(0, 10), title: newReport.title, content: newReport.content }, ...next.reports];
-        }
-        return next;
-      }),
-      system: { ...s.system, lastSaved: nowIso() },
-    }));
+    setState((s) => {
+      const actor = s.session as AdminProfile | StaffProfile | null;
+      const investor = s.users.find((u) => u.uid === uid && u.role === "investor") as InvestorProfile | undefined;
+      const logEntry: ActivityLog = {
+        id: `log${Date.now()}`,
+        actorId: actor?.uid ?? "?",
+        actorName: actor?.name ?? "Unknown",
+        actorRole: (actor?.role ?? "staff") as "admin" | "staff",
+        action: "Updated investor asset",
+        detail: investor?.name ?? uid,
+        timestamp: nowIso(),
+      };
+      return {
+        ...s,
+        users: s.users.map((u) => {
+          if (u.uid !== uid || u.role !== "investor") return u;
+          const next: InvestorProfile = { ...u, ...patch };
+          if (newReport?.title && newReport?.content) {
+            next.reports = [{ id: `r${Date.now()}`, timestamp: new Date().toISOString().slice(0, 10), title: newReport.title, content: newReport.content }, ...next.reports];
+          }
+          return next;
+        }),
+        activityLog: [logEntry, ...s.activityLog],
+        system: { ...s.system, lastSaved: nowIso() },
+      };
+    });
   }, []);
 
   const disableInvestor = useCallback((uid: string) => {
-    setState((s) => ({ ...s, users: s.users.map((u) => u.uid === uid && u.role === "investor" ? { ...u, disabled: true } : u), system: { ...s.system, lastSaved: nowIso() } }));
+    setState((s) => {
+      const actor = s.session as AdminProfile | null;
+      const investor = s.users.find((u) => u.uid === uid && u.role === "investor") as InvestorProfile | undefined;
+      const logEntry: ActivityLog = {
+        id: `log${Date.now()}`,
+        actorId: actor?.uid ?? "?",
+        actorName: actor?.name ?? "Unknown",
+        actorRole: "admin",
+        action: "Disabled investor account",
+        detail: investor?.name ?? uid,
+        timestamp: nowIso(),
+      };
+      return {
+        ...s,
+        users: s.users.map((u) => u.uid === uid && u.role === "investor" ? { ...u, disabled: true } : u),
+        activityLog: [logEntry, ...s.activityLog],
+        system: { ...s.system, lastSaved: nowIso() },
+      };
+    });
   }, []);
 
   const createInvestor = useCallback((i: Omit<InvestorProfile, "role" | "lastLogin" | "disabled" | "monthlyRentalIncome" | "reports">) => {
     setState((s) => {
       if (s.users.some((u) => u.uid === i.uid)) return s;
+      const actor = s.session as AdminProfile | null;
+      const logEntry: ActivityLog = {
+        id: `log${Date.now()}`,
+        actorId: actor?.uid ?? "?",
+        actorName: actor?.name ?? "Unknown",
+        actorRole: "admin",
+        action: "Created investor account",
+        detail: i.name,
+        timestamp: nowIso(),
+      };
       const fresh: InvestorProfile = { ...i, role: "investor", lastLogin: "—", disabled: false, monthlyRentalIncome: [{ month: "Jan", income: 0 }, { month: "Feb", income: 0 }, { month: "Mar", income: 0 }, { month: "Apr", income: 0 }, { month: "May", income: 0 }, { month: "Jun", income: 0 }], reports: [] };
-      return { ...s, users: [...s.users, fresh], system: { ...s.system, lastSaved: nowIso() } };
+      return { ...s, users: [...s.users, fresh], activityLog: [logEntry, ...s.activityLog], system: { ...s.system, lastSaved: nowIso() } };
     });
   }, []);
 
@@ -248,7 +328,25 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateLeadStatus = useCallback((id: string, status: ConsultationLead["status"]) => {
-    setState((s) => ({ ...s, leads: s.leads.map((l) => l.id === id ? { ...l, status } : l), system: { ...s.system, lastSaved: nowIso() } }));
+    setState((s) => {
+      const actor = s.session as AdminProfile | StaffProfile | null;
+      const lead = s.leads.find((l) => l.id === id);
+      const logEntry: ActivityLog = {
+        id: `log${Date.now()}`,
+        actorId: actor?.uid ?? "?",
+        actorName: actor?.name ?? "Unknown",
+        actorRole: (actor?.role ?? "staff") as "admin" | "staff",
+        action: "Updated lead status",
+        detail: `${lead?.name ?? id} → ${status}`,
+        timestamp: nowIso(),
+      };
+      return {
+        ...s,
+        leads: s.leads.map((l) => l.id === id ? { ...l, status } : l),
+        activityLog: [logEntry, ...s.activityLog],
+        system: { ...s.system, lastSaved: nowIso() },
+      };
+    });
   }, []);
 
   const createStaff = useCallback((s_: Omit<StaffProfile, "role">) => {
@@ -280,7 +378,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const deleteAdmin = useCallback((uid: string) => {
     setState((s) => {
       const remaining = s.users.filter((u) => !(u.uid === uid && u.role === "admin"));
-      if (remaining.filter((u) => u.role === "admin").length === 0) return s; // always keep ≥1 admin
+      if (remaining.filter((u) => u.role === "admin").length === 0) return s;
       return { ...s, users: remaining, system: { ...s.system, lastSaved: nowIso() } };
     });
   }, []);

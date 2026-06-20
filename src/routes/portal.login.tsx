@@ -29,10 +29,13 @@ function LoginPage() {
 
   useEffect(() => {
     if (state.session) {
-      navigate({
-        to: state.session.role === "admin" ? "/portal/admin" : "/portal/investor",
-        replace: true,
-      });
+      const to =
+        state.session.role === "admin"
+          ? "/portal/admin"
+          : state.session.role === "staff"
+            ? "/portal/staff"
+            : "/portal/investor";
+      navigate({ to, replace: true });
     }
   }, [state.session, navigate]);
 
@@ -180,6 +183,7 @@ function LoginPage() {
                   <div className="mt-3 rounded bg-white/[0.04] border border-white/[0.07] px-4 py-3 space-y-1.5">
                     {[
                       ["noah", "noah123", T.roles.admin],
+                      ["sara", "sara123", T.roles.staff],
                       ["kim", "kim123", T.roles.platinum],
                       ["lee", "lee123", T.roles.gold],
                     ].map(([u, p, role]) => (

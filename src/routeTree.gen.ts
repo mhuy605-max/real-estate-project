@@ -13,6 +13,7 @@ import { Route as WithPropertyRouteImport } from './routes/with-property'
 import { Route as PortalRouteImport } from './routes/portal'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as PortalStaffRouteImport } from './routes/portal.staff'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
 import { Route as PortalInvestorRouteImport } from './routes/portal.investor'
 import { Route as PortalAdminRouteImport } from './routes/portal.admin'
@@ -35,6 +36,11 @@ const IndexRoute = IndexRouteImport.update({
 const PortalIndexRoute = PortalIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalStaffRoute = PortalStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
   getParentRoute: () => PortalRoute,
 } as any)
 const PortalLoginRoute = PortalLoginRouteImport.update({
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/portal/admin': typeof PortalAdminRoute
   '/portal/investor': typeof PortalInvestorRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/staff': typeof PortalStaffRoute
   '/portal/': typeof PortalIndexRoute
 }
 export interface FileRoutesByTo {
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/portal/admin': typeof PortalAdminRoute
   '/portal/investor': typeof PortalInvestorRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/staff': typeof PortalStaffRoute
   '/portal': typeof PortalIndexRoute
 }
 export interface FileRoutesById {
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/portal/admin': typeof PortalAdminRoute
   '/portal/investor': typeof PortalInvestorRoute
   '/portal/login': typeof PortalLoginRoute
+  '/portal/staff': typeof PortalStaffRoute
   '/portal/': typeof PortalIndexRoute
 }
 export interface FileRouteTypes {
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/portal/admin'
     | '/portal/investor'
     | '/portal/login'
+    | '/portal/staff'
     | '/portal/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/portal/admin'
     | '/portal/investor'
     | '/portal/login'
+    | '/portal/staff'
     | '/portal'
   id:
     | '__root__'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/portal/admin'
     | '/portal/investor'
     | '/portal/login'
+    | '/portal/staff'
     | '/portal/'
   fileRoutesById: FileRoutesById
 }
@@ -145,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalIndexRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/portal/staff': {
+      id: '/portal/staff'
+      path: '/staff'
+      fullPath: '/portal/staff'
+      preLoaderRoute: typeof PortalStaffRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/portal/login': {
       id: '/portal/login'
       path: '/login'
@@ -173,6 +192,7 @@ interface PortalRouteChildren {
   PortalAdminRoute: typeof PortalAdminRoute
   PortalInvestorRoute: typeof PortalInvestorRoute
   PortalLoginRoute: typeof PortalLoginRoute
+  PortalStaffRoute: typeof PortalStaffRoute
   PortalIndexRoute: typeof PortalIndexRoute
 }
 
@@ -180,6 +200,7 @@ const PortalRouteChildren: PortalRouteChildren = {
   PortalAdminRoute: PortalAdminRoute,
   PortalInvestorRoute: PortalInvestorRoute,
   PortalLoginRoute: PortalLoginRoute,
+  PortalStaffRoute: PortalStaffRoute,
   PortalIndexRoute: PortalIndexRoute,
 }
 
