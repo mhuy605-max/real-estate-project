@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X, ChevronDown, Lock } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { NAV_LINKS, LANGUAGES, IMAGES } from "./data";
 import { useLang } from "./LangContext";
 import { t } from "./translations";
@@ -88,6 +89,13 @@ export function Nav() {
               </DropdownMenuContent>
             </DropdownMenu>
 
+            <Link
+              to="/with-property"
+              className="hidden sm:inline-flex items-center px-4 py-2 text-[11px] tracking-[0.2em] uppercase border border-[var(--emerald-brand)] text-[var(--emerald-brand)] font-semibold rounded-sm hover:bg-[var(--emerald-brand)] hover:text-black transition-colors"
+            >
+              With Property
+            </Link>
+
             <button
               onClick={() => setLoginOpen(true)}
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-[11px] tracking-[0.2em] uppercase gold-gradient text-black font-semibold rounded-sm hover:opacity-90"
@@ -139,7 +147,17 @@ export function Nav() {
               </button>
             ))}
           </nav>
-          <div className="mt-10 pt-6 border-t border-white/10">
+          <div className="mt-8 pt-6 border-t border-white/10">
+            <Link
+              to="/with-property"
+              className="flex items-center justify-center gap-2 w-full px-4 py-3 text-[11px] tracking-[0.2em] uppercase border border-[var(--emerald-brand)] text-[var(--emerald-brand)] font-semibold rounded-sm hover:bg-[var(--emerald-brand)] hover:text-black transition-colors mb-6"
+              onClick={() => setOpen(false)}
+            >
+              With Property — Brokerage Services
+            </Link>
+          </div>
+
+          <div className="pt-2 border-t border-white/10">
             <p className="label-eyebrow text-white/40 mb-3">Language</p>
             <div className="flex flex-wrap gap-2">
               {LANGUAGES.map((l) => (
