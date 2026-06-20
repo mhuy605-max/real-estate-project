@@ -23,7 +23,7 @@ export function WpFooter() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <img src={IMAGES.withLogo} alt="WITH" className="h-8 w-auto" />
-              <span className="text-[var(--wp-gold)] font-display text-sm tracking-widest font-semibold">PROPERTY</span>
+              <span className="text-[var(--wp-gold)] font-display text-sm tracking-widest font-semibold">WITH</span>
             </div>
             <p className="text-white/50 text-sm leading-relaxed italic">
               "{wp.footer.tagline}"

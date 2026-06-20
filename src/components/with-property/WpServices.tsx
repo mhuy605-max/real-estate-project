@@ -10,7 +10,7 @@ export function WpServices() {
   const wp = t(lang).wp;
 
   return (
-    <section id="services" className="py-24 px-6 bg-gray-50">
+    <section id="services" className="py-24 px-6 bg-[#f5f5f5]">
       <div className="mx-auto max-w-7xl">
         <WpReveal>
           <div className="text-center mb-16">
@@ -43,7 +43,7 @@ export function WpServices() {
                       const el = document.getElementById("contact");
                       if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
                     }}
-                    className="mt-8 wp-gold-gradient text-[var(--wp-navy)] px-6 py-2.5 text-xs font-bold tracking-[0.15em] uppercase rounded-sm hover:opacity-90 transition-opacity"
+                    className="mt-8 wp-gold-gradient text-white px-6 py-2.5 text-xs font-bold tracking-[0.15em] uppercase rounded-sm hover:opacity-90 transition-opacity"
                   >
                     {wp.services.cta}
                   </button>

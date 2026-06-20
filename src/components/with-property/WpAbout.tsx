@@ -55,7 +55,7 @@ export function WpAbout() {
               <div className="space-y-5">
                 {wp.about.values.map((val, i) => (
                   <div key={i} className="flex gap-4">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full wp-gold-gradient flex items-center justify-center text-[var(--wp-navy)] font-bold text-sm">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full wp-gold-gradient flex items-center justify-center text-white font-bold text-sm">
                       {i + 1}
                     </div>
                     <div>

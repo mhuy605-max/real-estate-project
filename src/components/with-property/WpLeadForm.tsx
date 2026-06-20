@@ -69,7 +69,7 @@ export function WpLeadForm() {
   const fieldClass = "border-[var(--wp-border)] focus-visible:ring-[var(--wp-gold)] focus-visible:border-[var(--wp-gold)]";
 
   return (
-    <section id="contact" className="py-24 px-6 bg-gray-50">
+    <section id="contact" className="py-24 px-6 bg-[#f5f5f5]">
       <div className="mx-auto max-w-3xl">
         <WpReveal>
           <div className="text-center mb-12">
@@ -217,7 +217,7 @@ export function WpLeadForm() {
                     <Checkbox
                       checked={priorities.includes(p)}
                       onCheckedChange={() => togglePriority(p)}
-                      className="data-[state=checked]:bg-[var(--wp-navy)] data-[state=checked]:border-[var(--wp-navy)]"
+                      className="data-[state=checked]:bg-[var(--wp-gold)] data-[state=checked]:border-[var(--wp-gold)]"
                     />
                     <span className="text-sm text-[var(--wp-text-muted)]">{p}</span>
                   </label>
@@ -239,7 +239,7 @@ export function WpLeadForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full wp-gold-gradient border-0 text-[var(--wp-navy)] font-bold tracking-[0.15em] uppercase text-sm py-3 h-auto hover:opacity-90 disabled:opacity-60"
+              className="w-full wp-gold-gradient border-0 text-white font-bold tracking-[0.15em] uppercase text-sm py-3 h-auto hover:opacity-90 disabled:opacity-60"
             >
               {isSubmitting ? "..." : fm.submit}
             </Button>

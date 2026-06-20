@@ -6,7 +6,7 @@ const translations = {
   en: {
     nav: {
       links: ["Macro Vision", "Masterplan", "Capital Flow", "Portfolio", "Flagship Assets", "ROI Simulator"],
-      secureLogin: "Secure Login",
+      secureLogin: "Login",
       loginTitle: "Institutional Access",
       loginDesc: "Secure login is reserved for qualified institutional investors. Please contact your relationship manager to receive credentials.",
       loginBtn: "Credentials Required",
@@ -304,7 +304,7 @@ const translations = {
   ko: {
     nav: {
       links: ["거시 비전", "마스터플랜", "자본 흐름", "포트폴리오", "플래그십 자산", "ROI 시뮬레이터"],
-      secureLogin: "보안 로그인",
+      secureLogin: "로그인",
       loginTitle: "기관 투자자 전용 접속",
       loginDesc: "보안 로그인은 자격을 갖춘 기관 투자자에게만 제공됩니다. 담당 관계자에게 연락하여 접속 정보를 받으십시오.",
       loginBtn: "자격 증명 필요",
@@ -602,7 +602,7 @@ const translations = {
   zh: {
     nav: {
       links: ["宏观愿景", "总体规划", "资本流动", "资产组合", "旗舰资产", "ROI模拟器"],
-      secureLogin: "安全登录",
+      secureLogin: "登录",
       loginTitle: "机构投资者专属通道",
       loginDesc: "安全登录仅对合格机构投资者开放。请联系您的客户经理获取登录凭证。",
       loginBtn: "需要凭证",
@@ -900,7 +900,7 @@ const translations = {
   vi: {
     nav: {
       links: ["Tầm Nhìn Vĩ Mô", "Quy Hoạch", "Dòng Vốn", "Danh Mục", "Tài Sản Flagship", "Mô Phỏng ROI"],
-      secureLogin: "Đăng Nhập Bảo Mật",
+      secureLogin: "Đăng Nhập",
       loginTitle: "Truy Cập Nhà Đầu Tư Định Chế",
       loginDesc: "Đăng nhập bảo mật chỉ dành cho nhà đầu tư định chế có tư cách. Vui lòng liên hệ quản lý quan hệ của bạn để nhận thông tin đăng nhập.",
       loginBtn: "Yêu Cầu Thông Tin Đăng Nhập",

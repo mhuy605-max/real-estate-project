@@ -1,5 +1,7 @@
 import { useLang } from "@/components/site/LangContext";
 import { t } from "@/components/site/translations";
+const HERO_IMAGE =
+  "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1920&q=80";
 
 function scrollTo(id: string) {
   const el = document.getElementById(id);
@@ -15,12 +17,19 @@ export function WpHero() {
       id="top"
       className="relative min-h-screen flex flex-col justify-center overflow-hidden bg-[var(--wp-navy)]"
     >
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[var(--wp-navy)] via-[var(--wp-navy-light)] to-[var(--wp-navy-mid)] opacity-90" />
+      {/* Real estate background image */}
+      <img
+        src={HERO_IMAGE}
+        alt=""
+        aria-hidden
+        className="absolute inset-0 w-full h-full object-cover object-center"
+      />
+      {/* Dark overlay so text stays readable */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-black/75 to-black/60" />
 
-      {/* Gold accent lines */}
-      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--wp-gold)] to-transparent opacity-40" />
-      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--wp-gold)] to-transparent opacity-20" />
+      {/* Green accent lines */}
+      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--wp-gold)] to-transparent opacity-60" />
+      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[var(--wp-gold)] to-transparent opacity-30" />
 
       <div className="relative z-10 mx-auto max-w-5xl px-6 pt-32 pb-24 text-center">
         <div className="inline-flex items-center gap-3 mb-8">
@@ -42,7 +51,7 @@ export function WpHero() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
           <button
             onClick={() => scrollTo("contact")}
-            className="wp-gold-gradient text-[var(--wp-navy)] px-8 py-3 text-sm font-bold tracking-[0.15em] uppercase rounded-sm hover:opacity-90 transition-opacity"
+            className="wp-gold-gradient text-white px-8 py-3 text-sm font-bold tracking-[0.15em] uppercase rounded-sm hover:opacity-90 transition-opacity"
           >
             {wp.hero.cta1}
           </button>

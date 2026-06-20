@@ -11,8 +11,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 
 export function Nav() {
   const { lang, setLang } = useLang();
@@ -20,7 +18,6 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<string>("");
   const [scrolled, setScrolled] = useState(false);
-  const [loginOpen, setLoginOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
@@ -96,12 +93,12 @@ export function Nav() {
               With Property
             </Link>
 
-            <button
-              onClick={() => setLoginOpen(true)}
+            <Link
+              to="/portal/login"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-[11px] tracking-[0.2em] uppercase gold-gradient text-black font-semibold rounded-sm hover:opacity-90"
             >
               <Lock className="w-3 h-3" /> {tx.nav.secureLogin}
-            </button>
+            </Link>
 
             <button
               onClick={() => setOpen(true)}
@@ -178,15 +175,6 @@ export function Nav() {
         </aside>
       </div>
 
-      <Dialog open={loginOpen} onOpenChange={setLoginOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="font-display tracking-wide">{tx.nav.loginTitle}</DialogTitle>
-            <DialogDescription>{tx.nav.loginDesc}</DialogDescription>
-          </DialogHeader>
-          <Button disabled className="w-full">{tx.nav.loginBtn}</Button>
-        </DialogContent>
-      </Dialog>
     </>
   );
 }
