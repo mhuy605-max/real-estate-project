@@ -57,7 +57,7 @@ export function Nav() {
         <div className="mx-auto max-w-7xl px-6 h-[72px] flex items-center justify-between text-white">
           <button onClick={() => scrollTo("top")} className="flex items-center gap-3">
             <img src={IMAGES.withLogo} alt="WITH" className="h-9 w-auto" />
-            <span className="font-display tracking-[0.3em] text-sm">PHAM TRI</span>
+            <span className="font-display tracking-[0.3em] text-sm">WITH</span>
           </button>
 
           <nav className="hidden lg:flex items-center gap-7">
@@ -124,7 +124,7 @@ export function Nav() {
           <div className="flex items-center justify-between mb-10">
             <div className="flex items-center gap-3">
               <img src={IMAGES.withLogo} alt="WITH" className="h-8 w-auto" />
-              <span className="font-display tracking-[0.3em] text-sm">PHAM TRI</span>
+              <span className="font-display tracking-[0.3em] text-sm">WITH</span>
             </div>
             <button onClick={() => setOpen(false)} aria-label="Close menu"><X className="w-5 h-5" /></button>
           </div>

@@ -12,13 +12,13 @@ import { Footer } from "@/components/site/Footer";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pham Tri : Sovereign Capital — Zone 4 Can Tho Investor Relations" },
+      { title: "WITH — Pham Tri : Sovereign Capital | Zone 4 Can Tho Investor Relations" },
       {
         name: "description",
         content:
           "Institutional-grade sovereign capital gateway positioning Can Tho Zone 4 as Southern Vietnam's last integrated investment ecosystem.",
       },
-      { property: "og:title", content: "Pham Tri : Sovereign Capital" },
+      { property: "og:title", content: "WITH — Pham Tri : Sovereign Capital" },
       { property: "og:description", content: "The Last Sovereign Growth Corridor of Southern Vietnam." },
       {
         property: "og:image",
