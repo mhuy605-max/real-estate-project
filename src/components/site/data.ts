@@ -3,6 +3,7 @@ import river from "@/assets/birdseye-river.jpg";
 import siteplan from "@/assets/siteplan.jpg";
 import withLogo from "@/assets/with-logo.png";
 import withLogoDark from "@/assets/with-logo-dark.jpg";
+import withLogoBlack from "@/assets/with-logo-black.png";
 
 export const IMAGES = {
   hero,
@@ -13,6 +14,7 @@ export const IMAGES = {
   retail: siteplan,
   withLogo,
   withLogoDark,
+  withLogoBlack,
 };
 
 export const NAV_LINKS = [

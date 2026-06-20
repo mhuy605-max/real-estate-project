@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import logoLight from "@/assets/with-logo.png";
-import logoDark from "@/assets/with-logo-dark.jpg";
+import logoBlack from "@/assets/with-logo-black.png";
 
 interface WithLogoProps {
   variant?: "dark" | "light";
@@ -15,7 +15,7 @@ export function WithLogo({
   size = 36,
   animate = false,
 }: WithLogoProps) {
-  const src = variant === "dark" ? logoLight : logoDark;
+  const src = variant === "dark" ? logoLight : logoBlack;
   const toneText = variant === "dark" ? "text-white" : "text-foreground";
   const toneMuted = variant === "dark" ? "text-white/60" : "text-muted-foreground";
   const divider = variant === "dark" ? "bg-white/30" : "bg-foreground/20";
