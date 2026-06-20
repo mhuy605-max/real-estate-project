@@ -1,18 +1,18 @@
-import heroAsset from "@/assets/birdseye-hero.jpg.asset.json";
-import riverAsset from "@/assets/birdseye-river.jpg.asset.json";
-import siteplanAsset from "@/assets/siteplan.jpg.asset.json";
-import withLogoAsset from "@/assets/with-logo.png.asset.json";
-import withLogoDarkAsset from "@/assets/with-logo-dark.png.asset.json";
+import hero from "@/assets/birdseye-hero.jpg";
+import river from "@/assets/birdseye-river.jpg";
+import siteplan from "@/assets/siteplan.jpg";
+import withLogo from "@/assets/with-logo.png";
+import withLogoDark from "@/assets/with-logo-dark.jpg";
 
 export const IMAGES = {
-  hero: heroAsset.url,
-  masterplan: siteplanAsset.url,
-  buildingA: riverAsset.url,
-  buildingB: heroAsset.url,
-  buildingD: riverAsset.url,
-  retail: siteplanAsset.url,
-  withLogo: withLogoAsset.url,
-  withLogoDark: withLogoDarkAsset.url,
+  hero,
+  masterplan: siteplan,
+  buildingA: river,
+  buildingB: hero,
+  buildingD: river,
+  retail: siteplan,
+  withLogo,
+  withLogoDark,
 };
 
 export const NAV_LINKS = [
