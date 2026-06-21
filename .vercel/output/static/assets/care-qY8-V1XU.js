@@ -1,0 +1,1 @@
+import{o as e}from"./useStore-DgTVU5_6.js";import{b as t,r as n}from"./index-BBgmb_Xa.js";import{t as r}from"./i18n-Bydm2pza.js";import{t as i}from"./sonner-DAc5Q5OD.js";var a=e();function o(){return(0,a.jsx)(r,{children:(0,a.jsxs)(n,{children:[(0,a.jsx)(t,{}),(0,a.jsx)(i,{richColors:!0,position:`top-right`})]})})}export{o as component};
