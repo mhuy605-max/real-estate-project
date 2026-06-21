@@ -101,23 +101,6 @@ export function Portfolio() {
           </Reveal>
         </div>
 
-        <div className="mt-16">
-          <p className="label-eyebrow text-[var(--emerald-brand)]">{tx.allocLabel}</p>
-          <h3 className="font-display text-2xl md:text-3xl mt-2 font-semibold">{tx.allocTitle}</h3>
-          <div className="mt-8 grid md:grid-cols-3 gap-5">
-            {tx.strategies.map((s, i) => (
-              <Reveal key={s.name} delay={i * 0.06}>
-                <div className="border border-border rounded-2xl p-7 h-full hover:border-[var(--gold)] hover:shadow-lg transition-all bg-card">
-                  <p className="label-eyebrow text-[var(--gold)]">{s.name} {tx.investorSuffix}</p>
-                  <p className="mt-3 font-display text-lg font-medium leading-snug">{s.alloc}</p>
-                  <div className="hairline opacity-30 my-4" />
-                  <p className="text-muted-foreground text-sm leading-relaxed">{s.note}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-
         <p className="mt-12 text-xs text-muted-foreground max-w-4xl leading-relaxed">{tx.footer}</p>
       </div>
     </section>

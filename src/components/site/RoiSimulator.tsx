@@ -31,7 +31,7 @@ export function RoiSimulator() {
   const { lang } = useLang();
   const tx = t(lang).roi;
 
-  const [inp, setInp] = useState<Inputs>({ price: 2_500_000, equity: 30, years: 10, appr: 6.5, yld: 5.0 });
+  const [inp, setInp] = useState<Inputs>({ price: 500_000, equity: 30, years: 10, appr: 6.5, yld: 5.0 });
   const base = useMemo(() => compute(inp), [inp]);
   const conservative = useMemo(() => compute({ ...inp, appr: 3.5, yld: 4.0 }), [inp]);
   const bull = useMemo(() => compute({ ...inp, appr: 9.0, yld: 6.5 }), [inp]);
@@ -50,7 +50,7 @@ export function RoiSimulator() {
   }, [inp, tx.scenarios]);
 
   const sliderDefs = [
-    { key: "price" as const, min: 500_000, max: 5_000_000, step: 100_000, format: (v: number) => fmtFull(v) },
+    { key: "price" as const, min: 5_000, max: 5_000_000, step: 5_000, format: (v: number) => fmtFull(v) },
     { key: "equity" as const, min: 10, max: 50, step: 5, format: (v: number) => `${v}%` },
     { key: "years" as const, min: 1, max: 25, step: 1, format: (v: number) => `${v} yrs` },
     { key: "appr" as const, min: 1, max: 15, step: 0.5, format: (v: number) => `${v.toFixed(1)}%` },

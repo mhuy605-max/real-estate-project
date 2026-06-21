@@ -29,7 +29,7 @@ export function Flagship() {
               <article className="panel-soft border border-white/10 rounded-3xl overflow-hidden">
                 <div className="relative h-[340px] md:h-[420px]">
                   <img src={BUILDING_IMAGES[idx]} alt={b.name} className="absolute inset-0 w-full h-full object-cover" />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.4))" }} />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.1) 40%, rgba(0,0,0,0))" }} />
                   <div className="relative h-full flex flex-col justify-end p-8 md:p-12 text-white">
                     <p className="label-eyebrow text-[var(--gold)]">{b.code} · Flagship 0{idx + 1}</p>
                     <h3 className="mt-3 font-display text-3xl md:text-5xl font-semibold leading-tight max-w-3xl">{b.name}</h3>

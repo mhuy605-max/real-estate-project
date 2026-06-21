@@ -99,9 +99,6 @@ const translations = {
       tableHeaders: ["Asset Class", "Stability", "Appreciation", "Rental Yield", "Liquidity"],
       retailLabel: "Retail Corridor",
       retailCaption: "AEON-anchored commercial spine driving foot traffic and yield expansion across the district.",
-      allocLabel: "Allocation Strategies",
-      allocTitle: "Profile-Based Portfolio Construction",
-      investorSuffix: "Investor",
       footer: "Allocations within this institutional ecosystem are strictly regulated under international foreign quota ceilings managed exclusively by WITH Real Estate.",
       assets: [
         { code: "A", title: "Premium Landmark Residential", sub: "Luxury Residential", body: "High-rise private mixed-use absorbing demand from outdated downtown housing stock, anchoring the residential repricing curve.", data: [["Investment Thesis", "Scarcity-Driven Repricing"], ["Demand Driver", "Elite Migration Inflow"], ["Growth Factor", "Skyline Brand Premium"], ["Yield Range", "5.0% – 5.8%"], ["Risk Profile", "Moderate"]] },
@@ -116,11 +113,6 @@ const translations = {
         { name: "Prime Office", stability: 4, appreciation: 4, yield: 4, liquidity: 3 },
         { name: "AEON Retail", stability: 3, appreciation: 5, yield: 5, liquidity: 5 },
         { name: "Hospitality", stability: 3, appreciation: 5, yield: 5, liquidity: 4 },
-      ],
-      strategies: [
-        { name: "Conservative", alloc: "Medical 50% / Office 30% / Residential 20%", note: "Maximize downside protection and defensive yield." },
-        { name: "Balanced", alloc: "Residential 40% / Office 30% / Retail 30%", note: "Blended duration with steady appreciation exposure." },
-        { name: "Growth", alloc: "Retail 40% / Residential 40% / Hospitality 20%", note: "Maximum upside capture on the J-Curve revaluation." },
       ],
     },
     flagship: {
@@ -173,7 +165,7 @@ const translations = {
         { label: "Purchase Price" },
         { label: "Equity Ratio" },
         { label: "Holding Period" },
-        { label: "Annual Appreciation" },
+        { label: "Expected Annual Appreciation" },
         { label: "Annual Rental Yield" },
       ],
       metrics: ["Total Asset Value", "Capital Gain", "CAGR", "Cumulative Rental", "Total Return"],
@@ -405,9 +397,6 @@ const translations = {
       tableHeaders: ["자산 클래스", "안정성", "자산 가치 상승", "임대 수익률", "유동성"],
       retailLabel: "리테일 코리도",
       retailCaption: "에온몰 앵커 상업 축이 구역 전반에 걸쳐 방문객 유입과 수익률 확장을 주도합니다.",
-      allocLabel: "배분 전략",
-      allocTitle: "투자자 프로파일 기반 포트폴리오 구성",
-      investorSuffix: "투자자",
       footer: "본 포트폴리오 에코시스템 내 자산군은 독점분양대행사(WITH 부동산)의 프라이빗 VIP 할당 한도(Foreign Quota) 내에서만 선점이 허용됩니다.",
       assets: [
         { code: "A", title: "프리미엄 랜드마크 주거 자산", sub: "럭셔리 주거", body: "노후화된 도심 주거 수요를 흡수하는 고층 복합 자산으로, 주거 재평가 곡선의 앵커 역할을 합니다.", data: [["투자 논리", "희소성 기반 재평가"], ["수요 드라이버", "엘리트 인구 유입"], ["성장 모멘텀", "스카이라인 브랜드 프리미엄"], ["수익률 범위", "5.0% – 5.8%"], ["리스크 프로필", "보통"]] },
@@ -422,11 +411,6 @@ const translations = {
         { name: "프라임 오피스", stability: 4, appreciation: 4, yield: 4, liquidity: 3 },
         { name: "에온 리테일", stability: 3, appreciation: 5, yield: 5, liquidity: 5 },
         { name: "호스피탈리티", stability: 3, appreciation: 5, yield: 5, liquidity: 4 },
-      ],
-      strategies: [
-        { name: "보수적", alloc: "의료 50% / 오피스 30% / 주거 20%", note: "하방 보호와 방어적 수익률 극대화." },
-        { name: "균형적", alloc: "주거 40% / 오피스 30% / 리테일 30%", note: "안정적인 자산 가치 상승 노출과 혼합 듀레이션." },
-        { name: "공격적", alloc: "리테일 40% / 주거 40% / 호스피탈리티 20%", note: "J-Curve 재평가에서 최대 업사이드 포착." },
       ],
     },
     flagship: {
@@ -479,7 +463,7 @@ const translations = {
         { label: "매입 가격" },
         { label: "자본 비율" },
         { label: "보유 기간" },
-        { label: "연간 자산 가치 상승률" },
+        { label: "예상 연간 자산 가치 상승률" },
         { label: "연간 임대 수익률" },
       ],
       metrics: ["총 자산 가치", "자본 이득", "CAGR", "누적 임대 수익", "총 수익"],
@@ -711,9 +695,6 @@ const translations = {
       tableHeaders: ["资产类别", "稳定性", "增值潜力", "租金收益率", "流动性"],
       retailLabel: "零售走廊",
       retailCaption: "AEON MALL锚定商业轴驱动全区客流量和收益率扩张。",
-      allocLabel: "配置策略",
-      allocTitle: "基于投资者画像的组合构建",
-      investorSuffix: "投资者",
       footer: "本机构生态系统内的配售受WITH Real Estate独家管理的国际外资配额（Foreign Quota）上限严格约束。",
       assets: [
         { code: "A", title: "优质地标住宅资产", sub: "豪华住宅", body: "吸收来自老旧城区住宅需求的高层综合资产，锚定住宅重定价曲线。", data: [["投资逻辑", "稀缺驱动重定价"], ["需求驱动因素", "精英人口流入"], ["增长动能", "天际线品牌溢价"], ["收益率范围", "5.0% – 5.8%"], ["风险画像", "中等"]] },
@@ -728,11 +709,6 @@ const translations = {
         { name: "甲级写字楼", stability: 4, appreciation: 4, yield: 4, liquidity: 3 },
         { name: "AEON零售", stability: 3, appreciation: 5, yield: 5, liquidity: 5 },
         { name: "酒店", stability: 3, appreciation: 5, yield: 5, liquidity: 4 },
-      ],
-      strategies: [
-        { name: "保守型", alloc: "医疗 50% / 写字楼 30% / 住宅 20%", note: "最大化下行保护和防御性收益率。" },
-        { name: "均衡型", alloc: "住宅 40% / 写字楼 30% / 零售 30%", note: "稳定增值敞口与混合久期相结合。" },
-        { name: "成长型", alloc: "零售 40% / 住宅 40% / 酒店 20%", note: "最大化捕获J型曲线重估的上行空间。" },
       ],
     },
     flagship: {
@@ -785,7 +761,7 @@ const translations = {
         { label: "购买价格" },
         { label: "资金比例" },
         { label: "持有期限" },
-        { label: "年均增值率" },
+        { label: "预期年均增值率" },
         { label: "年均租金收益率" },
       ],
       metrics: ["总资产价值", "资本收益", "CAGR", "累计租金收入", "总回报"],
@@ -1017,9 +993,6 @@ const translations = {
       tableHeaders: ["Loại Tài Sản", "Ổn Định", "Tăng Giá", "Lợi Suất Thuê", "Thanh Khoản"],
       retailLabel: "Hành Lang Bán Lẻ",
       retailCaption: "Trục thương mại neo đậu AEON MALL thúc đẩy lưu lượng khách và mở rộng lợi suất trên toàn phân khu.",
-      allocLabel: "Chiến Lược Phân Bổ",
-      allocTitle: "Xây Dựng Danh Mục Dựa Trên Hồ Sơ Nhà Đầu Tư",
-      investorSuffix: "Nhà Đầu Tư",
       footer: "Các suất đầu tư trong hệ sinh thái định chế này được kiểm soát nghiêm ngặt theo trần room khối ngoại (Foreign Quota) dưới sự điều phối độc quyền của WITH Real Estate.",
       assets: [
         { code: "A", title: "Tài Sản Căn Hộ Landmark Cao Cấp", sub: "Nhà Ở Hạng Sang", body: "Tài sản hỗn hợp cao tầng hấp thụ nhu cầu từ nhà ở trung tâm lạc hậu, neo đậu đường cong tái định giá nhà ở.", data: [["Luận Điểm Đầu Tư", "Tái Định Giá Dựa Trên Khan Hiếm"], ["Yếu Tố Cầu", "Dòng Di Cư Tinh Hoa"], ["Nhân Tố Tăng Trưởng", "Phần Bù Thương Hiệu Đường Chân Trời"], ["Phạm Vi Lợi Nhuận", "5.0% – 5.8%"], ["Hồ Sơ Rủi Ro", "Vừa Phải"]] },
@@ -1034,11 +1007,6 @@ const translations = {
         { name: "Văn Phòng Hạng A", stability: 4, appreciation: 4, yield: 4, liquidity: 3 },
         { name: "Bán Lẻ AEON", stability: 3, appreciation: 5, yield: 5, liquidity: 5 },
         { name: "Khách Sạn", stability: 3, appreciation: 5, yield: 5, liquidity: 4 },
-      ],
-      strategies: [
-        { name: "Thận Trọng", alloc: "Y Tế 50% / Văn Phòng 30% / Nhà Ở 20%", note: "Tối đa hóa bảo vệ hạ giới và lợi suất phòng thủ." },
-        { name: "Cân Bằng", alloc: "Nhà Ở 40% / Văn Phòng 30% / Bán Lẻ 30%", note: "Kết hợp thời hạn với tiếp xúc tăng giá ổn định." },
-        { name: "Tăng Trưởng", alloc: "Bán Lẻ 40% / Nhà Ở 40% / Khách Sạn 20%", note: "Nắm bắt tối đa tiềm năng tăng trưởng từ tái định giá J-Curve." },
       ],
     },
     flagship: {
@@ -1091,7 +1059,7 @@ const translations = {
         { label: "Giá Mua" },
         { label: "Tỷ Lệ Vốn" },
         { label: "Thời Gian Nắm Giữ" },
-        { label: "Tỷ Lệ Tăng Giá Hàng Năm" },
+        { label: "Tỷ Lệ Tăng Giá Hàng Năm Kỳ Vọng" },
         { label: "Lợi Suất Thuê Hàng Năm" },
       ],
       metrics: ["Tổng Giá Trị Tài Sản", "Lãi Vốn", "CAGR", "Thu Nhập Thuê Tích Lũy", "Tổng Lợi Nhuận"],
