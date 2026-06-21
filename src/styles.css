@@ -44,7 +44,7 @@
   --color-panel: var(--panel);
   --color-panel-soft: var(--panel-soft);
 
-  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -74,6 +74,20 @@
   --emerald-brand: #14a76c;
   --panel: #0f0f0f;
   --panel-soft: #1c1c1e;
+}
+
+/* WITH Care public homepage theme — scoped via .ec-theme */
+.ec-theme {
+  --ec-teal: #0f3d3e;
+  --ec-teal-deep: #0a2c2d;
+  --ec-teal-light: #1d5c5d;
+  --ec-teal-soft: #2a7a7b;
+  --ec-sand: #f6f1e7;
+  --ec-sand-warm: #ede4d0;
+  --ec-coral: #e07a5f;
+  --ec-coral-soft: #f2a48f;
+  --ec-ink: #16282a;
+  --ec-muted: #5e6f6f;
 }
 
 @layer base {
@@ -204,6 +218,69 @@
     radial-gradient(circle at 20% 20%, rgba(20, 167, 108, 0.07) 0%, transparent 55%),
     radial-gradient(circle at 80% 80%, rgba(20, 167, 108, 0.04) 0%, transparent 55%),
     url("data:image/svg+xml,%3Csvg width='24' height='24' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='1' cy='1' r='1' fill='%2314a76c' fill-opacity='0.1'/%3E%3C/svg%3E");
+}
+
+/* ─── Global animation keyframes ────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slide-right {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes pulse-ring {
+  0%   { transform: scale(1);    opacity: 0.6; }
+  100% { transform: scale(1.6);  opacity: 0; }
+}
+
+.anim-fade-up       { animation: fade-up   0.65s cubic-bezier(0.22,1,0.36,1) both; }
+.anim-fade-in       { animation: fade-in   0.5s  ease both; }
+.anim-scale-in      { animation: scale-in  0.5s  cubic-bezier(0.22,1,0.36,1) both; }
+.anim-slide-right   { animation: slide-right 0.5s cubic-bezier(0.22,1,0.36,1) both; }
+.anim-float         { animation: float 4s ease-in-out infinite; }
+.delay-100 { animation-delay: 0.10s; }
+.delay-200 { animation-delay: 0.20s; }
+.delay-300 { animation-delay: 0.30s; }
+.delay-400 { animation-delay: 0.40s; }
+.delay-500 { animation-delay: 0.50s; }
+.delay-600 { animation-delay: 0.60s; }
+.delay-700 { animation-delay: 0.70s; }
+
+/* Scroll-reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-left.visible {
+  opacity: 1;
+  transform: none;
 }
 
 @layer utilities {

@@ -94,7 +94,7 @@ export function Nav() {
             </Link>
 
             <Link
-              to="/portal/login"
+              to="/portal"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-[11px] tracking-[0.2em] uppercase gold-gradient text-black font-semibold rounded-sm hover:opacity-90"
             >
               <Lock className="w-3 h-3" /> {tx.nav.secureLogin}

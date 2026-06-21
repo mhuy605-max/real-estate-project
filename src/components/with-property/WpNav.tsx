@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu, X, ChevronDown, Lock } from "lucide-react";
+import { Menu, X, ChevronDown, Lock, HeartHandshake } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { IMAGES } from "@/components/site/data";
 import { useLang } from "@/components/site/LangContext";
@@ -78,11 +78,19 @@ export function WpNav() {
             </button>
 
             <Link
-              to="/portal/login"
+              to="/portal"
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-[11px] tracking-[0.2em] uppercase font-semibold rounded-sm border border-[var(--wp-gold)]/60 text-[var(--wp-gold)] hover:bg-[var(--wp-gold)]/10 hover:border-[var(--wp-gold)] transition-colors"
             >
               <Lock className="w-3 h-3" />
-              LOGIN
+              PORTAL
+            </Link>
+
+            <Link
+              to="/employee-care"
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-[11px] tracking-[0.2em] uppercase font-semibold rounded-sm border border-[#e07a5f]/60 text-[#e07a5f] hover:bg-[#e07a5f]/10 hover:border-[#e07a5f] transition-colors"
+            >
+              <HeartHandshake className="w-3 h-3" />
+              WithCare
             </Link>
 
             <button
@@ -143,12 +151,12 @@ export function WpNav() {
           </div>
           <div className="mt-6 flex flex-col gap-3">
             <Link
-              to="/portal/login"
+              to="/portal"
               onClick={() => setOpen(false)}
               className="inline-flex items-center gap-2 px-4 py-2.5 text-[11px] tracking-[0.2em] uppercase font-semibold rounded-sm border border-[var(--wp-gold)]/60 text-[var(--wp-gold)] hover:bg-[var(--wp-gold)]/10 hover:border-[var(--wp-gold)] transition-colors w-full justify-center"
             >
               <Lock className="w-3 h-3" />
-              LOGIN
+              PORTAL
             </Link>
             <Link to="/" className="text-sm text-white/50 hover:text-white/80 underline underline-offset-4 text-center">
               ← IR Site (WITH Capital)

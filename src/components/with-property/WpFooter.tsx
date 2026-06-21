@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, HeartHandshake } from "lucide-react";
 import { IMAGES } from "@/components/site/data";
 import { useLang } from "@/components/site/LangContext";
 import { t } from "@/components/site/translations";
@@ -69,9 +69,18 @@ export function WpFooter() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/30 text-xs">{wp.footer.rights}</p>
-          <Link to="/" className="text-white/30 hover:text-white/60 text-xs transition-colors">
-            ← WITH Sovereign Capital (IR Site)
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link
+              to="/employee-care"
+              className="inline-flex items-center gap-1.5 px-4 py-2 text-[11px] tracking-[0.15em] uppercase font-semibold rounded border border-[#e07a5f]/50 text-[#e07a5f] hover:bg-[#e07a5f]/10 transition-colors"
+            >
+              <HeartHandshake className="w-3.5 h-3.5" />
+              WithCare
+            </Link>
+            <Link to="/" className="text-white/30 hover:text-white/60 text-xs transition-colors">
+              ← WITH Sovereign Capital (IR Site)
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

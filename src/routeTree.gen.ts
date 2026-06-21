@@ -11,12 +11,18 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WithPropertyRouteImport } from './routes/with-property'
 import { Route as PortalRouteImport } from './routes/portal'
+import { Route as EmployeeCareRouteImport } from './routes/employee-care'
+import { Route as CareRouteImport } from './routes/care'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PortalIndexRouteImport } from './routes/portal.index'
 import { Route as PortalStaffRouteImport } from './routes/portal.staff'
 import { Route as PortalLoginRouteImport } from './routes/portal.login'
 import { Route as PortalInvestorRouteImport } from './routes/portal.investor'
 import { Route as PortalAdminRouteImport } from './routes/portal.admin'
+import { Route as CareStaffRouteImport } from './routes/care.staff'
+import { Route as CareLoginRouteImport } from './routes/care.login'
+import { Route as CareEmployeeRouteImport } from './routes/care.employee'
+import { Route as CareAdminRouteImport } from './routes/care.admin'
 
 const WithPropertyRoute = WithPropertyRouteImport.update({
   id: '/with-property',
@@ -26,6 +32,16 @@ const WithPropertyRoute = WithPropertyRouteImport.update({
 const PortalRoute = PortalRouteImport.update({
   id: '/portal',
   path: '/portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmployeeCareRoute = EmployeeCareRouteImport.update({
+  id: '/employee-care',
+  path: '/employee-care',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareRoute = CareRouteImport.update({
+  id: '/care',
+  path: '/care',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -58,11 +74,37 @@ const PortalAdminRoute = PortalAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => PortalRoute,
 } as any)
+const CareStaffRoute = CareStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareLoginRoute = CareLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareEmployeeRoute = CareEmployeeRouteImport.update({
+  id: '/employee',
+  path: '/employee',
+  getParentRoute: () => CareRoute,
+} as any)
+const CareAdminRoute = CareAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => CareRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/care': typeof CareRouteWithChildren
+  '/employee-care': typeof EmployeeCareRoute
   '/portal': typeof PortalRouteWithChildren
   '/with-property': typeof WithPropertyRoute
+  '/care/admin': typeof CareAdminRoute
+  '/care/employee': typeof CareEmployeeRoute
+  '/care/login': typeof CareLoginRoute
+  '/care/staff': typeof CareStaffRoute
   '/portal/admin': typeof PortalAdminRoute
   '/portal/investor': typeof PortalInvestorRoute
   '/portal/login': typeof PortalLoginRoute
@@ -71,7 +113,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/care': typeof CareRouteWithChildren
+  '/employee-care': typeof EmployeeCareRoute
   '/with-property': typeof WithPropertyRoute
+  '/care/admin': typeof CareAdminRoute
+  '/care/employee': typeof CareEmployeeRoute
+  '/care/login': typeof CareLoginRoute
+  '/care/staff': typeof CareStaffRoute
   '/portal/admin': typeof PortalAdminRoute
   '/portal/investor': typeof PortalInvestorRoute
   '/portal/login': typeof PortalLoginRoute
@@ -81,8 +129,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/care': typeof CareRouteWithChildren
+  '/employee-care': typeof EmployeeCareRoute
   '/portal': typeof PortalRouteWithChildren
   '/with-property': typeof WithPropertyRoute
+  '/care/admin': typeof CareAdminRoute
+  '/care/employee': typeof CareEmployeeRoute
+  '/care/login': typeof CareLoginRoute
+  '/care/staff': typeof CareStaffRoute
   '/portal/admin': typeof PortalAdminRoute
   '/portal/investor': typeof PortalInvestorRoute
   '/portal/login': typeof PortalLoginRoute
@@ -93,8 +147,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/care'
+    | '/employee-care'
     | '/portal'
     | '/with-property'
+    | '/care/admin'
+    | '/care/employee'
+    | '/care/login'
+    | '/care/staff'
     | '/portal/admin'
     | '/portal/investor'
     | '/portal/login'
@@ -103,7 +163,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/care'
+    | '/employee-care'
     | '/with-property'
+    | '/care/admin'
+    | '/care/employee'
+    | '/care/login'
+    | '/care/staff'
     | '/portal/admin'
     | '/portal/investor'
     | '/portal/login'
@@ -112,8 +178,14 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/care'
+    | '/employee-care'
     | '/portal'
     | '/with-property'
+    | '/care/admin'
+    | '/care/employee'
+    | '/care/login'
+    | '/care/staff'
     | '/portal/admin'
     | '/portal/investor'
     | '/portal/login'
@@ -123,6 +195,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CareRoute: typeof CareRouteWithChildren
+  EmployeeCareRoute: typeof EmployeeCareRoute
   PortalRoute: typeof PortalRouteWithChildren
   WithPropertyRoute: typeof WithPropertyRoute
 }
@@ -141,6 +215,20 @@ declare module '@tanstack/react-router' {
       path: '/portal'
       fullPath: '/portal'
       preLoaderRoute: typeof PortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/employee-care': {
+      id: '/employee-care'
+      path: '/employee-care'
+      fullPath: '/employee-care'
+      preLoaderRoute: typeof EmployeeCareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/care': {
+      id: '/care'
+      path: '/care'
+      fullPath: '/care'
+      preLoaderRoute: typeof CareRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -185,8 +273,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalAdminRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/care/staff': {
+      id: '/care/staff'
+      path: '/staff'
+      fullPath: '/care/staff'
+      preLoaderRoute: typeof CareStaffRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/login': {
+      id: '/care/login'
+      path: '/login'
+      fullPath: '/care/login'
+      preLoaderRoute: typeof CareLoginRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/employee': {
+      id: '/care/employee'
+      path: '/employee'
+      fullPath: '/care/employee'
+      preLoaderRoute: typeof CareEmployeeRouteImport
+      parentRoute: typeof CareRoute
+    }
+    '/care/admin': {
+      id: '/care/admin'
+      path: '/admin'
+      fullPath: '/care/admin'
+      preLoaderRoute: typeof CareAdminRouteImport
+      parentRoute: typeof CareRoute
+    }
   }
 }
+
+interface CareRouteChildren {
+  CareAdminRoute: typeof CareAdminRoute
+  CareEmployeeRoute: typeof CareEmployeeRoute
+  CareLoginRoute: typeof CareLoginRoute
+  CareStaffRoute: typeof CareStaffRoute
+}
+
+const CareRouteChildren: CareRouteChildren = {
+  CareAdminRoute: CareAdminRoute,
+  CareEmployeeRoute: CareEmployeeRoute,
+  CareLoginRoute: CareLoginRoute,
+  CareStaffRoute: CareStaffRoute,
+}
+
+const CareRouteWithChildren = CareRoute._addFileChildren(CareRouteChildren)
 
 interface PortalRouteChildren {
   PortalAdminRoute: typeof PortalAdminRoute
@@ -209,6 +341,8 @@ const PortalRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CareRoute: CareRouteWithChildren,
+  EmployeeCareRoute: EmployeeCareRoute,
   PortalRoute: PortalRouteWithChildren,
   WithPropertyRoute: WithPropertyRoute,
 }

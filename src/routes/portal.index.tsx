@@ -1,5 +1,176 @@
-import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { HeartHandshake, Building2, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import withLogo from "@/assets/with-logo.png";
 
 export const Route = createFileRoute("/portal/")({
-  component: () => <Navigate to="/portal/login" replace />,
+  head: () => ({ meta: [{ title: "WITH — Portal" }] }),
+  component: PortalLanding,
 });
+
+type Lang = "en" | "vi" | "zh" | "ko";
+
+const LABELS: Record<Lang, { tag: string; unified: string; choose: string; select: string; wp: string; wpDesc: string; care: string; careDesc: string; enter: string; copy: string }> = {
+  en: {
+    tag: "Unified Platform",
+    choose: "Choose your portal",
+    select: "Select the platform you'd like to access",
+    wp: "WithProperty",
+    wpDesc: "Investor portal — asset management, ROI tracking, and property reports.",
+    care: "WithCare",
+    careDesc: "Employee care portal — relocation support, housing, paperwork, and settlement services.",
+    enter: "Enter portal",
+    unified: "EN",
+    copy: `© ${new Date().getFullYear()} WITH Group · Ho Chi Minh City`,
+  },
+  vi: {
+    tag: "Nền Tảng Thống Nhất",
+    choose: "Chọn cổng của bạn",
+    select: "Chọn nền tảng bạn muốn truy cập",
+    wp: "WithProperty",
+    wpDesc: "Cổng nhà đầu tư — quản lý tài sản, theo dõi ROI và báo cáo bất động sản.",
+    care: "WithCare",
+    careDesc: "Cổng chăm sóc nhân viên — hỗ trợ di chuyển, nhà ở, giấy tờ và dịch vụ định cư.",
+    enter: "Vào cổng",
+    unified: "VI",
+    copy: `© ${new Date().getFullYear()} WITH Group · Thành phố Hồ Chí Minh`,
+  },
+  zh: {
+    tag: "统一平台",
+    choose: "选择您的门户",
+    select: "请选择您要访问的平台",
+    wp: "WithProperty",
+    wpDesc: "投资者门户 — 资产管理、投资回报率追踪和房产报告。",
+    care: "WithCare",
+    careDesc: "员工关怀门户 — 搬迁支持、住房、文件和定居服务。",
+    enter: "进入门户",
+    unified: "ZH",
+    copy: `© ${new Date().getFullYear()} WITH集团 · 胡志明市`,
+  },
+  ko: {
+    tag: "통합 플랫폼",
+    choose: "포털을 선택하세요",
+    select: "접속할 플랫폼을 선택해 주세요",
+    wp: "WithProperty",
+    wpDesc: "투자자 포털 — 자산 관리, ROI 추적 및 부동산 보고서.",
+    care: "WithCare",
+    careDesc: "직원 케어 포털 — 이주 지원, 주거, 서류 및 정착 서비스.",
+    enter: "포털 입장",
+    unified: "KO",
+    copy: `© ${new Date().getFullYear()} WITH 그룹 · 호치민시`,
+  },
+};
+
+const LANGS: { code: Lang; label: string }[] = [
+  { code: "en", label: "EN" },
+  { code: "vi", label: "VI" },
+  { code: "zh", label: "中文" },
+  { code: "ko", label: "한국어" },
+];
+
+function PortalLanding() {
+  const [lang, setLang] = useState<Lang>("en");
+  const tx = LABELS[lang];
+
+  return (
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#0a0a0a] px-4">
+      {/* Ambient glows */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 20% 10%, rgba(20,167,108,0.08) 0%, transparent 70%), radial-gradient(ellipse 50% 40% at 80% 90%, rgba(224,122,95,0.07) 0%, transparent 70%)",
+        }}
+      />
+      {/* Grid texture */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
+          backgroundSize: "48px 48px",
+        }}
+      />
+
+      {/* Language switcher — top right */}
+      <div className="absolute top-5 right-5 flex items-center gap-1 rounded-full border border-white/10 bg-white/5 px-1 py-1 backdrop-blur">
+        {LANGS.map((l) => (
+          <button
+            key={l.code}
+            onClick={() => setLang(l.code)}
+            className={`rounded-full px-3 py-1 text-[11px] font-medium tracking-wide transition-all ${
+              lang === l.code
+                ? "bg-white/15 text-white"
+                : "text-white/40 hover:text-white/70"
+            }`}
+          >
+            {l.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="relative w-full max-w-2xl">
+        {/* Logo + header */}
+        <div className="mb-12 flex flex-col items-center text-center anim-fade-up">
+          <div className="mb-6 anim-scale-in delay-100">
+            <img src={withLogo} alt="WITH" className="h-14 w-auto opacity-90" />
+          </div>
+          <p className="mb-3 text-[10px] tracking-[0.3em] uppercase text-white/35 anim-fade-in delay-200">
+            {tx.tag}
+          </p>
+          <h1 className="text-3xl font-semibold text-white tracking-tight anim-fade-up delay-200">
+            {tx.choose}
+          </h1>
+          <p className="mt-2 text-sm text-white/40 anim-fade-in delay-300">
+            {tx.select}
+          </p>
+        </div>
+
+        {/* Portal cards */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          {/* WithProperty */}
+          <Link
+            to="/portal/login"
+            className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-[#111111] p-8 transition-all duration-300 hover:border-[#14a76c]/50 hover:shadow-[0_0_32px_rgba(20,167,108,0.12)] anim-fade-up delay-300"
+          >
+            <div
+              className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
+              style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(20,167,108,0.07), transparent 70%)" }}
+            />
+            <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#14a76c]/10 ring-1 ring-[#14a76c]/20 transition-all group-hover:bg-[#14a76c]/15 group-hover:ring-[#14a76c]/40">
+              <Building2 className="h-5 w-5 text-[#14a76c]" />
+            </div>
+            <h2 className="text-lg font-semibold text-white">{tx.wp}</h2>
+            <p className="mt-2 text-sm text-white/45 leading-relaxed">{tx.wpDesc}</p>
+            <div className="mt-6 inline-flex items-center gap-1.5 text-xs font-medium text-[#14a76c]">
+              {tx.enter} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            </div>
+          </Link>
+
+          {/* WithCare */}
+          <Link
+            to="/care/login"
+            className="group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-[#111111] p-8 transition-all duration-300 hover:border-[#e07a5f]/50 hover:shadow-[0_0_32px_rgba(224,122,95,0.12)] anim-fade-up delay-400"
+          >
+            <div
+              className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
+              style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(224,122,95,0.07), transparent 70%)" }}
+            />
+            <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#e07a5f]/10 ring-1 ring-[#e07a5f]/20 transition-all group-hover:bg-[#e07a5f]/15 group-hover:ring-[#e07a5f]/40">
+              <HeartHandshake className="h-5 w-5 text-[#e07a5f]" />
+            </div>
+            <h2 className="text-lg font-semibold text-white">{tx.care}</h2>
+            <p className="mt-2 text-sm text-white/45 leading-relaxed">{tx.careDesc}</p>
+            <div className="mt-6 inline-flex items-center gap-1.5 text-xs font-medium text-[#e07a5f]">
+              {tx.enter} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            </div>
+          </Link>
+        </div>
+
+        <p className="mt-10 text-center text-[11px] text-white/20 anim-fade-in delay-500">
+          {tx.copy}
+        </p>
+      </div>
+    </div>
+  );
+}
