@@ -7,11 +7,13 @@ import { toast } from "sonner";
 import {
   Home, FileText, Stethoscope, GraduationCap, Sparkles, MoreHorizontal,
   Plane, KeyRound, Compass, HeartHandshake, ArrowRight, Languages,
+  CheckCircle2, Minus, X as XIcon, Users, Clock, ChevronDown, ChevronUp,
+  Shield, Zap, Building2,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-import { CareLangProvider, useCareLang, type Lang } from "@/lib/care/i18n";
-import { CarePortalProvider, useCarePortal, CARE_CATEGORIES, type CareCategory } from "@/lib/care/store";
-import { Toaster } from "@/components/ui/sonner";
+import { useCareLang, type Lang } from "@/lib/care/i18n";
+import { useCarePortal, CARE_CATEGORIES, type CareCategory } from "@/lib/care/store";
 import withLogo from "@/assets/with-logo.png";
 
 export const Route = createFileRoute("/employee-care")({
@@ -27,14 +29,7 @@ export const Route = createFileRoute("/employee-care")({
 });
 
 function EmployeeCarePageWrapper() {
-  return (
-    <CareLangProvider>
-      <CarePortalProvider>
-        <EmployeeCarePage />
-        <Toaster richColors position="top-right" />
-      </CarePortalProvider>
-    </CareLangProvider>
-  );
+  return <EmployeeCarePage />;
 }
 
 /* ── Scroll reveal hook ───────────────────────────────────── */
@@ -347,14 +342,113 @@ function Services() {
   );
 }
 
+type FeatureLevel = "yes" | "partial" | "no";
+interface TierFeature { label: string; level: FeatureLevel }
+interface TierInfo {
+  seats: string;
+  price: string;
+  sla: string;
+  agent: string;
+  features: TierFeature[];
+}
+
+const TIER_DATA: Record<string, TierInfo> = {
+  trial: {
+    seats: "Up to 3 employees",
+    price: "Free pilot",
+    sla: "5-day response",
+    agent: "Shared pool",
+    features: [
+      { label: "Housing search assistance", level: "partial" },
+      { label: "Clinic & school directory", level: "yes" },
+      { label: "Paperwork checklist guide", level: "yes" },
+      { label: "English language support", level: "yes" },
+      { label: "Document review", level: "no" },
+      { label: "Appointment booking", level: "no" },
+      { label: "Visa / TRC handling", level: "no" },
+      { label: "Settlement reports", level: "no" },
+      { label: "Dedicated agent", level: "no" },
+    ],
+  },
+  basic: {
+    seats: "Up to 10 employees",
+    price: "Contact sales",
+    sla: "3-day response",
+    agent: "Shared pool",
+    features: [
+      { label: "Housing listings + 1 viewing", level: "yes" },
+      { label: "Clinic referral + directory", level: "yes" },
+      { label: "Document review", level: "yes" },
+      { label: "School intake call", level: "yes" },
+      { label: "EN + 1 language", level: "yes" },
+      { label: "Appointment booking", level: "no" },
+      { label: "Visa / TRC handling", level: "no" },
+      { label: "Quarterly summary report", level: "partial" },
+      { label: "Dedicated agent", level: "no" },
+    ],
+  },
+  pro: {
+    seats: "Up to 30 employees",
+    price: "Most popular",
+    sla: "1-day response",
+    agent: "Shared named agent",
+    features: [
+      { label: "Full housing search + negotiation", level: "yes" },
+      { label: "Appointment booking", level: "yes" },
+      { label: "Visa / TRC handling", level: "yes" },
+      { label: "School enrollment assistance", level: "yes" },
+      { label: "EN · KO · VI support", level: "yes" },
+      { label: "3 property viewings included", level: "yes" },
+      { label: "Monthly settlement report", level: "yes" },
+      { label: "Dedicated agent (shared)", level: "partial" },
+      { label: "Real-time HR dashboard", level: "no" },
+    ],
+  },
+  premium: {
+    seats: "Unlimited employees",
+    price: "Enterprise",
+    sla: "4-hour response",
+    agent: "Named dedicated agent",
+    features: [
+      { label: "White-glove housing service", level: "yes" },
+      { label: "Concierge health coordinator", level: "yes" },
+      { label: "Full residency management", level: "yes" },
+      { label: "Dedicated school coordinator", level: "yes" },
+      { label: "All languages supported", level: "yes" },
+      { label: "Unlimited property viewings", level: "yes" },
+      { label: "Real-time HR dashboard", level: "yes" },
+      { label: "Named dedicated agent", level: "yes" },
+      { label: "Priority escalation line", level: "yes" },
+    ],
+  },
+};
+
+function FeatureRow({ label, level }: TierFeature) {
+  return (
+    <div className="flex items-center gap-2.5 py-1.5">
+      <span className="shrink-0">
+        {level === "yes" && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />}
+        {level === "partial" && <Minus className="h-3.5 w-3.5 text-amber-400" />}
+        {level === "no" && <XIcon className="h-3.5 w-3.5 text-white/20" />}
+      </span>
+      <span className={`text-[13px] leading-snug ${level === "no" ? "text-white/25 line-through" : level === "partial" ? "text-white/70" : "text-white/85"}`}>
+        {label}
+      </span>
+    </div>
+  );
+}
+
 function HRTiers() {
   const { t } = useCareLang();
+  const [open, setOpen] = useState<string | null>(null);
+
   const tiers = [
-    { k: "trial", featured: false },
-    { k: "basic", featured: false },
-    { k: "pro", featured: true },
-    { k: "premium", featured: false },
+    { k: "trial", featured: false, Icon: Shield },
+    { k: "basic", featured: false, Icon: Building2 },
+    { k: "pro", featured: true, Icon: Zap },
+    { k: "premium", featured: false, Icon: Sparkles },
   ];
+
   return (
     <section id="hr" className="bg-[var(--ec-teal)] py-24 text-white">
       <div className="mx-auto max-w-7xl px-6">
@@ -363,30 +457,114 @@ function HRTiers() {
             <span className="inline-block h-px w-6 bg-[var(--ec-coral-soft)]" />
             {t("hr.title")}
           </p>
-          <h2 className="font-display text-3xl tracking-tight md:text-4xl">{t("hr.title")}</h2>
-          <p className="mt-3 text-white/65">{t("hr.sub")}</p>
+          <h2 className="font-display text-3xl tracking-tight md:text-4xl">{t("hr.sub")}</h2>
+          <p className="mt-3 text-white/65">Click any plan to see what's included.</p>
         </div>
-        <div className="grid gap-4 md:grid-cols-4">
-          {tiers.map(({ k, featured }, i) => (
-            <div
-              key={k}
-              className={`reveal rounded-2xl p-7 transition-all duration-300 ${
-                featured
-                  ? "bg-[var(--ec-coral)] text-white shadow-2xl shadow-black/25 ring-1 ring-white/20 scale-[1.02]"
-                  : "bg-white/5 ring-1 ring-white/10 hover:bg-white/10 hover:-translate-y-1"
-              }`}
-              style={{ transitionDelay: `${i * 80}ms` }}
-            >
-              {featured && (
-                <span className="mb-3 inline-block rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] uppercase tracking-widest text-white/90">
-                  Most Popular
-                </span>
-              )}
-              <h3 className="font-display text-2xl">{t(`tier.${k}`)}</h3>
-              <p className={`mt-2 text-sm ${featured ? "text-white/85" : "text-white/55"}`}>{t(`tier.${k}.d`)}</p>
-              <p className={`mt-6 text-xs ${featured ? "text-white/75" : "text-white/40"}`}>Sales-assisted onboarding</p>
-            </div>
-          ))}
+
+        <div className="grid gap-4 md:grid-cols-4 items-start">
+          {tiers.map(({ k, featured, Icon }, i) => {
+            const isOpen = open === k;
+            const data = TIER_DATA[k];
+            return (
+              <div
+                key={k}
+                style={{ transitionDelay: `${i * 60}ms` }}
+                className={`reveal rounded-2xl transition-all duration-300 ${
+                  featured
+                    ? "bg-[var(--ec-coral)] shadow-2xl shadow-black/25 ring-1 ring-white/20"
+                    : isOpen
+                    ? "bg-white/12 ring-1 ring-white/20"
+                    : "bg-white/5 ring-1 ring-white/10"
+                }`}
+              >
+                {/* Card header — always visible, clickable */}
+                <button
+                  onClick={() => setOpen(isOpen ? null : k)}
+                  className="w-full text-left p-6"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15">
+                      <Icon className="h-4.5 w-4.5" style={{ width: 18, height: 18 }} />
+                    </div>
+                    <div className="mt-0.5">
+                      {isOpen
+                        ? <ChevronUp className="h-4 w-4 text-white/40" />
+                        : <ChevronDown className="h-4 w-4 text-white/40" />}
+                    </div>
+                  </div>
+
+                  {featured && (
+                    <span className="mt-3 mb-1 inline-block rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] uppercase tracking-widest text-white/90">
+                      Most Popular
+                    </span>
+                  )}
+
+                  <h3 className="mt-3 font-display text-2xl">{t(`tier.${k}`)}</h3>
+                  <p className={`mt-1 text-sm ${featured ? "text-white/80" : "text-white/50"}`}>{t(`tier.${k}.d`)}</p>
+
+                  {/* Quick stats row */}
+                  <div className={`mt-4 grid grid-cols-2 gap-2 text-[11px] ${featured ? "text-white/75" : "text-white/45"}`}>
+                    <span className="flex items-center gap-1"><Users className="h-3 w-3" /> {data.seats.replace("Up to ", "≤ ").replace(" employees", "")}</span>
+                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {data.sla}</span>
+                  </div>
+
+                  <div className={`mt-3 text-[11px] font-semibold uppercase tracking-widest ${featured ? "text-white/90" : "text-white/35"}`}>
+                    {data.price}
+                  </div>
+                </button>
+
+                {/* Expandable detail panel */}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="detail"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-6 pb-6 pt-1 border-t border-white/10">
+                        <p className={`mb-3 text-[10px] uppercase tracking-widest ${featured ? "text-white/60" : "text-white/30"}`}>
+                          What's included
+                        </p>
+                        <div className="space-y-0.5">
+                          {data.features.map((f) => (
+                            <FeatureRow key={f.label} {...f} />
+                          ))}
+                        </div>
+
+                        {/* Agent info */}
+                        <div className={`mt-4 rounded-xl px-3.5 py-2.5 text-[12px] ${featured ? "bg-white/15" : "bg-white/[0.06]"}`}>
+                          <span className={featured ? "text-white/60" : "text-white/35"}>Agent: </span>
+                          <span className={featured ? "text-white/90" : "text-white/65"}>{data.agent}</span>
+                        </div>
+
+                        {/* CTA */}
+                        <a
+                          href="#request"
+                          className={`mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all ${
+                            featured
+                              ? "bg-white text-[var(--ec-coral)] hover:bg-white/90"
+                              : "bg-white/10 text-white hover:bg-white/20"
+                          }`}
+                        >
+                          Talk to sales <ArrowRight className="h-3.5 w-3.5" />
+                        </a>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Legend */}
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-white/35">
+          <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> Included</span>
+          <span className="flex items-center gap-1.5"><Minus className="h-3.5 w-3.5 text-amber-400" /> Partial / limited</span>
+          <span className="flex items-center gap-1.5"><XIcon className="h-3.5 w-3.5 text-white/20" /> Not included</span>
         </div>
       </div>
     </section>
