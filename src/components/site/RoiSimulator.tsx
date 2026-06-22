@@ -80,8 +80,8 @@ export function RoiSimulator() {
           subtitle={tx.subtitle}
         />
 
-        <div className="mt-14 grid lg:grid-cols-[400px_1fr] gap-8">
-          <div className="panel-dark rounded-2xl p-8 space-y-8">
+        <div className="mt-14 grid lg:grid-cols-[400px_1fr] gap-8 min-w-0">
+          <div className="panel-dark rounded-2xl p-8 space-y-8 min-w-0">
             <p className="label-eyebrow text-[var(--gold)]">{tx.inputsLabel}</p>
             {sliderDefs.map((s, i) => (
               <div key={s.key}>
@@ -104,7 +104,7 @@ export function RoiSimulator() {
             ))}
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 min-w-0">
             <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-3">
               {tx.metrics.map((label, i) => (
                 <div key={label} className="border border-border rounded-xl p-5 bg-card">
@@ -143,11 +143,11 @@ export function RoiSimulator() {
                 <h3 className="font-display text-xl mt-1 font-semibold">{tx.scenarioTitle}</h3>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full min-w-[720px] text-sm">
                   <thead>
                     <tr className="text-left text-[10px] uppercase tracking-widest text-muted-foreground border-b border-border">
                       {tx.tableHeaders.map((h) => (
-                        <th key={h} className="p-4">{h}</th>
+                        <th key={h} className="p-4 whitespace-nowrap">{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -158,21 +158,22 @@ export function RoiSimulator() {
                         className={`border-b border-border last:border-0`}
                         style={s.highlight ? { background: "rgba(212,175,55,0.08)" } : undefined}
                       >
-                        <td className="p-4 font-medium">
+                        <td className="p-4 font-medium whitespace-nowrap">
                           {s.name}
                           {s.highlight && <span className="ml-2 text-[10px] text-[var(--gold)] uppercase tracking-widest">{tx.live}</span>}
                         </td>
-                        <td className="p-4 text-muted-foreground tabular-nums">{s.appr} / {s.yld}</td>
-                        <td className="p-4 tabular-nums">{fmt(s.data.totalAssetValue)}</td>
-                        <td className="p-4 tabular-nums">{fmt(s.data.capitalGain)}</td>
-                        <td className="p-4 tabular-nums">{fmt(s.data.rentalIncome)}</td>
-                        <td className="p-4 tabular-nums font-semibold">{fmt(s.data.totalReturn)}</td>
-                        <td className="p-4 tabular-nums text-[var(--emerald-brand)] font-medium">{s.data.cagr.toFixed(2)}%</td>
+                        <td className="p-4 text-muted-foreground tabular-nums whitespace-nowrap">{s.appr} / {s.yld}</td>
+                        <td className="p-4 tabular-nums whitespace-nowrap">{fmt(s.data.totalAssetValue)}</td>
+                        <td className="p-4 tabular-nums whitespace-nowrap">{fmt(s.data.capitalGain)}</td>
+                        <td className="p-4 tabular-nums whitespace-nowrap">{fmt(s.data.rentalIncome)}</td>
+                        <td className="p-4 tabular-nums font-semibold whitespace-nowrap">{fmt(s.data.totalReturn)}</td>
+                        <td className="p-4 tabular-nums text-[var(--emerald-brand)] font-medium whitespace-nowrap">{s.data.cagr.toFixed(2)}%</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+              <p className="lg:hidden mt-2 px-1 text-[10px] text-muted-foreground uppercase tracking-widest">← Swipe to see full comparison</p>
             </div>
           </div>
         </div>

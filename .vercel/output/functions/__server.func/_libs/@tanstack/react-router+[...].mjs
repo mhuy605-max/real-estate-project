@@ -1,7 +1,7 @@
 import { i as __require, o as __toESM, t as __commonJSMin } from "../../_runtime.mjs";
 import { l as require_react_dom, u as require_react } from "../@floating-ui/react-dom+[...].mjs";
-import { c as require_jsx_runtime } from "../@radix-ui/react-arrow+[...].mjs";
 import { r as parseHref } from "../tanstack__history.mjs";
+import { c as require_jsx_runtime } from "../@radix-ui/react-arrow+[...].mjs";
 import { PassThrough, Readable } from "node:stream";
 import { ReadableStream as ReadableStream$1 } from "node:stream/web";
 //#region node_modules/@tanstack/react-router/dist/esm/utils.js
@@ -1345,8 +1345,6 @@ function isNotFound(obj) {
 }
 //#endregion
 //#region node_modules/@tanstack/router-core/dist/esm/qss.js
-var import_jsx_runtime = require_jsx_runtime();
-var import_react_dom = /* @__PURE__ */ __toESM(require_react_dom(), 1);
 /**
 * Program is a reimplementation of the `qss` package:
 * Copyright (c) Luke Edwards luke.edwards05@gmail.com, MIT License
@@ -3616,6 +3614,7 @@ var GLOBAL_TSR = "$_TSR";
 var TSR_SCRIPT_BARRIER_ID = "$tsr-stream-barrier";
 //#endregion
 //#region node_modules/@tanstack/react-router/dist/esm/CatchBoundary.js
+var import_jsx_runtime = require_jsx_runtime();
 function CatchBoundary(props) {
 	const errorComponent = props.errorComponent ?? ErrorComponent;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CatchBoundaryImpl, {
@@ -4316,6 +4315,7 @@ function useRouteContext(opts) {
 }
 //#endregion
 //#region node_modules/@tanstack/react-router/dist/esm/link.js
+var import_react_dom = /* @__PURE__ */ __toESM(require_react_dom(), 1);
 /**
 * Build anchor-like props for declarative navigation and preloading.
 *

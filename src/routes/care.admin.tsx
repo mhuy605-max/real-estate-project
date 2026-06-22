@@ -1,6 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Building2, Users, Inbox, FileBarChart, Plus, Send, CheckCircle2 } from "lucide-react";
+import {
+  Building2,
+  CheckCircle2,
+  FileBarChart,
+  Filter,
+  Home,
+  Inbox,
+  MapPin,
+  Plus,
+  Send,
+  Users,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -8,13 +19,29 @@ import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 
 import {
-  DashboardShell, StatCard, Pill, statusTone, Card, inputCls, SectionHeader, ActionBtn,
+  DashboardShell,
+  StatCard,
+  Pill,
+  statusTone,
+  Card,
+  PremiumCard,
+  EmptyState,
+  inputCls,
+  SectionHeader,
+  ActionBtn,
 } from "@/components/care/DashboardShell";
 import { useCareLang } from "@/lib/care/i18n";
 import {
-  useCarePortal, CARE_STATUSES, CARE_CATEGORIES, STAGES,
-  type CareStatus, type CareCategory, type SettlementStage, type ContractTier,
-  getCompanyName, getCareStaff,
+  useCarePortal,
+  CARE_STATUSES,
+  CARE_CATEGORIES,
+  STAGES,
+  type CareStatus,
+  type CareCategory,
+  type SettlementStage,
+  type ContractTier,
+  getCompanyName,
+  getCareStaff,
 } from "@/lib/care/store";
 
 export const Route = createFileRoute("/care/admin")({
@@ -24,6 +51,10 @@ export const Route = createFileRoute("/care/admin")({
 
 type Tab = "companies" | "employees" | "requests" | "reports";
 
+// ─── Eyebrow label style ──────────────────────────────────────────────────────
+const EBW = "text-[10px] uppercase tracking-[0.18em] text-white/32 font-medium";
+
+// ─── Admin Dashboard ──────────────────────────────────────────────────────────
 function AdminDashboard() {
   const { state } = useCarePortal();
   const { t } = useCareLang();
@@ -31,12 +62,16 @@ function AdminDashboard() {
   const me = state.session;
   if (!me) return null;
 
-  const openCount = state.requests.filter((r) => r.status === "New" || r.status === "In Progress").length;
+  const openCount = state.requests.filter(
+    (r) => r.status === "New" || r.status === "In Progress",
+  ).length;
 
   const identity = (
     <>
       <div className="text-[12px] font-semibold text-white truncate">{me.name}</div>
-      <div className="text-[10px] text-[#e07a5f]/70 uppercase tracking-wider">{t("dash.fullAccess")}</div>
+      <div className="text-[10px] text-[#e07a5f]/70 uppercase tracking-wider">
+        {t("dash.fullAccess")}
+      </div>
     </>
   );
 
@@ -48,13 +83,40 @@ function AdminDashboard() {
   ];
 
   return (
-    <DashboardShell title={t("admin.title")} role="admin" nav={nav} active={tab} onSelect={(k) => setTab(k as Tab)} identity={identity}>
+    <DashboardShell
+      title={t("admin.title")}
+      role="admin"
+      nav={nav}
+      active={tab}
+      onSelect={(k) => setTab(k as Tab)}
+      identity={identity}
+    >
       {/* Stats strip */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 mb-8">
-        <StatCard label={t("admin.stat.companies")} value={state.companies.length} tone="teal" />
-        <StatCard label={t("admin.stat.employees")} value={state.users.filter((u) => u.role === "employee").length} tone="coral" />
-        <StatCard label={t("admin.stat.openRequests")} value={openCount} tone="amber" />
-        <StatCard label={t("admin.stat.reports")} value={state.reports.length} tone="sky" />
+        <StatCard
+          label={t("admin.stat.companies")}
+          value={state.companies.length}
+          sub="active accounts"
+          tone="teal"
+        />
+        <StatCard
+          label={t("admin.stat.employees")}
+          value={state.users.filter((u) => u.role === "employee").length}
+          sub="enrolled staff"
+          tone="coral"
+        />
+        <StatCard
+          label={t("admin.stat.openRequests")}
+          value={openCount}
+          sub="need attention"
+          tone="amber"
+        />
+        <StatCard
+          label={t("admin.stat.reports")}
+          value={state.reports.length}
+          sub="generated"
+          tone="sky"
+        />
       </div>
 
       {tab === "companies" && <CompaniesTab />}
@@ -65,8 +127,9 @@ function AdminDashboard() {
   );
 }
 
-/* ──── Companies ──── */
+// ─── Companies Tab ────────────────────────────────────────────────────────────
 const TIERS: ContractTier[] = ["Trial", "Basic", "Pro", "Premium"];
+
 const companySchema = z.object({
   name: z.string().min(2),
   tier: z.enum(TIERS as [ContractTier, ...ContractTier[]]),
@@ -77,27 +140,38 @@ const companySchema = z.object({
   seats: z.coerce.number().int().positive(),
 });
 
+const tierPill: Record<ContractTier, "ok" | "info" | "warn" | "muted"> = {
+  Premium: "ok",
+  Pro: "info",
+  Basic: "warn",
+  Trial: "muted",
+};
+
 function CompaniesTab() {
   const { state, createCareCompany } = useCarePortal();
   const { t } = useCareLang();
   const [show, setShow] = useState(false);
   const form = useForm<z.infer<typeof companySchema>>({
     resolver: zodResolver(companySchema),
-    defaultValues: { tier: "Basic", seats: 5, contractStart: "", contractEnd: "", name: "", hrContactName: "", hrContactEmail: "" },
+    defaultValues: {
+      tier: "Basic",
+      seats: 5,
+      contractStart: "",
+      contractEnd: "",
+      name: "",
+      hrContactName: "",
+      hrContactEmail: "",
+    },
   });
-  const seatsUsed = (id: string) => state.users.filter((u) => u.role === "employee" && u.companyId === id).length;
 
-  const tierBadge = (tier: ContractTier) => {
-    const map: Record<ContractTier, "ok" | "info" | "warn" | "muted"> = {
-      Premium: "ok", Pro: "info", Basic: "warn", Trial: "muted",
-    };
-    return <Pill tone={map[tier]}>{tier}</Pill>;
-  };
+  const seatsUsed = (id: string) =>
+    state.users.filter((u) => u.role === "employee" && u.companyId === id).length;
 
   return (
     <div className="space-y-5">
       <SectionHeader
         title={t("co.section")}
+        sub={`${state.companies.length} company accounts`}
         action={
           <ActionBtn onClick={() => setShow((s) => !s)}>
             <Plus className="h-3.5 w-3.5" /> {t("co.new")}
@@ -107,9 +181,15 @@ function CompaniesTab() {
 
       <AnimatePresence>
         {show && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
-            <Card className="mb-0">
-              <p className="text-[11px] uppercase tracking-widest text-white/35 mb-4">{t("co.form.title")}</p>
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <PremiumCard accent="coral" className="mb-0">
+              <p className={`${EBW} mb-4`}>{t("co.form.title")}</p>
               <form
                 onSubmit={form.handleSubmit((v) => {
                   createCareCompany(v);
@@ -119,53 +199,121 @@ function CompaniesTab() {
                 })}
                 className="grid gap-3 md:grid-cols-2"
               >
-                <input className={inputCls()} placeholder={t("co.form.name")} {...form.register("name")} />
+                <input
+                  className={inputCls()}
+                  placeholder={t("co.form.name")}
+                  {...form.register("name")}
+                />
                 <select className={inputCls()} {...form.register("tier")}>
-                  {TIERS.map((tier) => <option key={tier}>{tier}</option>)}
+                  {TIERS.map((tier) => (
+                    <option key={tier}>{tier}</option>
+                  ))}
                 </select>
                 <input className={inputCls()} type="date" {...form.register("contractStart")} />
                 <input className={inputCls()} type="date" {...form.register("contractEnd")} />
-                <input className={inputCls()} placeholder={t("co.form.hrName")} {...form.register("hrContactName")} />
-                <input className={inputCls()} placeholder={t("co.form.hrEmail")} {...form.register("hrContactEmail")} />
-                <input className={inputCls()} type="number" placeholder={t("co.form.seats")} {...form.register("seats")} />
-                <button className="md:col-span-2 rounded-lg bg-[#e07a5f] py-2.5 text-sm font-semibold hover:bg-[#d96a4f] transition-colors">
+                <input
+                  className={inputCls()}
+                  placeholder={t("co.form.hrName")}
+                  {...form.register("hrContactName")}
+                />
+                <input
+                  className={inputCls()}
+                  placeholder={t("co.form.hrEmail")}
+                  {...form.register("hrContactEmail")}
+                />
+                <input
+                  className={inputCls()}
+                  type="number"
+                  placeholder={t("co.form.seats")}
+                  {...form.register("seats")}
+                />
+                <button
+                  type="submit"
+                  className="md:col-span-2 rounded-lg bg-[#e07a5f] py-2.5 text-sm font-semibold hover:bg-[#d96a4f] transition-colors"
+                >
                   {t("co.form.submit")}
                 </button>
               </form>
-            </Card>
+            </PremiumCard>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <Card>
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="text-left text-[10px] uppercase tracking-widest text-white/30 border-b border-white/[0.06]">
-              <th className="pb-3 font-medium">{t("co.col.company")}</th>
-              <th className="pb-3 font-medium">{t("co.col.tier")}</th>
-              <th className="pb-3 font-medium hidden sm:table-cell">{t("co.col.contract")}</th>
-              <th className="pb-3 font-medium">{t("co.col.seats")}</th>
-              <th className="pb-3 font-medium hidden md:table-cell">{t("co.col.hr")}</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/[0.05]">
-            {state.companies.map((c) => (
-              <tr key={c.id} className="group hover:bg-white/[0.02] transition-colors">
-                <td className="py-3.5 font-medium text-white/90">{c.name}</td>
-                <td className="py-3.5">{tierBadge(c.tier)}</td>
-                <td className="py-3.5 text-white/45 text-xs hidden sm:table-cell">{c.contractStart} → {c.contractEnd}</td>
-                <td className="py-3.5 text-white/70">{seatsUsed(c.id)}<span className="text-white/30">/{c.seats}</span></td>
-                <td className="py-3.5 text-white/45 text-xs hidden md:table-cell">{c.hrContactName}</td>
+      {state.companies.length === 0 ? (
+        <EmptyState
+          message="No companies yet. Create your first company account above."
+          icon={<Building2 className="h-5 w-5 text-white/30" />}
+        />
+      ) : (
+        <Card>
+          <table className="w-full">
+            <thead>
+              <tr className={`text-left border-b border-white/[0.06]`}>
+                {[
+                  t("co.col.company"),
+                  t("co.col.tier"),
+                  t("co.col.contract"),
+                  t("co.col.seats"),
+                  t("co.col.hr"),
+                ].map((col, i) => (
+                  <th
+                    key={col}
+                    className={`pb-3 ${EBW} font-medium ${i >= 2 ? (i === 2 ? "hidden sm:table-cell" : "hidden md:table-cell") : ""}`}
+                  >
+                    {col}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </Card>
+            </thead>
+            <tbody className="divide-y divide-white/[0.04]">
+              {state.companies.map((c) => {
+                const used = seatsUsed(c.id);
+                const pct = c.seats > 0 ? used / c.seats : 0;
+                return (
+                  <tr key={c.id} className="group hover:bg-white/[0.025] transition-colors">
+                    <td className="py-3.5 pr-4">
+                      <div className="flex items-center gap-2.5">
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-teal-400/10 text-[11px] font-bold text-teal-400">
+                          {c.name.charAt(0)}
+                        </div>
+                        <span className="text-[13px] font-semibold text-white/90">{c.name}</span>
+                      </div>
+                    </td>
+                    <td className="py-3.5 pr-4">
+                      <Pill tone={tierPill[c.tier]}>{c.tier}</Pill>
+                    </td>
+                    <td className="py-3.5 pr-4 text-[11px] text-white/40 tabular-nums hidden sm:table-cell">
+                      {c.contractStart} → {c.contractEnd}
+                    </td>
+                    <td className="py-3.5 pr-4 hidden md:table-cell">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[13px] text-white/75 tabular-nums">
+                          {used}
+                          <span className="text-white/28">/{c.seats}</span>
+                        </span>
+                        <div className="w-16 h-1 rounded-full bg-white/[0.07] overflow-hidden">
+                          <div
+                            className="h-full rounded-full bg-teal-400/60 transition-all"
+                            style={{ width: `${Math.min(pct * 100, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-3.5 text-[12px] text-white/40 hidden md:table-cell">
+                      {c.hrContactName}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </Card>
+      )}
     </div>
   );
 }
 
-/* ──── Employees ──── */
+// ─── Employees Tab ────────────────────────────────────────────────────────────
 const empSchema = z.object({
   uid: z.string().min(2),
   name: z.string().min(2),
@@ -182,10 +330,20 @@ function EmployeesTab() {
   const [filter, setFilter] = useState<string>("all");
   const [show, setShow] = useState(false);
   const [edit, setEdit] = useState<string | null>(null);
-  const employees = state.users.filter((u) => u.role === "employee" && (filter === "all" || u.companyId === filter));
+  const employees = state.users.filter(
+    (u) => u.role === "employee" && (filter === "all" || u.companyId === filter),
+  );
   const form = useForm<z.infer<typeof empSchema>>({
     resolver: zodResolver(empSchema),
-    defaultValues: { uid: "", name: "", password: "employee", companyId: state.companies[0]?.id, familySize: 1, stage: "Pre-Arrival", nationality: "" },
+    defaultValues: {
+      uid: "",
+      name: "",
+      password: "employee",
+      companyId: state.companies[0]?.id,
+      familySize: 1,
+      stage: "Pre-Arrival",
+      nationality: "",
+    },
   });
   const selected = state.users.find((u) => u.uid === edit);
 
@@ -193,11 +351,20 @@ function EmployeesTab() {
     <div className="space-y-5">
       <SectionHeader
         title={t("emp.section")}
+        sub={`${employees.length} employee records`}
         action={
           <div className="flex items-center gap-2">
-            <select className={inputCls("max-w-[160px] py-1.5")} value={filter} onChange={(e) => setFilter(e.target.value)}>
+            <select
+              className={inputCls("max-w-[160px] py-1.5 text-[12px]")}
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
               <option value="all">{t("dash.allCompanies")}</option>
-              {state.companies.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+              {state.companies.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
             </select>
             <ActionBtn onClick={() => setShow((s) => !s)}>
               <Plus className="h-3.5 w-3.5" /> {t("emp.new")}
@@ -208,9 +375,15 @@ function EmployeesTab() {
 
       <AnimatePresence>
         {show && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
-            <Card>
-              <p className="text-[11px] uppercase tracking-widest text-white/35 mb-4">{t("emp.form.title")}</p>
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <PremiumCard accent="coral">
+              <p className={`${EBW} mb-4`}>{t("emp.form.title")}</p>
               <form
                 onSubmit={form.handleSubmit((v) => {
                   createCareEmployee({ ...v, disabled: false, languagePref: "en" });
@@ -220,136 +393,241 @@ function EmployeesTab() {
                 })}
                 className="grid gap-3 md:grid-cols-2"
               >
-                <input className={inputCls()} placeholder={t("emp.form.uid")} {...form.register("uid")} />
-                <input className={inputCls()} placeholder={t("emp.form.password")} {...form.register("password")} />
-                <input className={inputCls()} placeholder={t("emp.form.name")} {...form.register("name")} />
-                <input className={inputCls()} placeholder={t("emp.form.nationality")} {...form.register("nationality")} />
+                <input
+                  className={inputCls()}
+                  placeholder={t("emp.form.uid")}
+                  {...form.register("uid")}
+                />
+                <input
+                  className={inputCls()}
+                  placeholder={t("emp.form.password")}
+                  {...form.register("password")}
+                />
+                <input
+                  className={inputCls()}
+                  placeholder={t("emp.form.name")}
+                  {...form.register("name")}
+                />
+                <input
+                  className={inputCls()}
+                  placeholder={t("emp.form.nationality")}
+                  {...form.register("nationality")}
+                />
                 <select className={inputCls()} {...form.register("companyId")}>
-                  {state.companies.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                  {state.companies.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
                 </select>
                 <select className={inputCls()} {...form.register("stage")}>
-                  {STAGES.map((s) => <option key={s}>{s}</option>)}
+                  {STAGES.map((s) => (
+                    <option key={s}>{s}</option>
+                  ))}
                 </select>
-                <input className={inputCls()} type="number" placeholder={t("emp.form.familySize")} {...form.register("familySize")} />
-                <button className="md:col-span-2 rounded-lg bg-[#e07a5f] py-2.5 text-sm font-semibold hover:bg-[#d96a4f] transition-colors">
+                <input
+                  className={inputCls()}
+                  type="number"
+                  placeholder={t("emp.form.familySize")}
+                  {...form.register("familySize")}
+                />
+                <button
+                  type="submit"
+                  className="md:col-span-2 rounded-lg bg-[#e07a5f] py-2.5 text-sm font-semibold hover:bg-[#d96a4f] transition-colors"
+                >
                   {t("emp.form.submit")}
                 </button>
               </form>
-            </Card>
+            </PremiumCard>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="grid gap-5 lg:grid-cols-[1fr_360px]">
-        <Card>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-[10px] uppercase tracking-widest text-white/30 border-b border-white/[0.06]">
-                <th className="pb-3 font-medium">{t("emp.col.name")}</th>
-                <th className="pb-3 font-medium hidden sm:table-cell">{t("emp.col.company")}</th>
-                <th className="pb-3 font-medium">{t("emp.col.stage")}</th>
-                <th className="pb-3 font-medium hidden sm:table-cell">{t("emp.col.housing")}</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/[0.05]">
-              {employees.map((e) => (
-                <tr
-                  key={e.uid}
-                  onClick={() => setEdit(e.uid)}
-                  className={`cursor-pointer transition-colors ${edit === e.uid ? "bg-[#e07a5f]/[0.06]" : "hover:bg-white/[0.02]"}`}
-                >
-                  <td className="py-3.5 font-medium text-white/90">{e.name}</td>
-                  <td className="py-3.5 text-white/50 text-xs hidden sm:table-cell">{getCompanyName(state.companies, e.companyId)}</td>
-                  <td className="py-3.5"><Pill tone="info">{e.stage}</Pill></td>
-                  <td className="py-3.5 text-white/45 text-xs hidden sm:table-cell">{e.housing ? e.housing.district : "—"}</td>
+      <div className="grid gap-5 lg:grid-cols-[1fr_340px]">
+        {/* Employee table */}
+        {employees.length === 0 ? (
+          <EmptyState message={t("emp.empty")} icon={<Users className="h-5 w-5 text-white/30" />} />
+        ) : (
+          <Card>
+            <table className="w-full">
+              <thead>
+                <tr className="text-left border-b border-white/[0.06]">
+                  {[
+                    t("emp.col.name"),
+                    t("emp.col.company"),
+                    t("emp.col.stage"),
+                    t("emp.col.housing"),
+                  ].map((col, i) => (
+                    <th
+                      key={col}
+                      className={`pb-3 ${EBW} font-medium ${i === 1 ? "hidden sm:table-cell" : ""} ${i === 3 ? "hidden sm:table-cell" : ""}`}
+                    >
+                      {col}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </Card>
-
-        <div>
-          {selected ? (
-            <Card>
-              <div className="flex items-center gap-2.5 mb-4">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#e07a5f]/15 text-sm font-bold text-[#e07a5f]">
-                  {selected.name.charAt(0)}
-                </div>
-                <div>
-                  <div className="font-semibold text-white">{selected.name}</div>
-                  <div className="text-xs text-white/40">{getCompanyName(state.companies, selected.companyId)}</div>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-[10px] uppercase tracking-widest text-white/35 mb-1.5">{t("emp.detail.stage")}</label>
-                  <select
-                    className={inputCls()}
-                    value={selected.stage}
-                    onChange={(e) => updateCareEmployee(selected.uid, { stage: e.target.value as SettlementStage })}
+              </thead>
+              <tbody className="divide-y divide-white/[0.04]">
+                {employees.map((e) => (
+                  <tr
+                    key={e.uid}
+                    onClick={() => setEdit(e.uid)}
+                    className={`cursor-pointer transition-colors ${
+                      edit === e.uid ? "bg-[#e07a5f]/[0.07]" : "hover:bg-white/[0.025]"
+                    }`}
                   >
-                    {STAGES.map((s) => <option key={s}>{s}</option>)}
-                  </select>
+                    <td className="py-3.5 pr-3">
+                      <div className="flex items-center gap-2.5">
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e07a5f]/12 text-[11px] font-bold text-[#e07a5f]">
+                          {e.name.charAt(0)}
+                        </div>
+                        <div>
+                          <div className="text-[13px] font-semibold text-white/90">{e.name}</div>
+                          <div className="text-[10px] text-white/35 font-mono">{e.uid}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-3.5 pr-3 hidden sm:table-cell">
+                      <span className="text-[12px] text-white/50">
+                        {getCompanyName(state.companies, e.companyId)}
+                      </span>
+                    </td>
+                    <td className="py-3.5 pr-3">
+                      <Pill tone="info">{e.stage}</Pill>
+                    </td>
+                    <td className="py-3.5 hidden sm:table-cell">
+                      {e.housing ? (
+                        <div className="flex items-center gap-1 text-[12px] text-white/45">
+                          <MapPin className="h-3 w-3 text-white/25" />
+                          {e.housing.district}
+                        </div>
+                      ) : (
+                        <span className="text-[12px] text-white/22">—</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Card>
+        )}
+
+        {/* Employee detail panel */}
+        {selected ? (
+          <PremiumCard accent="coral">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e07a5f]/15 text-[13px] font-bold text-[#e07a5f] ring-1 ring-[#e07a5f]/20">
+                {selected.name.charAt(0)}
+              </div>
+              <div>
+                <div className="font-semibold text-white/92">{selected.name}</div>
+                <div className="text-[11px] text-white/38">
+                  {getCompanyName(state.companies, selected.companyId)}
                 </div>
-                <fieldset className="rounded-xl border border-white/[0.08] p-4 space-y-3">
-                  <legend className="px-1.5 text-[10px] uppercase tracking-widest text-white/35">{t("emp.detail.housing")}</legend>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className={`block ${EBW} mb-1.5`}>{t("emp.detail.stage")}</label>
+                <select
+                  className={inputCls()}
+                  value={selected.stage}
+                  onChange={(e) =>
+                    updateCareEmployee(selected.uid, { stage: e.target.value as SettlementStage })
+                  }
+                >
+                  {STAGES.map((s) => (
+                    <option key={s}>{s}</option>
+                  ))}
+                </select>
+              </div>
+
+              <fieldset className="rounded-xl border border-white/[0.07] p-4 space-y-3">
+                <legend className="px-1.5 text-[10px] uppercase tracking-widest text-white/32 flex items-center gap-1.5">
+                  <Home className="h-3 w-3" /> {t("emp.detail.housing")}
+                </legend>
+                <input
+                  className={inputCls()}
+                  placeholder={t("emp.detail.district")}
+                  defaultValue={selected.housing?.district ?? ""}
+                  onBlur={(e) =>
+                    updateCareEmployee(selected.uid, {
+                      housing: {
+                        ...(selected.housing ?? { district: "", rentUsd: 0 }),
+                        district: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <input
+                  className={inputCls()}
+                  type="number"
+                  placeholder={t("emp.detail.rent")}
+                  defaultValue={selected.housing?.rentUsd ?? 0}
+                  onBlur={(e) =>
+                    updateCareEmployee(selected.uid, {
+                      housing: {
+                        ...(selected.housing ?? { district: "", rentUsd: 0 }),
+                        rentUsd: Number(e.target.value),
+                      },
+                    })
+                  }
+                />
+                <div className="grid grid-cols-2 gap-2">
                   <input
                     className={inputCls()}
-                    placeholder={t("emp.detail.district")}
-                    defaultValue={selected.housing?.district ?? ""}
-                    onBlur={(e) => updateCareEmployee(selected.uid, { housing: { ...(selected.housing ?? { district: "", rentUsd: 0 }), district: e.target.value } })}
+                    type="date"
+                    defaultValue={selected.housing?.leaseStart ?? ""}
+                    onBlur={(e) =>
+                      updateCareEmployee(selected.uid, {
+                        housing: {
+                          ...(selected.housing ?? { district: "", rentUsd: 0 }),
+                          leaseStart: e.target.value,
+                        },
+                      })
+                    }
                   />
                   <input
                     className={inputCls()}
-                    type="number"
-                    placeholder={t("emp.detail.rent")}
-                    defaultValue={selected.housing?.rentUsd ?? 0}
-                    onBlur={(e) => updateCareEmployee(selected.uid, { housing: { ...(selected.housing ?? { district: "", rentUsd: 0 }), rentUsd: Number(e.target.value) } })}
+                    type="date"
+                    defaultValue={selected.housing?.leaseEnd ?? ""}
+                    onBlur={(e) =>
+                      updateCareEmployee(selected.uid, {
+                        housing: {
+                          ...(selected.housing ?? { district: "", rentUsd: 0 }),
+                          leaseEnd: e.target.value,
+                        },
+                      })
+                    }
                   />
-                  <div className="grid grid-cols-2 gap-2">
-                    <input
-                      className={inputCls()}
-                      type="date"
-                      defaultValue={selected.housing?.leaseStart ?? ""}
-                      onBlur={(e) => updateCareEmployee(selected.uid, { housing: { ...(selected.housing ?? { district: "", rentUsd: 0 }), leaseStart: e.target.value } })}
-                    />
-                    <input
-                      className={inputCls()}
-                      type="date"
-                      defaultValue={selected.housing?.leaseEnd ?? ""}
-                      onBlur={(e) => updateCareEmployee(selected.uid, { housing: { ...(selected.housing ?? { district: "", rentUsd: 0 }), leaseEnd: e.target.value } })}
-                    />
-                  </div>
-                </fieldset>
-              </div>
-            </Card>
-          ) : (
-            <Card>
-              <div className="flex flex-col items-center py-8 text-center">
-                <Users className="h-8 w-8 text-white/15 mb-3" />
-                <p className="text-sm text-white/35">{t("emp.empty")}</p>
-              </div>
-            </Card>
-          )}
-        </div>
+                </div>
+              </fieldset>
+            </div>
+          </PremiumCard>
+        ) : (
+          <EmptyState message={t("emp.empty")} icon={<Users className="h-5 w-5 text-white/30" />} />
+        )}
       </div>
     </div>
   );
 }
 
-/* ──── Requests ──── */
+// ─── Requests Tab ─────────────────────────────────────────────────────────────
 function RequestsTab() {
   const { state, assignCareRequest, updateCareRequestStatus, replyToCareRequest } = useCarePortal();
   const { t } = useCareLang();
   const [fCompany, setFCompany] = useState("all");
   const [fCat, setFCat] = useState<"all" | CareCategory>("all");
   const [fStatus, setFStatus] = useState<"all" | CareStatus>("all");
+
   const list = state.requests.filter(
     (r) =>
       (fCompany === "all" || r.companyId === fCompany) &&
       (fCat === "all" || r.category === fCat) &&
       (fStatus === "all" || r.status === fStatus),
   );
+
   const [open, setOpen] = useState<string | null>(list[0]?.id ?? null);
   const [reply, setReply] = useState("");
   const selected = state.requests.find((r) => r.id === open);
@@ -357,116 +635,200 @@ function RequestsTab() {
 
   return (
     <div className="space-y-5">
-      <SectionHeader title={t("req.section")} />
+      <SectionHeader
+        title={t("req.section")}
+        sub={`${list.length} request${list.length !== 1 ? "s" : ""} shown`}
+      />
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-2">
-        <select className={inputCls("max-w-[150px] py-1.5")} value={fCompany} onChange={(e) => setFCompany(e.target.value)}>
+      {/* Filter bar */}
+      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
+        <Filter className="h-3.5 w-3.5 text-white/25 shrink-0" />
+        <select
+          className={inputCls("max-w-[150px] py-1.5 text-[12px]")}
+          value={fCompany}
+          onChange={(e) => setFCompany(e.target.value)}
+        >
           <option value="all">{t("dash.allCompanies")}</option>
-          {state.companies.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+          {state.companies.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.name}
+            </option>
+          ))}
         </select>
-        <select className={inputCls("max-w-[140px] py-1.5")} value={fCat} onChange={(e) => setFCat(e.target.value as CareCategory | "all")}>
+        <select
+          className={inputCls("max-w-[140px] py-1.5 text-[12px]")}
+          value={fCat}
+          onChange={(e) => setFCat(e.target.value as CareCategory | "all")}
+        >
           <option value="all">{t("dash.allCategories")}</option>
-          {CARE_CATEGORIES.map((c) => <option key={c}>{c}</option>)}
+          {CARE_CATEGORIES.map((c) => (
+            <option key={c}>{c}</option>
+          ))}
         </select>
-        <select className={inputCls("max-w-[130px] py-1.5")} value={fStatus} onChange={(e) => setFStatus(e.target.value as CareStatus | "all")}>
+        <select
+          className={inputCls("max-w-[130px] py-1.5 text-[12px]")}
+          value={fStatus}
+          onChange={(e) => setFStatus(e.target.value as CareStatus | "all")}
+        >
           <option value="all">{t("dash.allStatuses")}</option>
-          {CARE_STATUSES.map((s) => <option key={s}>{s}</option>)}
+          {CARE_STATUSES.map((s) => (
+            <option key={s}>{s}</option>
+          ))}
         </select>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[380px_1fr]">
         {/* Request list */}
         <div className="space-y-2">
-          {list.length === 0 && (
-            <Card>
-              <div className="flex flex-col items-center py-8 text-center">
-                <Inbox className="h-8 w-8 text-white/15 mb-3" />
-                <p className="text-sm text-white/35">{t("req.empty.list")}</p>
-              </div>
-            </Card>
+          {list.length === 0 ? (
+            <EmptyState
+              message={t("req.empty.list")}
+              icon={<Inbox className="h-5 w-5 text-white/30" />}
+            />
+          ) : (
+            list.map((r) => (
+              <button
+                key={r.id}
+                type="button"
+                onClick={() => setOpen(r.id)}
+                className={`block w-full rounded-xl border p-4 text-left transition-all duration-150 ${
+                  open === r.id
+                    ? "border-[#e07a5f]/35 bg-[#e07a5f]/[0.07]"
+                    : "border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04]"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="text-[10px] text-white/28 font-mono">{r.id}</span>
+                  <Pill tone={statusTone(r.status)}>{r.status}</Pill>
+                </div>
+                <div className="text-[13px] font-semibold text-white/90 leading-snug">
+                  {r.subject}
+                </div>
+                <div className="mt-1.5 flex items-center justify-between">
+                  <span className="text-[11px] text-white/38">{r.category}</span>
+                  <span className="text-[11px] text-white/30">
+                    {getCompanyName(state.companies, r.companyId) || "Guest"}
+                  </span>
+                </div>
+              </button>
+            ))
           )}
-          {list.map((r) => (
-            <button
-              key={r.id}
-              onClick={() => setOpen(r.id)}
-              className={`block w-full rounded-xl border p-4 text-left transition-all duration-150 ${
-                open === r.id
-                  ? "border-[#e07a5f]/40 bg-[#e07a5f]/[0.07]"
-                  : "border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04]"
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[10px] text-white/30 font-mono">{r.id}</span>
-                <Pill tone={statusTone(r.status)}>{r.status}</Pill>
-              </div>
-              <div className="text-sm font-medium text-white/90">{r.subject}</div>
-              <div className="mt-1 text-[11px] text-white/40">{r.category} · {getCompanyName(state.companies, r.companyId) || "Guest"}</div>
-            </button>
-          ))}
         </div>
 
         {/* Detail panel */}
         <div>
           {selected ? (
             <Card>
-              <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+              {/* Header */}
+              <div className="flex flex-wrap items-start justify-between gap-3 mb-4 pb-4 border-b border-white/[0.06]">
                 <div>
-                  <p className="text-[10px] uppercase tracking-widest text-white/30 mb-1">{selected.category} · {selected.id}</p>
-                  <h2 className="text-lg font-semibold text-white">{selected.subject}</h2>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className={`${EBW}`}>{selected.category}</span>
+                    <span className="text-white/18">·</span>
+                    <span className="font-mono text-[10px] text-white/25">{selected.id}</span>
+                  </div>
+                  <h2 className="text-[16px] font-semibold text-white/92 leading-snug">
+                    {selected.subject}
+                  </h2>
+                  <p className="text-[11px] text-white/35 mt-0.5">
+                    {getCompanyName(state.companies, selected.companyId) || "Guest"}
+                  </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <select
-                    className={inputCls("max-w-[150px] py-1.5")}
+                    className={inputCls("max-w-[150px] py-1.5 text-[12px]")}
                     value={selected.status}
-                    onChange={(e) => updateCareRequestStatus(selected.id, e.target.value as CareStatus)}
+                    onChange={(e) =>
+                      updateCareRequestStatus(selected.id, e.target.value as CareStatus)
+                    }
                   >
-                    {CARE_STATUSES.map((s) => <option key={s}>{s}</option>)}
+                    {CARE_STATUSES.map((s) => (
+                      <option key={s}>{s}</option>
+                    ))}
                   </select>
                   <select
-                    className={inputCls("max-w-[170px] py-1.5")}
+                    className={inputCls("max-w-[170px] py-1.5 text-[12px]")}
                     value={selected.assignedStaffUid ?? ""}
                     onChange={(e) => assignCareRequest(selected.id, e.target.value)}
                   >
                     <option value="">{t("dash.assign")}</option>
-                    {staff.map((s) => <option key={s.uid} value={s.uid}>{s.name}</option>)}
+                    {staff.map((s) => (
+                      <option key={s.uid} value={s.uid}>
+                        {s.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
-              <p className="text-sm text-white/60 leading-relaxed">{selected.details}</p>
-              <div className="mt-5 space-y-2.5 border-t border-white/[0.06] pt-4">
-                {selected.thread.map((m) => (
-                  <div
-                    key={m.id}
-                    className={`rounded-xl px-4 py-3 text-sm ${m.authorRole === "staff" || m.authorRole === "admin" ? "bg-[#e07a5f]/10 border border-[#e07a5f]/15" : "bg-white/[0.04] border border-white/[0.06]"}`}
-                  >
-                    <div className="text-[10px] text-white/35 mb-1">{m.authorName} · {new Date(m.at).toLocaleString()}</div>
-                    <div className="text-white/80">{m.body}</div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 flex gap-2">
+
+              {/* Body */}
+              <p className="text-[13px] text-white/62 leading-relaxed mb-5">{selected.details}</p>
+
+              {/* Thread */}
+              {selected.thread.length > 0 && (
+                <div className="space-y-2.5 mb-5 border-t border-white/[0.06] pt-4">
+                  {selected.thread.map((m) => {
+                    const isStaff = m.authorRole === "staff" || m.authorRole === "admin";
+                    return (
+                      <div
+                        key={m.id}
+                        className={`rounded-xl px-4 py-3 ${
+                          isStaff
+                            ? "bg-[#e07a5f]/[0.07] border border-[#e07a5f]/15"
+                            : "bg-white/[0.03] border border-white/[0.05]"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1.5">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[11px] font-semibold text-white/75">
+                              {m.authorName}
+                            </span>
+                            {isStaff && <Pill tone="coral">{m.authorRole}</Pill>}
+                          </div>
+                          <span className="text-[10px] text-white/28 tabular-nums">
+                            {new Date(m.at).toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="text-[13px] text-white/78 leading-relaxed">{m.body}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Reply bar */}
+              <div className="flex gap-2 border-t border-white/[0.06] pt-4">
                 <input
                   value={reply}
                   onChange={(e) => setReply(e.target.value)}
                   placeholder={t("dash.reply")}
                   className={inputCls("flex-1")}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey && reply.trim()) {
+                      replyToCareRequest(selected.id, reply.trim());
+                      setReply("");
+                    }
+                  }}
                 />
                 <button
-                  onClick={() => { if (reply.trim()) { replyToCareRequest(selected.id, reply.trim()); setReply(""); } }}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#e07a5f] px-3.5 py-2 text-sm font-semibold hover:bg-[#d96a4f] transition-colors"
+                  type="button"
+                  onClick={() => {
+                    if (reply.trim()) {
+                      replyToCareRequest(selected.id, reply.trim());
+                      setReply("");
+                    }
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#e07a5f] px-3.5 py-2 text-[13px] font-semibold hover:bg-[#d96a4f] transition-colors shrink-0"
                 >
                   <Send className="h-3.5 w-3.5" /> {t("dash.send")}
                 </button>
               </div>
             </Card>
           ) : (
-            <Card>
-              <div className="flex flex-col items-center py-12 text-center">
-                <Inbox className="h-9 w-9 text-white/12 mb-3" />
-                <p className="text-sm text-white/30">{t("req.empty.detail")}</p>
-              </div>
-            </Card>
+            <EmptyState
+              message={t("req.empty.detail")}
+              icon={<Inbox className="h-5 w-5 text-white/30" />}
+            />
           )}
         </div>
       </div>
@@ -474,7 +836,7 @@ function RequestsTab() {
   );
 }
 
-/* ──── Reports ──── */
+// ─── Reports Tab ──────────────────────────────────────────────────────────────
 const repSchema = z.object({
   companyId: z.string().min(1),
   kind: z.enum(["Monthly", "Annual"]),
@@ -488,13 +850,19 @@ function ReportsTab() {
   const [show, setShow] = useState(false);
   const form = useForm<z.infer<typeof repSchema>>({
     resolver: zodResolver(repSchema),
-    defaultValues: { companyId: state.companies[0]?.id, kind: "Monthly", periodLabel: "", summary: "" },
+    defaultValues: {
+      companyId: state.companies[0]?.id,
+      kind: "Monthly",
+      periodLabel: "",
+      summary: "",
+    },
   });
 
   return (
     <div className="space-y-5">
       <SectionHeader
         title={t("rep.section")}
+        sub={`${state.reports.length} report${state.reports.length !== 1 ? "s" : ""} generated`}
         action={
           <ActionBtn onClick={() => setShow((s) => !s)}>
             <Plus className="h-3.5 w-3.5" /> {t("rep.new")}
@@ -504,9 +872,15 @@ function ReportsTab() {
 
       <AnimatePresence>
         {show && (
-          <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.2 }} className="overflow-hidden">
-            <Card>
-              <p className="text-[11px] uppercase tracking-widest text-white/35 mb-4">{t("rep.form.title")}</p>
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            <PremiumCard accent="teal">
+              <p className={`${EBW} mb-4`}>{t("rep.form.title")}</p>
               <form
                 onSubmit={form.handleSubmit((v) => {
                   generateCareReport(v.companyId, v.kind, v.periodLabel, v.summary);
@@ -517,42 +891,69 @@ function ReportsTab() {
                 className="grid gap-3 md:grid-cols-2"
               >
                 <select className={inputCls()} {...form.register("companyId")}>
-                  {state.companies.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                  {state.companies.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
                 </select>
                 <select className={inputCls()} {...form.register("kind")}>
                   <option>Monthly</option>
                   <option>Annual</option>
                 </select>
-                <input className={inputCls("md:col-span-2")} placeholder={t("rep.form.period")} {...form.register("periodLabel")} />
-                <textarea rows={3} className={inputCls("md:col-span-2")} placeholder={t("rep.form.summary")} {...form.register("summary")} />
-                <button className="md:col-span-2 rounded-lg bg-[#e07a5f] py-2.5 text-sm font-semibold hover:bg-[#d96a4f] transition-colors">
+                <input
+                  className={inputCls("md:col-span-2")}
+                  placeholder={t("rep.form.period")}
+                  {...form.register("periodLabel")}
+                />
+                <textarea
+                  rows={3}
+                  className={inputCls("md:col-span-2")}
+                  placeholder={t("rep.form.summary")}
+                  {...form.register("summary")}
+                />
+                <button
+                  type="submit"
+                  className="md:col-span-2 rounded-lg bg-[#e07a5f] py-2.5 text-sm font-semibold hover:bg-[#d96a4f] transition-colors"
+                >
                   {t("rep.form.submit")}
                 </button>
               </form>
-            </Card>
+            </PremiumCard>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="grid gap-4 md:grid-cols-2">
-        {state.reports.map((r) => (
-          <Card key={r.id}>
-            <div className="flex items-start justify-between mb-2">
-              <div>
-                <p className="text-[10px] font-mono text-white/25">{r.id}</p>
-                <h3 className="mt-1 font-semibold text-white">{getCompanyName(state.companies, r.companyId)}</h3>
-                <p className="text-xs text-white/40 mt-0.5">{r.periodLabel}</p>
+      {state.reports.length === 0 ? (
+        <EmptyState
+          message="No reports yet. Generate your first report above."
+          icon={<FileBarChart className="h-5 w-5 text-white/30" />}
+        />
+      ) : (
+        <div className="grid gap-4 md:grid-cols-2">
+          {state.reports.map((r) => (
+            <PremiumCard key={r.id} accent={r.kind === "Annual" ? "teal" : undefined}>
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <p className="font-mono text-[10px] text-white/22">{r.id}</p>
+                  <h3 className="mt-1 text-[14px] font-semibold text-white/92">
+                    {getCompanyName(state.companies, r.companyId)}
+                  </h3>
+                  <p className="text-[12px] text-white/38 mt-0.5">{r.periodLabel}</p>
+                </div>
+                <Pill tone={r.kind === "Annual" ? "ok" : "info"}>{r.kind}</Pill>
               </div>
-              <Pill tone={r.kind === "Annual" ? "ok" : "info"}>{r.kind}</Pill>
-            </div>
-            <p className="text-sm text-white/60 leading-relaxed mt-3 border-t border-white/[0.06] pt-3">{r.summary}</p>
-            <div className="mt-3 flex items-center gap-1.5 text-[10px] text-white/25">
-              <CheckCircle2 className="h-3 w-3 text-emerald-500/60" />
-              {t("dash.generated")} {new Date(r.generatedAt).toLocaleDateString()}
-            </div>
-          </Card>
-        ))}
-      </div>
+              <p className="text-[13px] text-white/60 leading-relaxed border-t border-white/[0.06] pt-3">
+                {r.summary}
+              </p>
+              <div className="mt-3 flex items-center gap-1.5 text-[10px] text-white/28">
+                <CheckCircle2 className="h-3 w-3 text-emerald-500/60" />
+                {t("dash.generated")} {new Date(r.generatedAt).toLocaleDateString()}
+              </div>
+            </PremiumCard>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

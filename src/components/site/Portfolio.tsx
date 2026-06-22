@@ -58,8 +58,8 @@ export function Portfolio() {
           ))}
         </div>
 
-        <div className="mt-20 grid lg:grid-cols-[1fr_280px] gap-8 items-start">
-          <Reveal>
+        <div className="mt-20 grid lg:grid-cols-[1fr_280px] gap-8 items-start min-w-0">
+          <Reveal className="min-w-0">
             <div className="border border-border rounded-2xl overflow-hidden bg-card">
               <div className="p-6 border-b border-border">
                 <p className="label-eyebrow text-[var(--emerald-brand)]">{tx.comparativeLabel}</p>

@@ -10,16 +10,42 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Home, LogOut, Send, Sparkles, TrendingUp } from "lucide-react";
+import {
+  CheckCircle2,
+  FileText,
+  Home,
+  LogOut,
+  MessageSquare,
+  Send,
+  Sparkles,
+  TrendingUp,
+  AlertTriangle,
+  DollarSign,
+} from "lucide-react";
 
-import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import { Toaster } from "@/components/ui/sonner";
 
 import { WithLogo } from "@/components/portal/WithLogo";
 import { VipBadge } from "@/components/portal/VipBadge";
 import { PortalLangSwitcher } from "@/components/portal/PortalLangSwitcher";
+import {
+  WP_BG,
+  WP_CARD,
+  WP_BORDER,
+  WP_EYEBROW,
+  WP_MUTED,
+  WP_ACCENT,
+  PortalKpiCard,
+  PortalCard,
+  PortalSectionHeader,
+  PortalStatusBadge,
+  PortalEmptyState,
+  PortalActionButton,
+  PortalDarkInput,
+  PortalDarkTextarea,
+  PortalReplyBlock,
+} from "@/components/portal/PortalShell";
 import { usePortal, type InvestorProfile } from "@/lib/portal/store";
 import { pt } from "@/lib/portal/portalTranslations";
 import { useLang } from "@/components/site/LangContext";
@@ -28,26 +54,19 @@ export const Route = createFileRoute("/portal/investor")({
   component: InvestorDashboard,
 });
 
-// Design tokens (same as admin)
-const BG     = "bg-[#0a0a0a]";
-const SURFACE= "bg-[#141414]";
-const CARD   = "bg-[#1a1a1a]";
-const BORDER = "border-white/[0.08]";
-const EYEBROW= "text-[10px] tracking-[0.2em] uppercase font-medium text-white/50";
-const MUTED  = "text-white/55";
-
 function fmtMoney(n: number) {
   return `$${n.toLocaleString()}`;
 }
 
 function greeting(lang: string) {
   const h = new Date().getHours();
-  const T = pt(lang as any).investor;
+  const T = pt(lang as Parameters<typeof pt>[0]).investor;
   if (h < 12) return T.greetingMorning;
   if (h < 18) return T.greetingAfternoon;
   return T.greetingEvening;
 }
 
+// ─── Investor Dashboard ───────────────────────────────────────────────────────
 function InvestorDashboard() {
   const { state, logout, submitInquiry } = usePortal();
   const { lang } = useLang();
@@ -57,7 +76,7 @@ function InvestorDashboard() {
   const investor = user && user.role === "investor" ? (user as InvestorProfile) : null;
 
   const inquiries = useMemo(
-    () => investor ? state.inquiries.filter((q) => q.investorId === investor.uid) : [],
+    () => (investor ? state.inquiries.filter((q) => q.investorId === investor.uid) : []),
     [state.inquiries, investor],
   );
 
@@ -68,6 +87,7 @@ function InvestorDashboard() {
   if (!investor) return null;
 
   const roi = ((investor.currentValue - investor.purchasePrice) / investor.purchasePrice) * 100;
+  const gain = investor.currentValue - investor.purchasePrice;
 
   function handleLogout() {
     logout();
@@ -75,23 +95,28 @@ function InvestorDashboard() {
   }
 
   return (
-    <div className={`min-h-screen ${BG}`}>
+    <div className={`min-h-screen ${WP_BG}`}>
       {/* Topbar */}
-      <header className={`border-b ${BORDER} ${SURFACE} sticky top-0 z-40`}>
-        <div className="mx-auto max-w-7xl px-6 h-[64px] flex items-center justify-between">
-          <WithLogo variant="dark" size={28} animate />
+      <header
+        className="sticky top-0 z-40 border-b border-white/[0.07]"
+        style={{ background: "rgba(8,8,8,0.90)", backdropFilter: "blur(12px)" }}
+      >
+        {/* Accent line */}
+        <div className="h-[2px] w-full" style={{ background: `linear-gradient(90deg, ${WP_ACCENT}, transparent 60%)` }} />
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 h-[60px] flex items-center justify-between gap-4">
+          <WithLogo variant="dark" size={26} animate />
           <div className="flex items-center gap-2">
             <PortalLangSwitcher compact />
             <Link
               to="/with-property"
-              className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-[11px] tracking-[0.1em] uppercase font-medium ${MUTED} hover:text-white/80 border border-white/[0.08] rounded hover:border-white/15 transition-all`}
+              className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-[11px] tracking-[0.1em] uppercase font-medium ${WP_MUTED} hover:text-white/80 border border-white/[0.08] rounded-lg hover:border-white/15 transition-all`}
             >
               <Home className="h-3.5 w-3.5" />
               {T.nav.mainSite}
             </Link>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] tracking-[0.1em] uppercase font-medium text-[#d9534f]/75 hover:text-[#d9534f] border border-[#d9534f]/20 hover:border-[#d9534f]/40 rounded hover:bg-[#d9534f]/[0.07] transition-all"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] tracking-[0.1em] uppercase font-medium text-[#d9534f]/75 hover:text-[#d9534f] border border-[#d9534f]/20 hover:border-[#d9534f]/40 rounded-lg hover:bg-[#d9534f]/[0.07] transition-all"
             >
               <LogOut className="h-3.5 w-3.5" />
               {T.nav.logout}
@@ -100,59 +125,79 @@ function InvestorDashboard() {
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-6 py-8 sm:px-10">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 py-8">
         {/* Greeting */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="mb-8"
         >
-          <p className={`${EYEBROW} text-[#14a76c] mb-1`}>{greeting(lang)}</p>
-          <div className="flex flex-wrap items-center gap-3 mt-1">
-            <h1 className="font-display text-[22px] font-semibold text-white tracking-[-0.01em]">{investor.name}</h1>
+          <p className={`${WP_EYEBROW} text-[${WP_ACCENT}] mb-2`} style={{ color: WP_ACCENT }}>
+            {greeting(lang)}
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="font-display text-[24px] sm:text-[28px] font-semibold text-white tracking-[-0.02em] leading-tight">
+              {investor.name}
+            </h1>
             <VipBadge grade={investor.vipGrade} />
           </div>
-          <p className={`text-[12px] ${MUTED} mt-1`}>{investor.unit}</p>
-          <p className={`text-[11px] text-white/35 mt-0.5`}>
-            {T.investor.lastLogin}: <span className="font-mono">{investor.lastLogin}</span>
+          <p className={`text-[13px] ${WP_MUTED} mt-1`}>{investor.unit}</p>
+          <p className="text-[11px] text-white/30 mt-0.5">
+            {T.investor.lastLogin}:{" "}
+            <span className="font-mono text-white/45">{investor.lastLogin}</span>
           </p>
         </motion.div>
 
         {/* KPI row */}
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 mb-8">
-          <KpiCard label={T.investor.metrics.purchasePrice} value={fmtMoney(investor.purchasePrice)} sub="acquisition cost" />
-          <KpiCard
+          <PortalKpiCard
+            label={T.investor.metrics.purchasePrice}
+            value={fmtMoney(investor.purchasePrice)}
+            sub="acquisition cost"
+            icon={<DollarSign className="h-4 w-4 text-white/30" />}
+          />
+          <PortalKpiCard
             label={T.investor.metrics.currentValue}
             value={fmtMoney(investor.currentValue)}
             sub={
               <span className="inline-flex items-center gap-1 text-[#14a76c]">
                 <TrendingUp className="h-3 w-3" />
-                {roi >= 0 ? "+" : ""}{roi.toFixed(1)}% gain
+                {gain >= 0 ? "+" : ""}{fmtMoney(Math.abs(gain))} gain
               </span>
             }
+            icon={<TrendingUp className="h-4 w-4 text-[#14a76c]" />}
+            accent
           />
-          <KpiCard
+          <PortalKpiCard
             label={T.investor.metrics.roi}
             value={`${roi >= 0 ? "+" : ""}${roi.toFixed(1)}%`}
             sub="total return"
+            icon={
+              roi >= 0
+                ? <Sparkles className="h-4 w-4 text-[#14a76c]" />
+                : <AlertTriangle className="h-4 w-4 text-[#d9534f]" />
+            }
             valueColor={roi >= 0 ? "text-[#14a76c]" : "text-[#d9534f]"}
           />
-          <div className={`${CARD} border ${BORDER} rounded-lg px-5 py-4`}>
-            <p className={`${EYEBROW} mb-3`}>{T.investor.metrics.rentStatus}</p>
+          {/* Rent status card */}
+          <div className={`rounded-xl border ${WP_CARD} ${investor.rentStatus === "Cleared" ? "border-[#14a76c]/20" : "border-[#d9534f]/25"} px-5 py-4`}>
+            <p className={`${WP_EYEBROW} mb-3`}>{T.investor.metrics.rentStatus}</p>
             {investor.rentStatus === "Cleared" ? (
               <>
-                <span className="inline-flex px-2.5 py-0.5 text-[11px] tracking-wide rounded bg-[#14a76c]/12 text-[#14a76c] font-medium">
-                  {T.investor.rentStatusCleared}
-                </span>
-                <p className={`text-[11px] ${MUTED} mt-2`}>no action required</p>
+                <div className="flex items-center gap-2 mb-2">
+                  <CheckCircle2 className="h-4 w-4 text-[#14a76c]" />
+                  <PortalStatusBadge tone="green">{T.investor.rentStatusCleared}</PortalStatusBadge>
+                </div>
+                <p className={`text-[11px] ${WP_MUTED}`}>no action required</p>
               </>
             ) : (
               <>
-                <span className="inline-flex px-2.5 py-0.5 text-[11px] tracking-wide rounded bg-[#d9534f]/12 text-[#d9534f] font-medium">
-                  {T.investor.rentStatusPending} ⚠
-                </span>
-                <p className={`text-[11px] ${MUTED} mt-2`}>contact management</p>
+                <div className="flex items-center gap-2 mb-2">
+                  <AlertTriangle className="h-4 w-4 text-[#d9534f]" />
+                  <PortalStatusBadge tone="red">{T.investor.rentStatusPending}</PortalStatusBadge>
+                </div>
+                <p className={`text-[11px] ${WP_MUTED}`}>contact management</p>
               </>
             )}
           </div>
@@ -160,26 +205,34 @@ function InvestorDashboard() {
 
         {/* Tabs */}
         <Tabs defaultValue="asset">
-          <TabsList className={`${SURFACE} border ${BORDER} h-9 p-0.5 mb-6`}>
+          <TabsList className="bg-[#111111] border border-white/[0.07] h-10 p-1 rounded-xl mb-6 gap-0.5">
             {[
-              ["asset", T.investor.tabs.asset],
-              ["reports", T.investor.tabs.reports],
-              ["inquiries", T.investor.tabs.inquiries],
-            ].map(([val, label]) => (
-              <TabsTrigger key={val} value={val}
-                className="text-[12px] data-[state=active]:bg-[#1a1a1a] data-[state=active]:text-white text-white/50 px-4">
+              ["asset",     T.investor.tabs.asset,     FileText],
+              ["reports",   T.investor.tabs.reports,   Sparkles],
+              ["inquiries", T.investor.tabs.inquiries, MessageSquare],
+            ].map(([val, label, Icon]: [string, string, React.ComponentType<{className?: string}>]) => (
+              <TabsTrigger
+                key={val}
+                value={val}
+                className="flex items-center gap-1.5 text-[12px] font-medium data-[state=active]:bg-[#1a1a1a] data-[state=active]:text-white text-white/45 hover:text-white/70 px-4 rounded-lg transition-all"
+              >
+                <Icon className="h-3.5 w-3.5" />
                 {label}
               </TabsTrigger>
             ))}
           </TabsList>
 
           {/* Asset tab */}
-          <TabsContent value="asset" className="space-y-4">
+          <TabsContent value="asset" className="space-y-4 mt-0">
             {/* AI insight */}
-            <div className={`${CARD} border border-[#14a76c]/20 rounded-lg p-4 flex gap-3`}>
-              <Sparkles className="h-4 w-4 text-[#14a76c] shrink-0 mt-0.5" />
-              <div>
-                <p className="text-[13px] text-white/90">
+            <div className={`relative overflow-hidden rounded-xl border border-[#14a76c]/20 ${WP_CARD} p-4 flex gap-3`}>
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.04]"
+                style={{ background: "radial-gradient(ellipse 80% 100% at 0% 50%, #14a76c, transparent)" }}
+              />
+              <Sparkles className="h-4 w-4 text-[#14a76c] shrink-0 mt-0.5 relative" />
+              <div className="relative">
+                <p className="text-[13px] text-white/90 leading-relaxed">
                   <span className="font-semibold text-white">{T.investor.aiInsight}:</span>{" "}
                   {T.investor.aiInsightBody}
                 </p>
@@ -187,49 +240,95 @@ function InvestorDashboard() {
             </div>
 
             {/* Chart */}
-            <div className={`${CARD} border ${BORDER} rounded-lg p-5`}>
-              <p className="text-[14px] font-semibold text-white/90 mb-5">{T.investor.chartTitle}</p>
-              <div className="h-64">
+            <PortalCard>
+              <PortalSectionHeader
+                title={T.investor.chartTitle}
+                sub="monthly rental income"
+              />
+              <div className="h-64 mt-2">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={investor.monthlyRentalIncome} barCategoryGap="35%">
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.06)" />
-                    <XAxis dataKey="month" tick={{ fontSize: 11, fill: "rgba(255,255,255,0.4)" }} axisLine={false} tickLine={false} />
-                    <YAxis tick={{ fontSize: 11, fill: "rgba(255,255,255,0.4)" }} axisLine={false} tickLine={false} />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      vertical={false}
+                      stroke="rgba(255,255,255,0.05)"
+                    />
+                    <XAxis
+                      dataKey="month"
+                      tick={{ fontSize: 11, fill: "rgba(255,255,255,0.35)" }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      tick={{ fontSize: 11, fill: "rgba(255,255,255,0.35)" }}
+                      axisLine={false}
+                      tickLine={false}
+                      tickFormatter={(v) => `$${v.toLocaleString()}`}
+                    />
                     <Tooltip
                       contentStyle={{
-                        background: "#1e1e1e", border: "1px solid rgba(255,255,255,0.1)",
-                        borderRadius: 6, fontSize: 12, color: "rgba(255,255,255,0.85)",
+                        background: "#1a1a1a",
+                        border: "1px solid rgba(255,255,255,0.08)",
+                        borderRadius: 10,
+                        fontSize: 12,
+                        color: "rgba(255,255,255,0.85)",
+                        boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
                       }}
-                      cursor={{ fill: "rgba(255,255,255,0.03)" }}
+                      cursor={{ fill: "rgba(255,255,255,0.025)" }}
+                      formatter={(v: number) => [`$${v.toLocaleString()}`, "Income"]}
                     />
-                    <Bar dataKey="income" fill="#14a76c" radius={[4, 4, 0, 0]} />
+                    <Bar
+                      dataKey="income"
+                      fill="#14a76c"
+                      radius={[5, 5, 0, 0]}
+                    />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
+            </PortalCard>
+
+            {/* Asset summary row */}
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                ["Unit", investor.unit],
+                ["Nationality", investor.nationality],
+                ["VIP Tier", investor.vipGrade],
+              ].map(([k, v]) => (
+                <div key={k} className={`rounded-xl border ${WP_BORDER} ${WP_CARD} px-4 py-3`}>
+                  <p className={`${WP_EYEBROW} mb-1.5`}>{k}</p>
+                  <p className="text-[13px] font-semibold text-white/85">{v}</p>
+                </div>
+              ))}
             </div>
           </TabsContent>
 
           {/* Reports tab */}
-          <TabsContent value="reports" className="space-y-3">
+          <TabsContent value="reports" className="space-y-3 mt-0">
             {investor.reports.length === 0 ? (
-              <div className={`${CARD} border ${BORDER} border-dashed rounded-lg p-10 text-center`}>
-                <p className={`text-sm ${MUTED}`}>{T.investor.noReports}</p>
-              </div>
+              <PortalEmptyState
+                message={T.investor.noReports}
+                icon={<FileText className="h-5 w-5 text-white/30" />}
+              />
             ) : (
               investor.reports.map((r) => (
-                <div key={r.id} className={`${CARD} border ${BORDER} rounded-lg p-5`}>
-                  <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
-                    <p className="text-[14px] font-semibold text-white/90">{r.title}</p>
-                    <span className={`text-[11px] ${MUTED}`}>{r.timestamp}</span>
+                <PortalCard key={r.id}>
+                  <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#14a76c]/10">
+                        <FileText className="h-3.5 w-3.5 text-[#14a76c]" />
+                      </div>
+                      <p className="text-[14px] font-semibold text-white/92 leading-snug">{r.title}</p>
+                    </div>
+                    <span className={`text-[11px] ${WP_MUTED} tabular-nums shrink-0`}>{r.timestamp}</span>
                   </div>
-                  <p className="text-[13px] text-white/70">{r.content}</p>
-                </div>
+                  <p className="text-[13px] text-white/68 leading-relaxed pl-[2.625rem]">{r.content}</p>
+                </PortalCard>
               ))
             )}
           </TabsContent>
 
           {/* Inquiries tab */}
-          <TabsContent value="inquiries" className="space-y-4">
+          <TabsContent value="inquiries" className="space-y-5 mt-0">
             <NewInquiryForm
               T={T.investor}
               onSubmit={(title, body) => submitInquiry(investor.uid, title, body)}
@@ -237,34 +336,39 @@ function InvestorDashboard() {
 
             <div className="space-y-3">
               {inquiries.length === 0 ? (
-                <div className={`${CARD} border ${BORDER} border-dashed rounded-lg p-8 text-center`}>
-                  <p className={`text-sm ${MUTED}`}>{T.investor.noInquiries}</p>
-                </div>
+                <PortalEmptyState
+                  message={T.investor.noInquiries}
+                  icon={<MessageSquare className="h-5 w-5 text-white/30" />}
+                />
               ) : (
-                inquiries.slice().reverse().map((q) => (
-                  <div key={q.id} className={`${CARD} border ${BORDER} rounded-lg p-5`}>
-                    <div className="flex flex-wrap items-start justify-between gap-3 mb-2">
-                      <div>
-                        <p className="text-[14px] font-semibold text-white/90">{q.title}</p>
-                        <p className={`text-[11px] ${MUTED} mt-0.5`}>{q.createdAt}</p>
+                inquiries
+                  .slice()
+                  .reverse()
+                  .map((q) => (
+                    <PortalCard key={q.id}>
+                      <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                        <div>
+                          <p className="text-[14px] font-semibold text-white/92 leading-snug">
+                            {q.title}
+                          </p>
+                          <p className={`text-[11px] ${WP_MUTED} mt-0.5`}>{q.createdAt}</p>
+                        </div>
+                        <PortalStatusBadge tone={q.status === "Answered" ? "green" : "red"}>
+                          {q.status === "Answered"
+                            ? T.investor.statusAnswered
+                            : T.investor.statusPending}
+                        </PortalStatusBadge>
                       </div>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 text-[10px] tracking-[0.12em] uppercase rounded border font-medium ${
-                        q.status === "Answered"
-                          ? "border-[#14a76c]/35 text-[#14a76c]"
-                          : "border-[#d9534f]/35 text-[#d9534f]"
-                      }`}>
-                        {q.status === "Answered" ? T.investor.statusAnswered : T.investor.statusPending}
-                      </span>
-                    </div>
-                    <p className="text-[13px] text-white/75 mb-3">{q.body}</p>
-                    {q.reply && (
-                      <div className="rounded bg-white/[0.05] border border-white/[0.07] px-4 py-3">
-                        <p className={`${EYEBROW} mb-1`}>{T.investor.adminReply} · {q.repliedAt}</p>
-                        <p className="text-[13px] text-white/80">{q.reply}</p>
-                      </div>
-                    )}
-                  </div>
-                ))
+                      <p className="text-[13px] text-white/72 leading-relaxed mb-3">{q.body}</p>
+                      {q.reply && (
+                        <PortalReplyBlock
+                          eyebrowLabel={T.investor.adminReply}
+                          timestamp={q.repliedAt}
+                          body={q.reply}
+                        />
+                      )}
+                    </PortalCard>
+                  ))
               )}
             </div>
           </TabsContent>
@@ -275,18 +379,7 @@ function InvestorDashboard() {
   );
 }
 
-function KpiCard({ label, value, sub, valueColor = "text-white" }: {
-  label: string; value: string; sub: React.ReactNode; valueColor?: string;
-}) {
-  return (
-    <div className={`${CARD} border ${BORDER} rounded-lg px-5 py-4`}>
-      <p className={`${EYEBROW} mb-3`}>{label}</p>
-      <p className={`font-display text-[26px] font-semibold tracking-tight mb-1 ${valueColor}`}>{value}</p>
-      <div className={`text-[11px] ${MUTED}`}>{sub}</div>
-    </div>
-  );
-}
-
+// ─── New Inquiry Form ─────────────────────────────────────────────────────────
 function NewInquiryForm({
   T,
   onSubmit,
@@ -301,33 +394,36 @@ function NewInquiryForm({
     e.preventDefault();
     if (!title.trim() || !body.trim()) return;
     onSubmit(title.trim(), body.trim());
-    setTitle(""); setBody("");
+    setTitle("");
+    setBody("");
   }
 
   return (
-    <div className={`${CARD} border ${BORDER} rounded-lg p-5`}>
-      <p className="text-[14px] font-semibold text-white/90 mb-4">{T.newInquiry}</p>
-      <form onSubmit={handle} className="space-y-3">
-        <div className="space-y-1.5">
-          <label className="block text-[10px] tracking-[0.2em] uppercase font-medium text-white/50">
-            {T.inquiryTitle}
-          </label>
-          <Input id="t" value={title} onChange={(e) => setTitle(e.target.value)}
-            className="bg-[#222] border-white/12 text-white/90 placeholder:text-white/25 focus:border-[#14a76c]/60 focus:ring-0 h-9" />
-        </div>
-        <div className="space-y-1.5">
-          <label className="block text-[10px] tracking-[0.2em] uppercase font-medium text-white/50">
-            {T.inquiryMessage}
-          </label>
-          <Textarea id="b" rows={4} value={body} onChange={(e) => setBody(e.target.value)}
-            className="bg-[#222] border-white/12 text-white/90 placeholder:text-white/25 focus:border-[#14a76c]/60 focus:ring-0 resize-none" />
-        </div>
-        <button type="submit"
-          className="inline-flex items-center gap-2 px-5 py-2 text-[11px] tracking-[0.12em] uppercase font-semibold bg-[#14a76c] text-white rounded hover:bg-[#0f8a59] transition-colors">
+    <PortalCard>
+      <PortalSectionHeader
+        title={T.newInquiry}
+        sub="We'll respond within 1–2 business days"
+      />
+      <form onSubmit={handle} className="mt-4 space-y-3">
+        <PortalDarkInput
+          id="inquiry-title"
+          label={T.inquiryTitle}
+          value={title}
+          onChange={setTitle}
+          required
+        />
+        <PortalDarkTextarea
+          id="inquiry-body"
+          label={T.inquiryMessage}
+          value={body}
+          onChange={setBody}
+          rows={4}
+        />
+        <PortalActionButton type="submit" variant="primary">
           <Send className="h-3.5 w-3.5" />
           {T.send}
-        </button>
+        </PortalActionButton>
       </form>
-    </div>
+    </PortalCard>
   );
 }

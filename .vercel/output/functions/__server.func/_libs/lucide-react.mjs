@@ -234,6 +234,58 @@ var Building2 = createLucideIcon("building-2", [
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var CalendarDays = createLucideIcon("calendar-days", [
+	["path", {
+		d: "M8 2v4",
+		key: "1cmpym"
+	}],
+	["path", {
+		d: "M16 2v4",
+		key: "4m81vk"
+	}],
+	["rect", {
+		width: "18",
+		height: "18",
+		x: "3",
+		y: "4",
+		rx: "2",
+		key: "1hopcy"
+	}],
+	["path", {
+		d: "M3 10h18",
+		key: "8toen8"
+	}],
+	["path", {
+		d: "M8 14h.01",
+		key: "6423bh"
+	}],
+	["path", {
+		d: "M12 14h.01",
+		key: "1etili"
+	}],
+	["path", {
+		d: "M16 14h.01",
+		key: "1gbofw"
+	}],
+	["path", {
+		d: "M8 18h.01",
+		key: "lrp35t"
+	}],
+	["path", {
+		d: "M12 18h.01",
+		key: "mhygvu"
+	}],
+	["path", {
+		d: "M16 18h.01",
+		key: "kzsmim"
+	}]
+]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var Calendar = createLucideIcon("calendar", [
 	["path", {
 		d: "M8 2v4",
@@ -651,6 +703,16 @@ var FileText = createLucideIcon("file-text", [
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var Funnel = createLucideIcon("funnel", [["path", {
+	d: "M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z",
+	key: "sc7q7i"
+}]]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var GitBranch = createLucideIcon("git-branch", [
 	["path", {
 		d: "M15 6a9 9 0 0 0-9 9V3",
@@ -908,6 +970,21 @@ var Mail = createLucideIcon("mail", [["path", {
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var MapPin = createLucideIcon("map-pin", [["path", {
+	d: "M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",
+	key: "1r0f0z"
+}], ["circle", {
+	cx: "12",
+	cy: "10",
+	r: "3",
+	key: "ilqhr7"
+}]]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var Menu = createLucideIcon("menu", [
 	["path", {
 		d: "M4 5h16",
@@ -922,6 +999,26 @@ var Menu = createLucideIcon("menu", [
 		key: "1djgab"
 	}]
 ]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
+var MessageSquare = createLucideIcon("message-square", [["path", {
+	d: "M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z",
+	key: "18887p"
+}]]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
+var Minus = createLucideIcon("minus", [["path", {
+	d: "M5 12h14",
+	key: "1ays0h"
+}]]);
 /**
 * @license lucide-react v0.575.0 - ISC
 *
@@ -1192,6 +1289,19 @@ var Users = createLucideIcon("users", [
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var Wallet = createLucideIcon("wallet", [["path", {
+	d: "M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1",
+	key: "18etb6"
+}], ["path", {
+	d: "M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4",
+	key: "xoc0q4"
+}]]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var X = createLucideIcon("x", [["path", {
 	d: "M18 6 6 18",
 	key: "1bl5f8"
@@ -1210,4 +1320,4 @@ var Zap = createLucideIcon("zap", [["path", {
 	key: "1xq2db"
 }]]);
 //#endregion
-export { Building2 as $, Globe as A, Construction as B, Languages as C, House as D, Inbox as E, EyeOff as F, CircleCheck as G, Clock as H, Ellipsis as I, ChevronRight as J, CircleAlert as K, DollarSign as L, FileText as M, FileChartColumnIncreasing as N, HeartHandshake as O, Eye as P, Calendar as Q, Database as R, Lightbulb as S, KeyRound as T, ClipboardList as U, Compass as V, Circle as W, ChevronDown as X, ChevronLeft as Y, Check as Z, Pencil as _, TrendingUp as a, ArrowLeft as at, LogOut as b, Star as c, Settings as d, Briefcase as et, Send as f, Percent as g, Phone as h, TriangleAlert as i, ArrowRight as it, GitBranch as j, GraduationCap as k, Sparkles as l, Plane as m, X as n, Award as nt, Trash2 as o, Plus as p, ChevronUp as q, Users as r, ArrowUpRight as rt, Stethoscope as s, Zap as t, BadgeDollarSign as tt, Shield as u, Menu as v, Landmark as w, Lock as x, Mail as y, Crown as z };
+export { ChevronRight as $, Inbox as A, EyeOff as B, Mail as C, Languages as D, Lightbulb as E, GitBranch as F, Construction as G, DollarSign as H, Funnel as I, ClipboardList as J, Compass as K, FileText as L, HeartHandshake as M, GraduationCap as N, Landmark as O, Globe as P, ChevronUp as Q, FileChartColumnIncreasing as R, MapPin as S, Lock as T, Database as U, Ellipsis as V, Crown as W, CircleCheck as X, Circle as Y, CircleAlert as Z, Percent as _, TriangleAlert as a, Building2 as at, MessageSquare as b, Stethoscope as c, Award as ct, Shield as d, ArrowLeft as dt, ChevronLeft as et, Settings as f, Phone as g, Plane as h, Users as i, CalendarDays as it, House as j, KeyRound as k, Star as l, ArrowUpRight as lt, Plus as m, X as n, Check as nt, TrendingUp as o, Briefcase as ot, Send as p, Clock as q, Wallet as r, Calendar as rt, Trash2 as s, BadgeDollarSign as st, Zap as t, ChevronDown as tt, Sparkles as u, ArrowRight as ut, Pencil as v, LogOut as w, Menu as x, Minus as y, Eye as z };

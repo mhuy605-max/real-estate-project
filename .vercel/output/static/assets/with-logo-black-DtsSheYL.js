@@ -1,0 +1,1 @@
+var e=`/assets/with-logo-black-BfydHuNV.png`;export{e as t};
