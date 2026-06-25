@@ -2,17 +2,18 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
   Home, FileText, Stethoscope, GraduationCap, Sparkles, MoreHorizontal,
   Plane, KeyRound, Compass, HeartHandshake, ArrowRight, Languages,
   CheckCircle2, Minus, X as XIcon, Users, Clock, ChevronDown, ChevronUp,
-  Shield, Zap, Building2,
+  Shield, Zap, Building2, Menu,
 } from "lucide-react";
 
 import { useCareLang, type Lang } from "@/lib/care/i18n";
 import { useCarePortal, CARE_CATEGORIES, type CareCategory } from "@/lib/care/store";
+import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
 import withLogo from "@/assets/with-logo.png";
 
 export const Route = createFileRoute("/employee-care")({
@@ -75,9 +76,17 @@ function LanguagePicker() {
   );
 }
 
+const NAV_LINKS = [
+  { href: "#how", k: "nav.how" },
+  { href: "#services", k: "nav.services" },
+  { href: "#hr", k: "nav.hr" },
+  { href: "#request", k: "nav.request" },
+] as const;
+
 function Nav() {
   const { t } = useCareLang();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -93,35 +102,94 @@ function Nav() {
           : "bg-transparent"
       }`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 text-white">
-        <Link to="/employee-care" className="flex items-center gap-3">
-          <img src={withLogo} alt="WITH" className="h-8 w-auto brightness-0 invert opacity-90" />
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 text-white">
+        <Link to="/employee-care" className="flex items-center gap-2.5 sm:gap-3">
+          <img
+            src={withLogo}
+            alt="WITH"
+            className="h-7 w-auto brightness-0 invert opacity-90 sm:h-8"
+            width={32}
+            height={32}
+            loading="eager"
+            decoding="async"
+          />
           <span className="font-display text-sm font-semibold tracking-widest text-[var(--ec-coral-soft)]">
             CARE
           </span>
         </Link>
         <nav className="hidden items-center gap-7 text-sm md:flex">
-          <a href="#how" className="opacity-70 transition hover:opacity-100">{t("nav.how")}</a>
-          <a href="#services" className="opacity-70 transition hover:opacity-100">{t("nav.services")}</a>
-          <a href="#hr" className="opacity-70 transition hover:opacity-100">{t("nav.hr")}</a>
-          <a href="#request" className="opacity-70 transition hover:opacity-100">{t("nav.request")}</a>
+          {NAV_LINKS.map(({ href, k }) => (
+            <a key={href} href={href} className="opacity-70 transition hover:opacity-100">{t(k)}</a>
+          ))}
         </nav>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <LanguagePicker />
           <Link
             to="/portal"
-            className="hidden rounded-full bg-[var(--ec-coral)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#d96a4f] sm:inline-flex"
+            className="hidden rounded-full bg-[var(--ec-coral)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#d96a4f] md:inline-flex"
           >
             Portal
           </Link>
           <Link
             to="/with-property"
-            className="hidden rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium text-white/70 backdrop-blur transition hover:bg-white/10 hover:text-white sm:inline-flex"
+            className="hidden rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium text-white/70 backdrop-blur transition hover:bg-white/10 hover:text-white md:inline-flex"
           >
             WithProperty
           </Link>
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white backdrop-blur transition hover:bg-white/10 md:hidden"
+          >
+            <Menu className="h-4.5 w-4.5" style={{ width: 18, height: 18 }} />
+          </button>
         </div>
       </div>
+
+      <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+        <SheetContent
+          side="right"
+          className="ec-theme w-[78vw] max-w-xs border-l border-white/10 bg-[var(--ec-teal-deep)] p-0 text-white sm:max-w-sm"
+        >
+          <div className="flex h-full flex-col px-6 py-8">
+            <div className="mb-8 flex items-center gap-3">
+              <img src={withLogo} alt="WITH" className="h-7 w-auto brightness-0 invert opacity-90" />
+              <span className="font-display text-sm font-semibold tracking-widest text-[var(--ec-coral-soft)]">CARE</span>
+            </div>
+            <nav className="flex flex-col gap-1 text-base">
+              {NAV_LINKS.map(({ href, k }) => (
+                <SheetClose key={href} asChild>
+                  <a
+                    href={href}
+                    className="rounded-lg px-2 py-3 text-white/80 transition hover:bg-white/5 hover:text-white"
+                  >
+                    {t(k)}
+                  </a>
+                </SheetClose>
+              ))}
+            </nav>
+            <div className="mt-6 flex flex-col gap-2 border-t border-white/10 pt-6">
+              <SheetClose asChild>
+                <Link
+                  to="/portal"
+                  className="inline-flex items-center justify-center rounded-full bg-[var(--ec-coral)] px-4 py-2.5 text-sm font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#d96a4f]"
+                >
+                  Portal
+                </Link>
+              </SheetClose>
+              <SheetClose asChild>
+                <Link
+                  to="/with-property"
+                  className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+                >
+                  WithProperty
+                </Link>
+              </SheetClose>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
     </header>
   );
 }
@@ -129,7 +197,7 @@ function Nav() {
 function Hero() {
   const { t } = useCareLang();
   return (
-    <section className="relative overflow-hidden bg-[var(--ec-teal-deep)] pt-36 pb-32 text-white">
+    <section className="relative overflow-hidden bg-[var(--ec-teal-deep)] pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-36 md:pb-32 text-white">
       {/* Multi-layer background */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -153,38 +221,44 @@ function Hero() {
         <img
           src={withLogo}
           alt=""
+          aria-hidden="true"
+          width={320}
+          height={320}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
           className="w-[28%] max-w-xs brightness-0 invert opacity-[0.12] select-none"
         />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-6">
+      <div className="relative mx-auto max-w-7xl px-5 sm:px-6">
         <div>
           <div>
-            <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.18em] text-[var(--ec-coral-soft)] anim-fade-in delay-100">
+            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.18em] text-[var(--ec-coral-soft)] anim-fade-in delay-100 sm:mb-5">
               {t("hero.eyebrow")}
             </p>
-            <h1 className="font-display text-5xl leading-[1.05] tracking-tight md:text-6xl md:leading-[1.02] anim-fade-up delay-200">
+            <h1 className="font-display text-4xl leading-[1.1] tracking-tight sm:text-5xl sm:leading-[1.05] md:text-6xl md:leading-[1.02] anim-fade-up delay-200">
               {t("hero.title")}
             </h1>
-            <p className="mt-6 max-w-xl text-lg text-white/65 anim-fade-up delay-300">
+            <p className="mt-5 max-w-xl text-base text-white/65 sm:mt-6 sm:text-lg anim-fade-up delay-300">
               {t("hero.sub")}
             </p>
-            <div className="mt-10 flex flex-wrap gap-3 anim-fade-up delay-400">
+            <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap anim-fade-up delay-400">
               <a
                 href="#request"
-                className="inline-flex items-center gap-2 rounded-full bg-[var(--ec-coral)] px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[var(--ec-coral)]/30 transition hover:bg-[#d96a4f] hover:shadow-[var(--ec-coral)]/45"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--ec-coral)] px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[var(--ec-coral)]/30 transition hover:bg-[#d96a4f] hover:shadow-[var(--ec-coral)]/45"
               >
                 {t("hero.cta.request")} <ArrowRight className="h-4 w-4" />
               </a>
               <a
                 href="#hr"
-                className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-medium text-white backdrop-blur transition hover:bg-white/10"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-medium text-white backdrop-blur transition hover:bg-white/10"
               >
                 {t("hero.cta.hr")}
               </a>
             </div>
 
-            <div className="mt-12 flex flex-wrap gap-4 anim-fade-in delay-600">
+            <div className="mt-10 flex flex-wrap gap-3 sm:mt-12 sm:gap-4 anim-fade-in delay-600">
               {[
                 { label: "4 Service Categories", accent: "var(--ec-coral-soft)" },
                 { label: "Pre-arrival to Renewal", accent: "#7dd3d1" },
@@ -208,7 +282,7 @@ function Hero() {
 
 function SectionHeader({ eyebrow, title, sub }: { eyebrow?: string; title: string; sub?: string }) {
   return (
-    <div className="mb-12 max-w-2xl reveal">
+    <div className="mb-8 max-w-2xl reveal sm:mb-10 md:mb-12">
       {eyebrow && (
         <p className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[var(--ec-coral)]">
           <span className="inline-block h-px w-6 bg-[var(--ec-coral)]" />
@@ -248,7 +322,7 @@ const CARE_PHOTOS = [
 function PhotoStrip() {
   return (
     <div className="bg-[var(--ec-teal-deep)] py-10 overflow-hidden">
-      <div className="flex gap-4 px-6 md:grid md:grid-cols-4 md:max-w-7xl md:mx-auto">
+      <div className="flex gap-4 px-5 sm:px-6 md:grid md:grid-cols-4 md:max-w-7xl md:mx-auto">
         {CARE_PHOTOS.map((p, i) => (
           <div
             key={p.label}
@@ -258,6 +332,10 @@ function PhotoStrip() {
             <img
               src={p.src}
               alt={p.alt}
+              width={600}
+              height={450}
+              loading={i === 0 ? "eager" : "lazy"}
+              decoding="async"
               className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -273,7 +351,6 @@ function PhotoStrip() {
 
 function HowItWorks() {
   const { t } = useCareLang();
-  useReveal();
   const steps = [
     { icon: Compass, k: "1" },
     { icon: Plane, k: "2" },
@@ -281,8 +358,8 @@ function HowItWorks() {
     { icon: HeartHandshake, k: "4" },
   ];
   return (
-    <section id="how" className="bg-[var(--ec-sand)] py-24">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="how" className="bg-[var(--ec-sand)] py-16 sm:py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeader title={t("how.title")} sub={t("how.sub")} />
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
           {steps.map(({ icon: Icon, k }, i) => (
@@ -318,8 +395,8 @@ function Services() {
     { icon: MoreHorizontal, k: "other" },
   ];
   return (
-    <section id="services" className="bg-white py-24">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="services" className="bg-white py-16 sm:py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeader eyebrow="Services" title={t("svc.title")} sub={t("svc.sub")} />
         <div className="grid gap-px overflow-hidden rounded-2xl border border-[var(--ec-teal)]/10 bg-[var(--ec-teal)]/8 md:grid-cols-2 lg:grid-cols-3">
           {items.map(({ icon: Icon, k }, i) => (
@@ -449,9 +526,9 @@ function HRTiers() {
   ];
 
   return (
-    <section id="hr" className="bg-[var(--ec-teal)] py-24 text-white">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mb-12 max-w-2xl reveal">
+    <section id="hr" className="bg-[var(--ec-teal)] py-16 sm:py-20 md:py-24 text-white">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
+        <div className="mb-8 max-w-2xl reveal sm:mb-10 md:mb-12">
           <p className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[var(--ec-coral-soft)]">
             <span className="inline-block h-px w-6 bg-[var(--ec-coral-soft)]" />
             {t("hr.title")}
@@ -601,8 +678,8 @@ function RequestForm() {
     "w-full rounded-xl border border-[var(--ec-teal)]/12 bg-[var(--ec-sand)]/50 px-3.5 py-2.5 text-sm text-[var(--ec-ink)] outline-none transition focus:border-[var(--ec-teal)] focus:bg-white focus:ring-2 focus:ring-[var(--ec-teal)]/12";
 
   return (
-    <section id="request" className="bg-[var(--ec-sand-warm)] py-24">
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1fr_1.4fr]">
+    <section id="request" className="bg-[var(--ec-sand-warm)] py-16 sm:py-20 md:py-24">
+      <div className="mx-auto grid max-w-7xl gap-8 px-5 sm:px-6 sm:gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-12">
         <div className="reveal-left">
           <SectionHeader eyebrow="Request" title={t("form.title")} sub={t("form.sub")} />
           <p className="text-sm text-[var(--ec-muted)]">
@@ -670,11 +747,19 @@ function Footer() {
   const { t } = useCareLang();
   return (
     <footer className="bg-[var(--ec-teal-deep)] py-16 text-white/65">
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center mb-10">
           <div>
             <div className="flex items-center gap-3 mb-3">
-              <img src={withLogo} alt="WITH" className="h-7 w-auto brightness-0 invert opacity-70" />
+              <img
+                src={withLogo}
+                alt="WITH"
+                width={28}
+                height={28}
+                loading="lazy"
+                decoding="async"
+                className="h-7 w-auto brightness-0 invert opacity-70"
+              />
               <span className="font-display text-base font-semibold tracking-widest text-[var(--ec-coral-soft)]">CARE</span>
             </div>
             <p className="text-sm leading-relaxed max-w-xs">{t("footer.tagline")}</p>
