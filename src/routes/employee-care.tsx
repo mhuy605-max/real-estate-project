@@ -322,11 +322,11 @@ const CARE_PHOTOS = [
 function PhotoStrip() {
   return (
     <div className="bg-[var(--ec-teal-deep)] py-10 overflow-hidden">
-      <div className="flex gap-4 px-5 sm:px-6 md:grid md:grid-cols-4 md:max-w-7xl md:mx-auto">
+      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-5 pb-2 sm:px-6 md:grid md:grid-cols-4 md:overflow-visible md:max-w-7xl md:mx-auto md:pb-0">
         {CARE_PHOTOS.map((p, i) => (
           <div
             key={p.label}
-            className="reveal relative min-w-[72vw] md:min-w-0 flex-shrink-0 overflow-hidden rounded-2xl aspect-[4/3] group"
+            className="reveal relative min-w-[72vw] md:min-w-0 flex-shrink-0 snap-start overflow-hidden rounded-2xl aspect-[4/3] group"
             style={{ transitionDelay: `${i * 80}ms` }}
           >
             <img
