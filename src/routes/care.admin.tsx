@@ -52,7 +52,7 @@ export const Route = createFileRoute("/care/admin")({
 type Tab = "companies" | "employees" | "requests" | "reports";
 
 // ─── Eyebrow label style ──────────────────────────────────────────────────────
-const EBW = "text-[10px] uppercase tracking-[0.18em] text-white/32 font-medium";
+const EBW = "text-[10px] uppercase tracking-[0.18em] text-black/32 font-medium";
 
 // ─── Admin Dashboard ──────────────────────────────────────────────────────────
 function AdminDashboard() {
@@ -68,8 +68,8 @@ function AdminDashboard() {
 
   const identity = (
     <>
-      <div className="text-[12px] font-semibold text-white truncate">{me.name}</div>
-      <div className="text-[10px] text-[#e07a5f]/70 uppercase tracking-wider">
+      <div className="text-[12px] font-semibold text-[#0d1f16] truncate">{me.name}</div>
+      <div className="text-[10px] text-[#14a76c]/70 uppercase tracking-wider">
         {t("dash.fullAccess")}
       </div>
     </>
@@ -229,7 +229,7 @@ function CompaniesTab() {
                 />
                 <button
                   type="submit"
-                  className="md:col-span-2 rounded-lg bg-[#e07a5f] py-2.5 text-sm font-semibold hover:bg-[#d96a4f] transition-colors"
+                  className="md:col-span-2 rounded-lg bg-[#14a76c] py-2.5 text-sm font-semibold text-white hover:bg-[#109c5f] transition-colors"
                 >
                   {t("co.form.submit")}
                 </button>
@@ -242,13 +242,13 @@ function CompaniesTab() {
       {state.companies.length === 0 ? (
         <EmptyState
           message={t("co.empty")}
-          icon={<Building2 className="h-5 w-5 text-white/30" />}
+          icon={<Building2 className="h-5 w-5 text-black/30" />}
         />
       ) : (
         <Card>
           <table className="w-full">
             <thead>
-              <tr className={`text-left border-b border-white/[0.06]`}>
+              <tr className={`text-left border-b border-black/[0.06]`}>
                 {[
                   t("co.col.company"),
                   t("co.col.tier"),
@@ -265,41 +265,41 @@ function CompaniesTab() {
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.04]">
+            <tbody className="divide-y divide-black/[0.04]">
               {state.companies.map((c) => {
                 const used = seatsUsed(c.id);
                 const pct = c.seats > 0 ? used / c.seats : 0;
                 return (
-                  <tr key={c.id} className="group hover:bg-white/[0.025] transition-colors">
+                  <tr key={c.id} className="group hover:bg-black/[0.025] transition-colors">
                     <td className="py-3.5 pr-4">
                       <div className="flex items-center gap-2.5">
-                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-teal-400/10 text-[11px] font-bold text-teal-400">
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-600/10 text-[11px] font-bold text-emerald-600">
                           {c.name.charAt(0)}
                         </div>
-                        <span className="text-[13px] font-semibold text-white/90">{c.name}</span>
+                        <span className="text-[13px] font-semibold text-black/90">{c.name}</span>
                       </div>
                     </td>
                     <td className="py-3.5 pr-4">
                       <Pill tone={tierPill[c.tier]}>{c.tier}</Pill>
                     </td>
-                    <td className="py-3.5 pr-4 text-[11px] text-white/40 tabular-nums hidden sm:table-cell">
+                    <td className="py-3.5 pr-4 text-[11px] text-black/40 tabular-nums hidden sm:table-cell">
                       {c.contractStart} → {c.contractEnd}
                     </td>
                     <td className="py-3.5 pr-4 hidden md:table-cell">
                       <div className="flex items-center gap-2">
-                        <span className="text-[13px] text-white/75 tabular-nums">
+                        <span className="text-[13px] text-black/75 tabular-nums">
                           {used}
-                          <span className="text-white/28">/{c.seats}</span>
+                          <span className="text-black/28">/{c.seats}</span>
                         </span>
-                        <div className="w-16 h-1 rounded-full bg-white/[0.07] overflow-hidden">
+                        <div className="w-16 h-1 rounded-full bg-black/[0.07] overflow-hidden">
                           <div
-                            className="h-full rounded-full bg-teal-400/60 transition-all"
+                            className="h-full rounded-full bg-emerald-600/60 transition-all"
                             style={{ width: `${Math.min(pct * 100, 100)}%` }}
                           />
                         </div>
                       </div>
                     </td>
-                    <td className="py-3.5 text-[12px] text-white/40 hidden md:table-cell">
+                    <td className="py-3.5 text-[12px] text-black/40 hidden md:table-cell">
                       {c.hrContactName}
                     </td>
                   </tr>
@@ -433,7 +433,7 @@ function EmployeesTab() {
                 />
                 <button
                   type="submit"
-                  className="md:col-span-2 rounded-lg bg-[#e07a5f] py-2.5 text-sm font-semibold hover:bg-[#d96a4f] transition-colors"
+                  className="md:col-span-2 rounded-lg bg-[#14a76c] py-2.5 text-sm font-semibold text-white hover:bg-[#109c5f] transition-colors"
                 >
                   {t("emp.form.submit")}
                 </button>
@@ -446,12 +446,12 @@ function EmployeesTab() {
       <div className="grid gap-5 lg:grid-cols-[1fr_340px]">
         {/* Employee table */}
         {employees.length === 0 ? (
-          <EmptyState message={t("emp.empty")} icon={<Users className="h-5 w-5 text-white/30" />} />
+          <EmptyState message={t("emp.empty")} icon={<Users className="h-5 w-5 text-black/30" />} />
         ) : (
           <Card>
             <table className="w-full">
               <thead>
-                <tr className="text-left border-b border-white/[0.06]">
+                <tr className="text-left border-b border-black/[0.06]">
                   {[
                     t("emp.col.name"),
                     t("emp.col.company"),
@@ -467,28 +467,28 @@ function EmployeesTab() {
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.04]">
+              <tbody className="divide-y divide-black/[0.04]">
                 {employees.map((e) => (
                   <tr
                     key={e.uid}
                     onClick={() => setEdit(e.uid)}
                     className={`cursor-pointer transition-colors ${
-                      edit === e.uid ? "bg-[#e07a5f]/[0.07]" : "hover:bg-white/[0.025]"
+                      edit === e.uid ? "bg-[#14a76c]/[0.07]" : "hover:bg-black/[0.025]"
                     }`}
                   >
                     <td className="py-3.5 pr-3">
                       <div className="flex items-center gap-2.5">
-                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e07a5f]/12 text-[11px] font-bold text-[#e07a5f]">
+                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#14a76c]/12 text-[11px] font-bold text-[#14a76c]">
                           {e.name.charAt(0)}
                         </div>
                         <div>
-                          <div className="text-[13px] font-semibold text-white/90">{e.name}</div>
-                          <div className="text-[10px] text-white/35 font-mono">{e.uid}</div>
+                          <div className="text-[13px] font-semibold text-black/90">{e.name}</div>
+                          <div className="text-[10px] text-black/35 font-mono">{e.uid}</div>
                         </div>
                       </div>
                     </td>
                     <td className="py-3.5 pr-3 hidden sm:table-cell">
-                      <span className="text-[12px] text-white/50">
+                      <span className="text-[12px] text-black/50">
                         {getCompanyName(state.companies, e.companyId)}
                       </span>
                     </td>
@@ -497,12 +497,12 @@ function EmployeesTab() {
                     </td>
                     <td className="py-3.5 hidden sm:table-cell">
                       {e.housing ? (
-                        <div className="flex items-center gap-1 text-[12px] text-white/45">
-                          <MapPin className="h-3 w-3 text-white/25" />
+                        <div className="flex items-center gap-1 text-[12px] text-black/45">
+                          <MapPin className="h-3 w-3 text-black/25" />
                           {e.housing.district}
                         </div>
                       ) : (
-                        <span className="text-[12px] text-white/22">—</span>
+                        <span className="text-[12px] text-black/22">—</span>
                       )}
                     </td>
                   </tr>
@@ -516,12 +516,12 @@ function EmployeesTab() {
         {selected ? (
           <PremiumCard accent="coral">
             <div className="flex items-center gap-3 mb-5">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e07a5f]/15 text-[13px] font-bold text-[#e07a5f] ring-1 ring-[#e07a5f]/20">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#14a76c]/15 text-[13px] font-bold text-[#14a76c] ring-1 ring-[#14a76c]/20">
                 {selected.name.charAt(0)}
               </div>
               <div>
-                <div className="font-semibold text-white/92">{selected.name}</div>
-                <div className="text-[11px] text-white/38">
+                <div className="font-semibold text-black/92">{selected.name}</div>
+                <div className="text-[11px] text-black/38">
                   {getCompanyName(state.companies, selected.companyId)}
                 </div>
               </div>
@@ -543,8 +543,8 @@ function EmployeesTab() {
                 </select>
               </div>
 
-              <fieldset className="rounded-xl border border-white/[0.07] p-4 space-y-3">
-                <legend className="px-1.5 text-[10px] uppercase tracking-widest text-white/32 flex items-center gap-1.5">
+              <fieldset className="rounded-xl border border-black/[0.07] p-4 space-y-3">
+                <legend className="px-1.5 text-[10px] uppercase tracking-widest text-black/32 flex items-center gap-1.5">
                   <Home className="h-3 w-3" /> {t("emp.detail.housing")}
                 </legend>
                 <input
@@ -606,7 +606,7 @@ function EmployeesTab() {
             </div>
           </PremiumCard>
         ) : (
-          <EmptyState message={t("emp.empty")} icon={<Users className="h-5 w-5 text-white/30" />} />
+          <EmptyState message={t("emp.empty")} icon={<Users className="h-5 w-5 text-black/30" />} />
         )}
       </div>
     </div>
@@ -641,8 +641,8 @@ function RequestsTab() {
       />
 
       {/* Filter bar */}
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-white/[0.06] bg-white/[0.02] px-4 py-3">
-        <Filter className="h-3.5 w-3.5 text-white/25 shrink-0" />
+      <div className="flex flex-wrap items-center gap-2 rounded-xl border border-black/[0.06] bg-black/[0.02] px-4 py-3">
+        <Filter className="h-3.5 w-3.5 text-black/25 shrink-0" />
         <select
           className={inputCls("max-w-[150px] py-1.5 text-[12px]")}
           value={fCompany}
@@ -685,7 +685,7 @@ function RequestsTab() {
           {list.length === 0 ? (
             <EmptyState
               message={t("req.empty.list")}
-              icon={<Inbox className="h-5 w-5 text-white/30" />}
+              icon={<Inbox className="h-5 w-5 text-black/30" />}
             />
           ) : (
             list.map((r) => (
@@ -695,20 +695,20 @@ function RequestsTab() {
                 onClick={() => setOpen(r.id)}
                 className={`block w-full rounded-xl border p-4 text-left transition-all duration-150 ${
                   open === r.id
-                    ? "border-[#e07a5f]/35 bg-[#e07a5f]/[0.07]"
-                    : "border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04]"
+                    ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]"
+                    : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[10px] text-white/28 font-mono">{r.id}</span>
+                  <span className="text-[10px] text-black/28 font-mono">{r.id}</span>
                   <Pill tone={statusTone(r.status)}>{t(`status.${r.status}`)}</Pill>
                 </div>
-                <div className="text-[13px] font-semibold text-white/90 leading-snug">
+                <div className="text-[13px] font-semibold text-black/90 leading-snug">
                   {r.subject}
                 </div>
                 <div className="mt-1.5 flex items-center justify-between">
-                  <span className="text-[11px] text-white/38">{r.category}</span>
-                  <span className="text-[11px] text-white/30">
+                  <span className="text-[11px] text-black/38">{r.category}</span>
+                  <span className="text-[11px] text-black/30">
                     {getCompanyName(state.companies, r.companyId) || t("dash.guest")}
                   </span>
                 </div>
@@ -722,17 +722,17 @@ function RequestsTab() {
           {selected ? (
             <Card>
               {/* Header */}
-              <div className="flex flex-wrap items-start justify-between gap-3 mb-4 pb-4 border-b border-white/[0.06]">
+              <div className="flex flex-wrap items-start justify-between gap-3 mb-4 pb-4 border-b border-black/[0.06]">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className={`${EBW}`}>{selected.category}</span>
-                    <span className="text-white/18">·</span>
-                    <span className="font-mono text-[10px] text-white/25">{selected.id}</span>
+                    <span className="text-black/18">·</span>
+                    <span className="font-mono text-[10px] text-black/25">{selected.id}</span>
                   </div>
-                  <h2 className="text-[16px] font-semibold text-white/92 leading-snug">
+                  <h2 className="text-[16px] font-semibold text-black/92 leading-snug">
                     {selected.subject}
                   </h2>
-                  <p className="text-[11px] text-white/35 mt-0.5">
+                  <p className="text-[11px] text-black/35 mt-0.5">
                     {getCompanyName(state.companies, selected.companyId) || t("dash.guest")}
                   </p>
                 </div>
@@ -766,11 +766,11 @@ function RequestsTab() {
               </div>
 
               {/* Body */}
-              <p className="text-[13px] text-white/62 leading-relaxed mb-5">{selected.details}</p>
+              <p className="text-[13px] text-black/62 leading-relaxed mb-5">{selected.details}</p>
 
               {/* Thread */}
               {selected.thread.length > 0 && (
-                <div className="space-y-2.5 mb-5 border-t border-white/[0.06] pt-4">
+                <div className="space-y-2.5 mb-5 border-t border-black/[0.06] pt-4">
                   {selected.thread.map((m) => {
                     const isStaff = m.authorRole === "staff" || m.authorRole === "admin";
                     return (
@@ -778,22 +778,22 @@ function RequestsTab() {
                         key={m.id}
                         className={`rounded-xl px-4 py-3 ${
                           isStaff
-                            ? "bg-[#e07a5f]/[0.07] border border-[#e07a5f]/15"
-                            : "bg-white/[0.03] border border-white/[0.05]"
+                            ? "bg-[#14a76c]/[0.07] border border-[#14a76c]/15"
+                            : "bg-black/[0.03] border border-black/[0.05]"
                         }`}
                       >
                         <div className="flex items-center justify-between mb-1.5">
                           <div className="flex items-center gap-2">
-                            <span className="text-[11px] font-semibold text-white/75">
+                            <span className="text-[11px] font-semibold text-black/75">
                               {m.authorName}
                             </span>
                             {isStaff && <Pill tone="coral">{m.authorRole}</Pill>}
                           </div>
-                          <span className="text-[10px] text-white/28 tabular-nums">
+                          <span className="text-[10px] text-black/28 tabular-nums">
                             {new Date(m.at).toLocaleString()}
                           </span>
                         </div>
-                        <div className="text-[13px] text-white/78 leading-relaxed">{m.body}</div>
+                        <div className="text-[13px] text-black/78 leading-relaxed">{m.body}</div>
                       </div>
                     );
                   })}
@@ -801,7 +801,7 @@ function RequestsTab() {
               )}
 
               {/* Reply bar */}
-              <div className="flex gap-2 border-t border-white/[0.06] pt-4">
+              <div className="flex gap-2 border-t border-black/[0.06] pt-4">
                 <input
                   value={reply}
                   onChange={(e) => setReply(e.target.value)}
@@ -822,7 +822,7 @@ function RequestsTab() {
                       setReply("");
                     }
                   }}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#e07a5f] px-3.5 py-2 text-[13px] font-semibold hover:bg-[#d96a4f] transition-colors shrink-0"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c] px-3.5 py-2 text-[13px] font-semibold text-white hover:bg-[#109c5f] transition-colors shrink-0"
                 >
                   <Send className="h-3.5 w-3.5" /> {t("dash.send")}
                 </button>
@@ -831,7 +831,7 @@ function RequestsTab() {
           ) : (
             <EmptyState
               message={t("req.empty.detail")}
-              icon={<Inbox className="h-5 w-5 text-white/30" />}
+              icon={<Inbox className="h-5 w-5 text-black/30" />}
             />
           )}
         </div>
@@ -918,7 +918,7 @@ function ReportsTab() {
                 />
                 <button
                   type="submit"
-                  className="md:col-span-2 rounded-lg bg-[#e07a5f] py-2.5 text-sm font-semibold hover:bg-[#d96a4f] transition-colors"
+                  className="md:col-span-2 rounded-lg bg-[#14a76c] py-2.5 text-sm font-semibold text-white hover:bg-[#109c5f] transition-colors"
                 >
                   {t("rep.form.submit")}
                 </button>
@@ -931,7 +931,7 @@ function ReportsTab() {
       {state.reports.length === 0 ? (
         <EmptyState
           message={t("rep.empty")}
-          icon={<FileBarChart className="h-5 w-5 text-white/30" />}
+          icon={<FileBarChart className="h-5 w-5 text-black/30" />}
         />
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
@@ -939,18 +939,18 @@ function ReportsTab() {
             <PremiumCard key={r.id} accent={r.kind === "Annual" ? "teal" : undefined}>
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <p className="font-mono text-[10px] text-white/22">{r.id}</p>
-                  <h3 className="mt-1 text-[14px] font-semibold text-white/92">
+                  <p className="font-mono text-[10px] text-black/22">{r.id}</p>
+                  <h3 className="mt-1 text-[14px] font-semibold text-black/92">
                     {getCompanyName(state.companies, r.companyId)}
                   </h3>
-                  <p className="text-[12px] text-white/38 mt-0.5">{r.periodLabel}</p>
+                  <p className="text-[12px] text-black/38 mt-0.5">{r.periodLabel}</p>
                 </div>
                 <Pill tone={r.kind === "Annual" ? "ok" : "info"}>{r.kind}</Pill>
               </div>
-              <p className="text-[13px] text-white/60 leading-relaxed border-t border-white/[0.06] pt-3">
+              <p className="text-[13px] text-black/60 leading-relaxed border-t border-black/[0.06] pt-3">
                 {r.summary}
               </p>
-              <div className="mt-3 flex items-center gap-1.5 text-[10px] text-white/28">
+              <div className="mt-3 flex items-center gap-1.5 text-[10px] text-black/28">
                 <CheckCircle2 className="h-3 w-3 text-emerald-500/60" />
                 {t("dash.generated")} {new Date(r.generatedAt).toLocaleDateString()}
               </div>

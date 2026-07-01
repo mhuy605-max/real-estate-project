@@ -11,13 +11,13 @@ import { useCarePortal, type Role } from "@/lib/care/store";
 import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCareLang, type Lang } from "@/lib/care/i18n";
-import withLogo from "@/assets/with-logo.png";
+import withLogo from "@/assets/with-logo-black.png";
 
 // ─── Design tokens (Care) ────────────────────────────────────────────────────
-export const EC_BG      = "#060f10";
-export const EC_SIDEBAR = "#040d0e";
-export const EC_CORAL   = "#e07a5f";
-export const EC_TEAL    = "teal-400";
+export const EC_BG = "#f6faf8";
+export const EC_SIDEBAR = "#ffffff";
+export const EC_CORAL = "#14a76c";
+export const EC_TEAL = "emerald-600";
 
 // ─── CareLangSwitcher ────────────────────────────────────────────────────────
 const LANGS: { code: Lang; label: string }[] = [
@@ -29,15 +29,13 @@ const LANGS: { code: Lang; label: string }[] = [
 export function CareLangSwitcher() {
   const { lang, setLang } = useCareLang();
   return (
-    <div className="flex items-center gap-0.5 rounded-full border border-white/[0.08] bg-white/[0.04] px-1 py-1">
+    <div className="flex items-center gap-0.5 rounded-full border border-black/[0.08] bg-black/[0.03] px-1 py-1">
       {LANGS.map((l) => (
         <button
           key={l.code}
           onClick={() => setLang(l.code)}
           className={`rounded-full px-2.5 py-1 text-[11px] font-medium tracking-wide transition-all ${
-            lang === l.code
-              ? "bg-white/[0.14] text-white"
-              : "text-white/35 hover:text-white/65"
+            lang === l.code ? "bg-[#14a76c] text-white" : "text-black/40 hover:text-black/70"
           }`}
         >
           {l.label}
@@ -87,12 +85,12 @@ export function DashboardShell({
   const initial = state.session.name?.charAt(0).toUpperCase() ?? "?";
 
   return (
-    <div className="min-h-screen text-white" style={{ background: EC_BG }}>
+    <div className="min-h-screen text-[#0d1f16]" style={{ background: EC_BG }}>
       {/* Subtle dot grid */}
       <div
-        className="pointer-events-none fixed inset-0 opacity-[0.018]"
+        className="pointer-events-none fixed inset-0 opacity-[0.035]"
         style={{
-          backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(circle, rgba(13,31,22,0.9) 1px, transparent 1px)",
           backgroundSize: "32px 32px",
         }}
       />
@@ -100,33 +98,37 @@ export function DashboardShell({
       <div className="flex min-h-screen relative">
         {/* ── Sidebar ── */}
         <aside
-          className="hidden w-60 shrink-0 border-r border-white/[0.05] md:flex md:flex-col"
+          className="hidden w-60 shrink-0 border-r border-black/[0.06] md:flex md:flex-col"
           style={{ background: EC_SIDEBAR }}
         >
           {/* Brand */}
-          <div className="px-5 pt-6 pb-5 border-b border-white/[0.05]">
+          <div className="px-5 pt-6 pb-5 border-b border-black/[0.06]">
             <Link to="/employee-care" className="flex flex-col items-start gap-2.5 group">
               <img
                 src={withLogo}
                 alt="WITH"
-                className="h-7 w-auto brightness-0 invert opacity-80 transition-opacity group-hover:opacity-100"
+                className="h-7 w-auto opacity-85 transition-opacity group-hover:opacity-100"
               />
               <div className="flex items-center gap-2">
-                <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#e07a5f]/12 ring-1 ring-[#e07a5f]/22">
-                  <HeartHandshake className="h-3 w-3 text-[#e07a5f]" />
+                <div className="flex h-5 w-5 items-center justify-center rounded-md bg-[#14a76c]/12 ring-1 ring-[#14a76c]/22">
+                  <HeartHandshake className="h-3 w-3 text-[#14a76c]" />
                 </div>
                 <div className="flex items-baseline gap-1.5">
-                  <span className="text-[11px] font-semibold text-white/65 tracking-tight">Care</span>
-                  <span className="text-[9px] text-white/22 uppercase tracking-widest capitalize">· {role}</span>
+                  <span className="text-[11px] font-semibold text-black/65 tracking-tight">
+                    Care
+                  </span>
+                  <span className="text-[9px] text-black/30 uppercase tracking-widest capitalize">
+                    · {role}
+                  </span>
                 </div>
               </div>
             </Link>
           </div>
 
           {/* User card */}
-          <div className="mx-3 mt-4 rounded-xl border border-white/[0.06] bg-white/[0.025] px-3.5 py-3">
+          <div className="mx-3 mt-4 rounded-xl border border-black/[0.07] bg-black/[0.015] px-3.5 py-3">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#e07a5f]/15 text-xs font-bold text-[#e07a5f] ring-1 ring-[#e07a5f]/20">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#14a76c]/15 text-xs font-bold text-[#0b6b47] ring-1 ring-[#14a76c]/20">
                 {initial}
               </div>
               <div className="min-w-0 flex-1">{identity}</div>
@@ -144,16 +146,16 @@ export function DashboardShell({
                   onClick={() => onSelect(item.key)}
                   className={`relative flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-[13px] font-medium transition-all duration-150 ${
                     isActive
-                      ? "bg-[#e07a5f]/[0.09] text-white"
-                      : "text-white/40 hover:bg-white/[0.035] hover:text-white/75"
+                      ? "bg-[#14a76c]/[0.10] text-[#0b6b47]"
+                      : "text-black/45 hover:bg-black/[0.03] hover:text-black/75"
                   }`}
                 >
                   {isActive && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-0.5 rounded-full bg-[#e07a5f]" />
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-0.5 rounded-full bg-[#14a76c]" />
                   )}
                   <Icon
                     className={`h-[15px] w-[15px] shrink-0 transition-colors ${
-                      isActive ? "text-[#e07a5f]" : ""
+                      isActive ? "text-[#14a76c]" : ""
                     }`}
                   />
                   {item.label}
@@ -164,13 +166,13 @@ export function DashboardShell({
 
           {/* Sign out */}
           <div className="px-2.5 pb-5">
-            <div className="border-t border-white/[0.05] pt-3">
+            <div className="border-t border-black/[0.06] pt-3">
               <button
                 onClick={() => {
                   logout();
                   navigate({ to: "/care/login" });
                 }}
-                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-white/30 hover:bg-white/[0.035] hover:text-white/60 transition-colors"
+                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-black/35 hover:bg-black/[0.03] hover:text-black/65 transition-colors"
               >
                 <LogOut className="h-[15px] w-[15px]" />
                 {t("dash.signOut")}
@@ -183,37 +185,37 @@ export function DashboardShell({
         <main className="flex-1 flex flex-col min-h-screen">
           {/* Top bar */}
           <div
-            className="sticky top-0 z-10 border-b border-white/[0.05] px-6 py-3.5 flex items-center justify-between backdrop-blur-md"
-            style={{ background: "rgba(4,13,14,0.85)" }}
+            className="sticky top-0 z-10 border-b border-black/[0.06] px-6 py-3.5 flex items-center justify-between backdrop-blur-md"
+            style={{ background: "rgba(255,255,255,0.88)" }}
           >
-            <h1 className="text-[15px] font-semibold tracking-tight text-white/90">{title}</h1>
+            <h1 className="text-[15px] font-semibold tracking-tight text-black/88">{title}</h1>
             <div className="flex items-center gap-3">
-              <span className="text-[11px] text-white/20 hidden sm:block tabular-nums">
+              <span className="text-[11px] text-black/30 hidden sm:block tabular-nums">
                 {t("dash.saved")}{" "}
                 {new Date(state.system.lastSaved).toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
                 })}
               </span>
-              <span className="hidden sm:block h-3 w-px bg-white/[0.08]" />
+              <span className="hidden sm:block h-3 w-px bg-black/[0.10]" />
               <CareLangSwitcher />
-              <span className="h-3 w-px bg-white/[0.08]" />
-              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#e07a5f]/15 text-[11px] font-bold text-[#e07a5f] ring-1 ring-[#e07a5f]/20">
+              <span className="h-3 w-px bg-black/[0.10]" />
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#14a76c]/15 text-[11px] font-bold text-[#0b6b47] ring-1 ring-[#14a76c]/20">
                 {initial}
               </div>
             </div>
           </div>
 
           {/* Mobile tab bar */}
-          <div className="md:hidden border-b border-white/[0.05] px-4 py-2.5 flex gap-1.5 flex-wrap">
+          <div className="md:hidden border-b border-black/[0.06] px-4 py-2.5 flex gap-1.5 flex-wrap">
             {nav.map((item) => (
               <button
                 key={item.key}
                 onClick={() => onSelect(item.key)}
                 className={`rounded-full px-3 py-1.5 text-[11px] font-medium transition-all ${
                   active === item.key
-                    ? "bg-[#e07a5f] text-white"
-                    : "bg-white/[0.06] text-white/50 hover:text-white/80"
+                    ? "bg-[#14a76c] text-white"
+                    : "bg-black/[0.05] text-black/55 hover:text-black/85"
                 }`}
               >
                 {item.label}
@@ -254,28 +256,28 @@ export function StatCard({
   tone?: "coral" | "teal" | "amber" | "sky" | "default";
 }) {
   const toneColor = {
-    coral:   "text-[#e07a5f]",
-    teal:    "text-teal-400",
-    amber:   "text-amber-400",
-    sky:     "text-sky-400",
-    default: "text-white",
+    coral: "text-[#14a76c]",
+    teal: "text-[#0b6b47]",
+    amber: "text-amber-600",
+    sky: "text-sky-600",
+    default: "text-[#0d1f16]",
   }[tone];
 
   const toneBorder = {
-    coral:   "hover:border-[#e07a5f]/20",
-    teal:    "hover:border-teal-400/20",
-    amber:   "hover:border-amber-400/20",
-    sky:     "hover:border-sky-400/20",
-    default: "hover:border-white/12",
+    coral: "hover:border-[#14a76c]/25",
+    teal: "hover:border-[#0b6b47]/25",
+    amber: "hover:border-amber-500/25",
+    sky: "hover:border-sky-500/25",
+    default: "hover:border-black/15",
   }[tone];
 
   return (
     <div
-      className={`rounded-xl border border-white/[0.06] bg-white/[0.025] px-5 py-4 transition-all duration-200 hover:bg-white/[0.04] ${toneBorder}`}
+      className={`rounded-xl border border-black/[0.07] bg-white px-5 py-4 shadow-[0_1px_2px_rgba(13,31,22,0.04)] transition-all duration-200 hover:bg-[#f5faf7] ${toneBorder}`}
     >
-      <div className="text-[10px] uppercase tracking-[0.18em] text-white/32 mb-2">{label}</div>
+      <div className="text-[10px] uppercase tracking-[0.18em] text-black/38 mb-2">{label}</div>
       <div className={`text-2xl font-semibold tracking-tight ${toneColor}`}>{value}</div>
-      {sub && <div className="mt-0.5 text-[11px] text-white/28">{sub}</div>}
+      {sub && <div className="mt-0.5 text-[11px] text-black/32">{sub}</div>}
     </div>
   );
 }
@@ -289,12 +291,12 @@ export function Pill({
   tone?: "default" | "ok" | "warn" | "info" | "muted" | "coral";
 }) {
   const tones = {
-    default: "bg-white/[0.08] text-white/75",
-    ok:      "bg-emerald-500/12 text-emerald-300 border border-emerald-500/20",
-    warn:    "bg-amber-500/12 text-amber-300 border border-amber-500/20",
-    info:    "bg-sky-500/12 text-sky-300 border border-sky-500/20",
-    muted:   "bg-white/[0.05] text-white/40",
-    coral:   "bg-[#e07a5f]/12 text-[#e07a5f] border border-[#e07a5f]/20",
+    default: "bg-black/[0.06] text-black/70",
+    ok: "bg-[#14a76c]/10 text-[#0b6b47] border border-[#14a76c]/25",
+    warn: "bg-amber-500/10 text-amber-700 border border-amber-500/25",
+    info: "bg-sky-500/10 text-sky-700 border border-sky-500/25",
+    muted: "bg-black/[0.04] text-black/40",
+    coral: "bg-[#14a76c]/10 text-[#0b6b47] border border-[#14a76c]/25",
   } as const;
 
   return (
@@ -306,30 +308,28 @@ export function Pill({
   );
 }
 
-export function statusTone(
-  status: string,
-): "default" | "ok" | "warn" | "info" | "muted" {
+export function statusTone(status: string): "default" | "ok" | "warn" | "info" | "muted" {
   switch (status) {
-    case "New":          return "info";
-    case "In Progress":  return "warn";
-    case "Pending Info": return "warn";
-    case "Resolved":     return "ok";
-    case "Closed":       return "muted";
-    default:             return "default";
+    case "New":
+      return "info";
+    case "In Progress":
+      return "warn";
+    case "Pending Info":
+      return "warn";
+    case "Resolved":
+      return "ok";
+    case "Closed":
+      return "muted";
+    default:
+      return "default";
   }
 }
 
 // ─── Card ────────────────────────────────────────────────────────────────────
-export function Card({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export function Card({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <div
-      className={`rounded-2xl border border-white/[0.06] bg-white/[0.025] p-5 ${className ?? ""}`}
+      className={`rounded-2xl border border-black/[0.07] bg-white shadow-[0_1px_2px_rgba(13,31,22,0.04)] p-5 ${className ?? ""}`}
     >
       {children}
     </div>
@@ -349,21 +349,16 @@ export function PremiumCard({
   noPad?: boolean;
 }) {
   const accentGlow =
-    accent === "coral"
-      ? "radial-gradient(ellipse 80% 60% at 0% 0%, rgba(224,122,95,0.07), transparent)"
-      : accent === "teal"
-      ? "radial-gradient(ellipse 80% 60% at 0% 0%, rgba(45,200,190,0.06), transparent)"
+    accent === "coral" || accent === "teal"
+      ? "radial-gradient(ellipse 80% 60% at 0% 0%, rgba(20,167,108,0.07), transparent)"
       : undefined;
 
   return (
     <div
-      className={`relative overflow-hidden rounded-xl border border-white/[0.07] bg-white/[0.025] ${noPad ? "" : "p-5"} ${className}`}
+      className={`relative overflow-hidden rounded-xl border border-black/[0.08] bg-white shadow-[0_1px_2px_rgba(13,31,22,0.04)] ${noPad ? "" : "p-5"} ${className}`}
     >
       {accentGlow && (
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{ background: accentGlow }}
-        />
+        <div className="pointer-events-none absolute inset-0" style={{ background: accentGlow }} />
       )}
       <div className="relative">{children}</div>
     </div>
@@ -372,7 +367,7 @@ export function PremiumCard({
 
 // ─── inputCls (unchanged — backward compat) ───────────────────────────────────
 export function inputCls(extra = "") {
-  return `w-full rounded-lg border border-white/[0.07] bg-[#081415] px-3 py-2 text-sm text-white/85 placeholder:text-white/22 outline-none transition focus:border-[#e07a5f]/45 focus:bg-[#091617] ${extra}`;
+  return `w-full rounded-lg border border-black/[0.10] bg-white px-3 py-2 text-sm text-[#0d1f16]/90 placeholder:text-black/28 outline-none transition focus:border-[#14a76c]/50 focus:bg-[#f2fbf6] ${extra}`;
 }
 
 // ─── SectionHeader ────────────────────────────────────────────────────────────
@@ -388,10 +383,10 @@ export function SectionHeader({
   return (
     <div className="flex items-start justify-between mb-5">
       <div>
-        <h2 className="text-[12px] font-semibold uppercase tracking-[0.15em] text-white/38">
+        <h2 className="text-[12px] font-semibold uppercase tracking-[0.15em] text-black/45">
           {title}
         </h2>
-        {sub && <p className="mt-0.5 text-[11px] text-white/28">{sub}</p>}
+        {sub && <p className="mt-0.5 text-[11px] text-black/32">{sub}</p>}
       </div>
       {action}
     </div>
@@ -411,7 +406,7 @@ export function ActionBtn({
   return (
     <button
       onClick={onClick}
-      className={`inline-flex items-center gap-1.5 rounded-lg bg-[#e07a5f] px-3.5 py-2 text-[12px] font-semibold text-white tracking-wide hover:bg-[#d46f54] active:bg-[#c4644a] transition-colors ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c] px-3.5 py-2 text-[12px] font-semibold text-white tracking-wide hover:bg-[#109c5f] active:bg-[#0c7548] transition-colors ${className}`}
     >
       {children}
     </button>
@@ -429,13 +424,13 @@ export function EmptyState({
   action?: ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-white/[0.06] border-dashed bg-white/[0.02] px-8 py-14 text-center">
+    <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-black/[0.08] border-dashed bg-black/[0.012] px-8 py-14 text-center">
       {icon && (
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/[0.05]">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black/[0.05]">
           {icon}
         </div>
       )}
-      <p className="text-[13px] text-white/40 max-w-xs leading-relaxed">{message}</p>
+      <p className="text-[13px] text-black/45 max-w-xs leading-relaxed">{message}</p>
       {action}
     </div>
   );

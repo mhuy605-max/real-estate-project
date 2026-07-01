@@ -34,7 +34,7 @@ export const Route = createFileRoute("/care/staff")({
 type Tab = "mine" | "unassigned" | "employees";
 
 // ─── Eyebrow label style ──────────────────────────────────────────────────────
-const EBW = "text-[10px] uppercase tracking-[0.18em] text-white/32 font-medium";
+const EBW = "text-[10px] uppercase tracking-[0.18em] text-black/32 font-medium";
 
 // ─── Staff Dashboard ──────────────────────────────────────────────────────────
 function StaffDashboard() {
@@ -59,8 +59,8 @@ function StaffDashboard() {
 
   const identity = (
     <>
-      <div className="text-[12px] font-semibold text-white truncate">{me.name}</div>
-      <div className="text-[10px] text-white/38 font-mono">@{me.uid}</div>
+      <div className="text-[12px] font-semibold text-[#0d1f16] truncate">{me.name}</div>
+      <div className="text-[10px] text-black/38 font-mono">@{me.uid}</div>
     </>
   );
 
@@ -136,7 +136,7 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
         {/* ── Request list ── */}
         <div className="space-y-2">
           {list.length === 0 ? (
-            <EmptyState message={emptyMsg} icon={<Inbox className="h-5 w-5 text-white/30" />} />
+            <EmptyState message={emptyMsg} icon={<Inbox className="h-5 w-5 text-black/30" />} />
           ) : (
             list.map((r) => {
               const isActive = open === r.id;
@@ -148,28 +148,28 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
                   onClick={() => setOpen(r.id)}
                   className={`block w-full rounded-xl border p-4 text-left transition-all duration-150 ${
                     isActive
-                      ? "border-[#e07a5f]/35 bg-[#e07a5f]/[0.07]"
-                      : "border-white/[0.06] bg-white/[0.02] hover:border-white/10 hover:bg-white/[0.04]"
+                      ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]"
+                      : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"
                   }`}
                 >
                   {/* Top row: id + status */}
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-mono text-[10px] text-white/25">{r.id}</span>
+                    <span className="font-mono text-[10px] text-black/25">{r.id}</span>
                     <Pill tone={statusTone(r.status)}>{t(`status.${r.status}`)}</Pill>
                   </div>
 
                   {/* Subject */}
-                  <div className="text-[13px] font-semibold text-white/90 leading-snug mb-1.5">
+                  <div className="text-[13px] font-semibold text-black/90 leading-snug mb-1.5">
                     {r.subject}
                   </div>
 
                   {/* Metadata row */}
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 text-[11px] text-white/38">
+                    <div className="flex items-center gap-1.5 text-[11px] text-black/38">
                       <span>{r.category}</span>
                       {companyName && (
                         <>
-                          <span className="text-white/18">·</span>
+                          <span className="text-black/18">·</span>
                           <span className="flex items-center gap-0.5">
                             <Building2 className="h-2.5 w-2.5" />
                             {companyName}
@@ -177,7 +177,7 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
                         </>
                       )}
                     </div>
-                    <span className="text-[10px] text-white/22 tabular-nums">{r.submittedAt}</span>
+                    <span className="text-[10px] text-black/22 tabular-nums">{r.submittedAt}</span>
                   </div>
                 </button>
               );
@@ -190,18 +190,18 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
           {selected ? (
             <Card>
               {/* Header */}
-              <div className="pb-4 mb-4 border-b border-white/[0.06]">
+              <div className="pb-4 mb-4 border-b border-black/[0.06]">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1.5 flex-wrap">
                       <span className={EBW}>{selected.category}</span>
-                      <span className="text-white/18 text-[10px]">·</span>
-                      <span className="font-mono text-[10px] text-white/25">{selected.id}</span>
+                      <span className="text-black/18 text-[10px]">·</span>
+                      <span className="font-mono text-[10px] text-black/25">{selected.id}</span>
                       <Pill tone={statusTone(selected.status)}>
                         {t(`status.${selected.status}`)}
                       </Pill>
                     </div>
-                    <h2 className="text-[16px] font-semibold text-white/92 leading-snug">
+                    <h2 className="text-[16px] font-semibold text-black/92 leading-snug">
                       {selected.subject}
                     </h2>
                   </div>
@@ -231,26 +231,26 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
                 </div>
 
                 {/* Requester info */}
-                <div className="mt-3 flex items-center gap-2 rounded-lg border border-white/[0.05] bg-white/[0.02] px-3.5 py-2.5">
-                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white/[0.08] text-[10px] font-bold text-white/60">
+                <div className="mt-3 flex items-center gap-2 rounded-lg border border-black/[0.05] bg-black/[0.02] px-3.5 py-2.5">
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-black/[0.08] text-[10px] font-bold text-black/60">
                     {selected.guestName
                       ? selected.guestName.charAt(0).toUpperCase()
                       : (selected.employeeId ?? "?").charAt(0).toUpperCase()}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <span className="text-[12px] text-white/70 font-medium">
+                    <span className="text-[12px] text-black/70 font-medium">
                       {selected.employeeId
                         ? `Employee · ${selected.employeeId}`
                         : `${selected.guestName ?? "Guest"} · ${selected.guestContact ?? ""}`}
                     </span>
                     {selected.companyId && (
-                      <span className="text-[11px] text-white/35 ml-2">
+                      <span className="text-[11px] text-black/35 ml-2">
                         @ {getCompanyName(state.companies, selected.companyId)}
                       </span>
                     )}
                   </div>
                   {selected.assignedStaffUid && (
-                    <div className="flex items-center gap-1 text-[10px] text-[#e07a5f]/70">
+                    <div className="flex items-center gap-1 text-[10px] text-[#14a76c]/70">
                       <CheckCircle2 className="h-3 w-3" />
                       Claimed
                     </div>
@@ -259,11 +259,11 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
               </div>
 
               {/* Body */}
-              <p className="text-[13px] text-white/62 leading-relaxed mb-5">{selected.details}</p>
+              <p className="text-[13px] text-black/62 leading-relaxed mb-5">{selected.details}</p>
 
               {/* Thread */}
               {selected.thread.length > 0 && (
-                <div className="space-y-2.5 mb-5 border-t border-white/[0.06] pt-4">
+                <div className="space-y-2.5 mb-5 border-t border-black/[0.06] pt-4">
                   {selected.thread.map((m) => {
                     const isStaff = m.authorRole === "staff" || m.authorRole === "admin";
                     return (
@@ -271,22 +271,22 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
                         key={m.id}
                         className={`rounded-xl px-4 py-3 ${
                           isStaff
-                            ? "bg-[#e07a5f]/[0.07] border border-[#e07a5f]/15"
-                            : "bg-white/[0.03] border border-white/[0.05]"
+                            ? "bg-[#14a76c]/[0.07] border border-[#14a76c]/15"
+                            : "bg-black/[0.03] border border-black/[0.05]"
                         }`}
                       >
                         <div className="flex items-center justify-between mb-1.5">
                           <div className="flex items-center gap-2">
-                            <span className="text-[11px] font-semibold text-white/78">
+                            <span className="text-[11px] font-semibold text-black/78">
                               {m.authorName}
                             </span>
                             {isStaff && <Pill tone="coral">{m.authorRole}</Pill>}
                           </div>
-                          <span className="text-[10px] text-white/25 tabular-nums">
+                          <span className="text-[10px] text-black/25 tabular-nums">
                             {new Date(m.at).toLocaleString()}
                           </span>
                         </div>
-                        <div className="text-[13px] text-white/75 leading-relaxed">{m.body}</div>
+                        <div className="text-[13px] text-black/75 leading-relaxed">{m.body}</div>
                       </div>
                     );
                   })}
@@ -294,7 +294,7 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
               )}
 
               {/* Reply composer */}
-              <div className="flex gap-2 border-t border-white/[0.06] pt-4">
+              <div className="flex gap-2 border-t border-black/[0.06] pt-4">
                 <input
                   value={reply}
                   onChange={(e) => setReply(e.target.value)}
@@ -315,7 +315,7 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
                       setReply("");
                     }
                   }}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#e07a5f] px-3.5 py-2 text-[13px] font-semibold hover:bg-[#d96a4f] transition-colors shrink-0"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c] px-3.5 py-2 text-[13px] font-semibold text-white hover:bg-[#109c5f] transition-colors shrink-0"
                 >
                   <Send className="h-3.5 w-3.5" /> {t("dash.send")}
                 </button>
@@ -324,7 +324,7 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
           ) : (
             <EmptyState
               message={t("req.empty.detail")}
-              icon={<Inbox className="h-5 w-5 text-white/30" />}
+              icon={<Inbox className="h-5 w-5 text-black/30" />}
             />
           )}
         </div>
@@ -366,13 +366,13 @@ function EmployeesView() {
       {employees.length === 0 ? (
         <EmptyState
           message={t("staff.employees.empty")}
-          icon={<Users className="h-5 w-5 text-white/30" />}
+          icon={<Users className="h-5 w-5 text-black/30" />}
         />
       ) : (
         <PremiumCard noPad>
           <table className="w-full">
             <thead>
-              <tr className="text-left border-b border-white/[0.06]">
+              <tr className="text-left border-b border-black/[0.06]">
                 {[
                   t("emp.col.name"),
                   t("emp.col.company"),
@@ -381,7 +381,7 @@ function EmployeesView() {
                 ].map((col, i) => (
                   <th
                     key={col}
-                    className={`px-5 py-3.5 text-[10px] uppercase tracking-[0.18em] text-white/32 font-medium bg-white/[0.015] ${
+                    className={`px-5 py-3.5 text-[10px] uppercase tracking-[0.18em] text-black/32 font-medium bg-black/[0.015] ${
                       i >= 1 ? "hidden sm:table-cell" : ""
                     }`}
                   >
@@ -390,24 +390,24 @@ function EmployeesView() {
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/[0.04]">
+            <tbody className="divide-y divide-black/[0.04]">
               {employees.map((e) => (
-                <tr key={e.uid} className="hover:bg-white/[0.025] transition-colors">
+                <tr key={e.uid} className="hover:bg-black/[0.025] transition-colors">
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2.5">
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#e07a5f]/12 text-[11px] font-bold text-[#e07a5f]">
+                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#14a76c]/12 text-[11px] font-bold text-[#14a76c]">
                         {e.name.charAt(0)}
                       </div>
                       <div>
-                        <div className="text-[13px] font-semibold text-white/90">{e.name}</div>
-                        <div className="text-[10px] text-white/32 font-mono">{e.uid}</div>
+                        <div className="text-[13px] font-semibold text-black/90">{e.name}</div>
+                        <div className="text-[10px] text-black/32 font-mono">{e.uid}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-5 py-3.5 hidden sm:table-cell">
                     <div className="flex items-center gap-1.5">
-                      <Building2 className="h-3 w-3 text-white/25" />
-                      <span className="text-[12px] text-white/50">
+                      <Building2 className="h-3 w-3 text-black/25" />
+                      <span className="text-[12px] text-black/50">
                         {getCompanyName(state.companies, e.companyId)}
                       </span>
                     </div>
@@ -418,18 +418,18 @@ function EmployeesView() {
                   <td className="px-5 py-3.5 hidden sm:table-cell">
                     {e.housing ? (
                       <div className="space-y-0.5">
-                        <div className="flex items-center gap-1 text-[12px] text-white/55">
-                          <MapPin className="h-3 w-3 text-white/25" />
+                        <div className="flex items-center gap-1 text-[12px] text-black/55">
+                          <MapPin className="h-3 w-3 text-black/25" />
                           {e.housing.district}
                         </div>
                         {e.housing.rentUsd > 0 && (
-                          <div className="text-[11px] text-white/32">
+                          <div className="text-[11px] text-black/32">
                             ${e.housing.rentUsd.toLocaleString()}/mo
                           </div>
                         )}
                       </div>
                     ) : (
-                      <span className="text-[12px] text-white/22">—</span>
+                      <span className="text-[12px] text-black/22">—</span>
                     )}
                   </td>
                 </tr>

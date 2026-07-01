@@ -5,10 +5,29 @@ import { z } from "zod";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import {
-  Home, FileText, Stethoscope, GraduationCap, Sparkles, MoreHorizontal,
-  Plane, KeyRound, Compass, HeartHandshake, ArrowRight, Languages,
-  CheckCircle2, Minus, X as XIcon, Users, Clock, ChevronDown, ChevronUp,
-  Shield, Zap, Building2, Menu,
+  Home,
+  FileText,
+  Stethoscope,
+  GraduationCap,
+  Sparkles,
+  MoreHorizontal,
+  Plane,
+  KeyRound,
+  Compass,
+  HeartHandshake,
+  ArrowRight,
+  Languages,
+  CheckCircle2,
+  Minus,
+  X as XIcon,
+  Users,
+  Clock,
+  ChevronDown,
+  ChevronUp,
+  Shield,
+  Zap,
+  Building2,
+  Menu,
 } from "lucide-react";
 
 import { useCareLang, type Lang } from "@/lib/care/i18n";
@@ -20,9 +39,16 @@ export const Route = createFileRoute("/employee-care")({
   head: () => ({
     meta: [
       { title: "WITH Care — Settlement Support for Your Team in Vietnam" },
-      { name: "description", content: "Relocation concierge for foreign teams in Vietnam — housing, paperwork, healthcare, schools." },
+      {
+        name: "description",
+        content:
+          "Relocation concierge for foreign teams in Vietnam — housing, paperwork, healthcare, schools.",
+      },
       { property: "og:title", content: "WITH Care — Settlement Support" },
-      { property: "og:description", content: "Housing, paperwork, healthcare, schools — handled, from pre-arrival to renewal." },
+      {
+        property: "og:description",
+        content: "Housing, paperwork, healthcare, schools — handled, from pre-arrival to renewal.",
+      },
     ],
   }),
   component: EmployeeCarePageWrapper,
@@ -45,7 +71,7 @@ function useReveal() {
           }
         });
       },
-      { threshold: 0.12 }
+      { threshold: 0.12 },
     );
     els.forEach((el) => io.observe(el));
     return () => io.disconnect();
@@ -119,14 +145,16 @@ function Nav() {
         </Link>
         <nav className="hidden items-center gap-7 text-sm md:flex">
           {NAV_LINKS.map(({ href, k }) => (
-            <a key={href} href={href} className="opacity-70 transition hover:opacity-100">{t(k)}</a>
+            <a key={href} href={href} className="opacity-70 transition hover:opacity-100">
+              {t(k)}
+            </a>
           ))}
         </nav>
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguagePicker />
           <Link
             to="/portal"
-            className="hidden rounded-full bg-[var(--ec-coral)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#d96a4f] md:inline-flex"
+            className="hidden rounded-full bg-[var(--ec-coral)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#109c5f] md:inline-flex"
           >
             Portal
           </Link>
@@ -154,8 +182,14 @@ function Nav() {
         >
           <div className="flex h-full flex-col px-6 py-8">
             <div className="mb-8 flex items-center gap-3">
-              <img src={withLogo} alt="WITH" className="h-7 w-auto brightness-0 invert opacity-90" />
-              <span className="font-display text-sm font-semibold tracking-widest text-[var(--ec-coral-soft)]">CARE</span>
+              <img
+                src={withLogo}
+                alt="WITH"
+                className="h-7 w-auto brightness-0 invert opacity-90"
+              />
+              <span className="font-display text-sm font-semibold tracking-widest text-[var(--ec-coral-soft)]">
+                CARE
+              </span>
             </div>
             <nav className="flex flex-col gap-1 text-base">
               {NAV_LINKS.map(({ href, k }) => (
@@ -173,7 +207,7 @@ function Nav() {
               <SheetClose asChild>
                 <Link
                   to="/portal"
-                  className="inline-flex items-center justify-center rounded-full bg-[var(--ec-coral)] px-4 py-2.5 text-sm font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#d96a4f]"
+                  className="inline-flex items-center justify-center rounded-full bg-[var(--ec-coral)] px-4 py-2.5 text-sm font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#109c5f]"
                 >
                   Portal
                 </Link>
@@ -246,7 +280,7 @@ function Hero() {
             <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap anim-fade-up delay-400">
               <a
                 href="#request"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--ec-coral)] px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[var(--ec-coral)]/30 transition hover:bg-[#d96a4f] hover:shadow-[var(--ec-coral)]/45"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--ec-coral)] px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[var(--ec-coral)]/30 transition hover:bg-[#109c5f] hover:shadow-[var(--ec-coral)]/45"
               >
                 {t("hero.cta.request")} <ArrowRight className="h-4 w-4" />
               </a>
@@ -261,7 +295,7 @@ function Hero() {
             <div className="mt-10 flex flex-wrap gap-3 sm:mt-12 sm:gap-4 anim-fade-in delay-600">
               {[
                 { label: "4 Service Categories", accent: "var(--ec-coral-soft)" },
-                { label: "Pre-arrival to Renewal", accent: "#7dd3d1" },
+                { label: "Pre-arrival to Renewal", accent: "#3fcf94" },
                 { label: "EN · KO · VI", accent: "var(--ec-coral-soft)" },
               ].map((chip) => (
                 <div
@@ -289,7 +323,9 @@ function SectionHeader({ eyebrow, title, sub }: { eyebrow?: string; title: strin
           {eyebrow}
         </p>
       )}
-      <h2 className="font-display text-3xl tracking-tight text-[var(--ec-ink)] md:text-4xl">{title}</h2>
+      <h2 className="font-display text-3xl tracking-tight text-[var(--ec-ink)] md:text-4xl">
+        {title}
+      </h2>
       {sub && <p className="mt-3 text-base text-[var(--ec-muted)]">{sub}</p>}
     </div>
   );
@@ -369,13 +405,17 @@ function HowItWorks() {
               style={{ transitionDelay: `${i * 80}ms` }}
             >
               <div className="mb-5 flex items-center justify-between">
-                <span className="font-display text-xs uppercase tracking-[0.2em] text-[var(--ec-muted)]">0{i + 1}</span>
+                <span className="font-display text-xs uppercase tracking-[0.2em] text-[var(--ec-muted)]">
+                  0{i + 1}
+                </span>
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--ec-teal)]/8 transition group-hover:bg-[var(--ec-teal)]/15">
                   <Icon className="h-5 w-5 text-[var(--ec-teal)]" />
                 </div>
               </div>
               <h3 className="font-display text-xl text-[var(--ec-ink)]">{t(`how.${k}.t`)}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-[var(--ec-muted)]">{t(`how.${k}.d`)}</p>
+              <p className="mt-3 text-sm leading-relaxed text-[var(--ec-muted)]">
+                {t(`how.${k}.d`)}
+              </p>
             </div>
           ))}
         </div>
@@ -419,7 +459,10 @@ function Services() {
 }
 
 type FeatureLevel = "yes" | "partial" | "no";
-interface TierFeature { label: string; level: FeatureLevel }
+interface TierFeature {
+  label: string;
+  level: FeatureLevel;
+}
 interface TierInfo {
   seats: string;
   price: string;
@@ -507,7 +550,9 @@ function FeatureRow({ label, level }: TierFeature) {
         {level === "partial" && <Minus className="h-3.5 w-3.5 text-amber-400" />}
         {level === "no" && <XIcon className="h-3.5 w-3.5 text-white/20" />}
       </span>
-      <span className={`text-[13px] leading-snug ${level === "no" ? "text-white/25 line-through" : level === "partial" ? "text-white/70" : "text-white/85"}`}>
+      <span
+        className={`text-[13px] leading-snug ${level === "no" ? "text-white/25 line-through" : level === "partial" ? "text-white/70" : "text-white/85"}`}
+      >
         {label}
       </span>
     </div>
@@ -552,18 +597,17 @@ function HRTiers() {
                 }`}
               >
                 {/* Card header — always visible, clickable */}
-                <button
-                  onClick={() => setOpen(isOpen ? null : k)}
-                  className="w-full text-left p-6"
-                >
+                <button onClick={() => setOpen(isOpen ? null : k)} className="w-full text-left p-6">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/15">
                       <Icon className="h-4.5 w-4.5" style={{ width: 18, height: 18 }} />
                     </div>
                     <div className="mt-0.5">
-                      {isOpen
-                        ? <ChevronUp className="h-4 w-4 text-white/40" />
-                        : <ChevronDown className="h-4 w-4 text-white/40" />}
+                      {isOpen ? (
+                        <ChevronUp className="h-4 w-4 text-white/40" />
+                      ) : (
+                        <ChevronDown className="h-4 w-4 text-white/40" />
+                      )}
                     </div>
                   </div>
 
@@ -574,15 +618,28 @@ function HRTiers() {
                   )}
 
                   <h3 className="mt-3 font-display text-2xl">{t(`tier.${k}`)}</h3>
-                  <p className={`mt-1 text-sm ${isOpen || featured ? "text-white/80" : "text-white/50"}`}>{t(`tier.${k}.d`)}</p>
+                  <p
+                    className={`mt-1 text-sm ${isOpen || featured ? "text-white/80" : "text-white/50"}`}
+                  >
+                    {t(`tier.${k}.d`)}
+                  </p>
 
                   {/* Quick stats row */}
-                  <div className={`mt-4 grid grid-cols-2 gap-2 text-[11px] ${isOpen || featured ? "text-white/75" : "text-white/45"}`}>
-                    <span className="flex items-center gap-1"><Users className="h-3 w-3" /> {data.seats.replace("Up to ", "≤ ").replace(" employees", "")}</span>
-                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {data.sla}</span>
+                  <div
+                    className={`mt-4 grid grid-cols-2 gap-2 text-[11px] ${isOpen || featured ? "text-white/75" : "text-white/45"}`}
+                  >
+                    <span className="flex items-center gap-1">
+                      <Users className="h-3 w-3" />{" "}
+                      {data.seats.replace("Up to ", "≤ ").replace(" employees", "")}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" /> {data.sla}
+                    </span>
                   </div>
 
-                  <div className={`mt-3 text-[11px] font-semibold uppercase tracking-widest ${isOpen || featured ? "text-white/90" : "text-white/35"}`}>
+                  <div
+                    className={`mt-3 text-[11px] font-semibold uppercase tracking-widest ${isOpen || featured ? "text-white/90" : "text-white/35"}`}
+                  >
                     {data.price}
                   </div>
                 </button>
@@ -596,33 +653,41 @@ function HRTiers() {
                   }}
                 >
                   <div className="px-6 pb-6 pt-1 border-t border-white/10">
-                        <p className={`mb-3 text-[10px] uppercase tracking-widest ${isOpen || featured ? "text-white/60" : "text-white/30"}`}>
-                          {t("tier.included")}
-                        </p>
-                        <div className="space-y-0.5">
-                          {data.features.map((f) => (
-                            <FeatureRow key={f.label} label={t(f.label)} level={f.level} />
-                          ))}
-                        </div>
+                    <p
+                      className={`mb-3 text-[10px] uppercase tracking-widest ${isOpen || featured ? "text-white/60" : "text-white/30"}`}
+                    >
+                      {t("tier.included")}
+                    </p>
+                    <div className="space-y-0.5">
+                      {data.features.map((f) => (
+                        <FeatureRow key={f.label} label={t(f.label)} level={f.level} />
+                      ))}
+                    </div>
 
-                        {/* Agent info */}
-                        <div className={`mt-4 rounded-xl px-3.5 py-2.5 text-[12px] ${isOpen || featured ? "bg-white/15" : "bg-white/[0.06]"}`}>
-                          <span className={isOpen || featured ? "text-white/60" : "text-white/35"}>{t("tier.agent.label")}: </span>
-                          <span className={isOpen || featured ? "text-white/90" : "text-white/65"}>{t(data.agent)}</span>
-                        </div>
+                    {/* Agent info */}
+                    <div
+                      className={`mt-4 rounded-xl px-3.5 py-2.5 text-[12px] ${isOpen || featured ? "bg-white/15" : "bg-white/[0.06]"}`}
+                    >
+                      <span className={isOpen || featured ? "text-white/60" : "text-white/35"}>
+                        {t("tier.agent.label")}:{" "}
+                      </span>
+                      <span className={isOpen || featured ? "text-white/90" : "text-white/65"}>
+                        {t(data.agent)}
+                      </span>
+                    </div>
 
-                        {/* CTA */}
-                        <a
-                          href="#request"
-                          className={`mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all ${
-                            isOpen || featured
-                              ? "bg-white text-[var(--ec-coral)] hover:bg-white/90"
-                              : "bg-white/10 text-white hover:bg-white/20"
-                          }`}
-                        >
-                          {t("tier.cta")} <ArrowRight className="h-3.5 w-3.5" />
-                        </a>
-                      </div>
+                    {/* CTA */}
+                    <a
+                      href="#request"
+                      className={`mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all ${
+                        isOpen || featured
+                          ? "bg-white text-[var(--ec-coral)] hover:bg-white/90"
+                          : "bg-white/10 text-white hover:bg-white/20"
+                      }`}
+                    >
+                      {t("tier.cta")} <ArrowRight className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
                 </div>
               </div>
             );
@@ -631,9 +696,15 @@ function HRTiers() {
 
         {/* Legend */}
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-white/35">
-          <span className="flex items-center gap-1.5"><CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> Included</span>
-          <span className="flex items-center gap-1.5"><Minus className="h-3.5 w-3.5 text-amber-400" /> Partial / limited</span>
-          <span className="flex items-center gap-1.5"><XIcon className="h-3.5 w-3.5 text-white/20" /> Not included</span>
+          <span className="flex items-center gap-1.5">
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> Included
+          </span>
+          <span className="flex items-center gap-1.5">
+            <Minus className="h-3.5 w-3.5 text-amber-400" /> Partial / limited
+          </span>
+          <span className="flex items-center gap-1.5">
+            <XIcon className="h-3.5 w-3.5 text-white/20" /> Not included
+          </span>
         </div>
       </div>
     </section>
@@ -657,7 +728,14 @@ function RequestForm() {
   const [submitting, setSubmitting] = useState(false);
   const form = useForm<FormVals>({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", contact: "", company: "", category: "Housing", subject: "", details: "" },
+    defaultValues: {
+      name: "",
+      contact: "",
+      company: "",
+      category: "Housing",
+      subject: "",
+      details: "",
+    },
   });
 
   const onSubmit = (v: FormVals) => {
@@ -684,7 +762,10 @@ function RequestForm() {
           <SectionHeader eyebrow="Request" title={t("form.title")} sub={t("form.sub")} />
           <p className="text-sm text-[var(--ec-muted)]">
             {t("form.haveAccount")}?{" "}
-            <Link to="/care/login" className="text-[var(--ec-teal)] underline underline-offset-2 hover:text-[var(--ec-teal-soft)]">
+            <Link
+              to="/care/login"
+              className="text-[var(--ec-teal)] underline underline-offset-2 hover:text-[var(--ec-teal-soft)]"
+            >
               {t("nav.login")}
             </Link>
           </p>
@@ -705,13 +786,25 @@ function RequestForm() {
             </Field>
             <Field label={t("form.category")}>
               <select className={inputCls} {...form.register("category")}>
-                {CARE_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                {CARE_CATEGORIES.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
               </select>
             </Field>
-            <Field label={t("form.subject")} error={form.formState.errors.subject?.message} className="md:col-span-2">
+            <Field
+              label={t("form.subject")}
+              error={form.formState.errors.subject?.message}
+              className="md:col-span-2"
+            >
               <input className={inputCls} {...form.register("subject")} />
             </Field>
-            <Field label={t("form.details")} error={form.formState.errors.details?.message} className="md:col-span-2">
+            <Field
+              label={t("form.details")}
+              error={form.formState.errors.details?.message}
+              className="md:col-span-2"
+            >
               <textarea rows={5} className={inputCls} {...form.register("details")} />
             </Field>
           </div>
@@ -729,15 +822,27 @@ function RequestForm() {
 }
 
 function Field({
-  label, hint, error, children, className,
+  label,
+  hint,
+  error,
+  children,
+  className,
 }: {
-  label: string; hint?: string; error?: string; children: React.ReactNode; className?: string;
+  label: string;
+  hint?: string;
+  error?: string;
+  children: React.ReactNode;
+  className?: string;
 }) {
   return (
     <label className={`block ${className ?? ""}`}>
-      <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-[var(--ec-muted)]">{label}</span>
+      <span className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-[var(--ec-muted)]">
+        {label}
+      </span>
       {children}
-      {hint && !error && <span className="mt-1 block text-xs text-[var(--ec-muted)]/70">{hint}</span>}
+      {hint && !error && (
+        <span className="mt-1 block text-xs text-[var(--ec-muted)]/70">{hint}</span>
+      )}
       {error && <span className="mt-1 block text-xs text-[var(--ec-coral)]">{error}</span>}
     </label>
   );
@@ -760,17 +865,31 @@ function Footer() {
                 decoding="async"
                 className="h-7 w-auto brightness-0 invert opacity-70"
               />
-              <span className="font-display text-base font-semibold tracking-widest text-[var(--ec-coral-soft)]">CARE</span>
+              <span className="font-display text-base font-semibold tracking-widest text-[var(--ec-coral-soft)]">
+                CARE
+              </span>
             </div>
             <p className="text-sm leading-relaxed max-w-xs">{t("footer.tagline")}</p>
           </div>
           <div className="flex flex-wrap gap-6 text-sm">
-            <a href="#how" className="transition hover:text-white">{t("nav.how")}</a>
-            <a href="#services" className="transition hover:text-white">{t("nav.services")}</a>
-            <a href="#hr" className="transition hover:text-white">{t("nav.hr")}</a>
-            <a href="#request" className="transition hover:text-white">{t("nav.request")}</a>
-            <Link to="/care/login" className="transition hover:text-white">{t("nav.login")}</Link>
-            <Link to="/with-property" className="transition hover:text-white">WithProperty</Link>
+            <a href="#how" className="transition hover:text-white">
+              {t("nav.how")}
+            </a>
+            <a href="#services" className="transition hover:text-white">
+              {t("nav.services")}
+            </a>
+            <a href="#hr" className="transition hover:text-white">
+              {t("nav.hr")}
+            </a>
+            <a href="#request" className="transition hover:text-white">
+              {t("nav.request")}
+            </a>
+            <Link to="/care/login" className="transition hover:text-white">
+              {t("nav.login")}
+            </Link>
+            <Link to="/with-property" className="transition hover:text-white">
+              WithProperty
+            </Link>
           </div>
         </div>
 
