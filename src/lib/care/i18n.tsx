@@ -15,15 +15,18 @@ const dicts: Record<Lang, Dict> = {
     "nav.login": "Sign in",
     "hero.eyebrow": "Settlement Support, From Day One",
     "hero.title": "Your People. Settled in Vietnam, Without the Guesswork.",
-    "hero.sub": "Housing, paperwork, healthcare, schools — WITH Care handles the details so your team can focus on the move.",
+    "hero.sub":
+      "Housing, paperwork, healthcare, schools — WITH Care handles the details so your team can focus on the move.",
     "hero.cta.request": "Request Support",
     "hero.cta.hr": "For HR Teams",
     "how.title": "How it works",
     "how.sub": "Four phases of care that follow your team from offer letter to lease renewal.",
     "how.1.t": "Pre-Arrival",
-    "how.1.d": "Housing consulting based on family size, budget, and commute. District comparison reports.",
+    "how.1.d":
+      "Housing consulting based on family size, budget, and commute. District comparison reports.",
     "how.2.t": "Arrival & Move-In",
-    "how.2.d": "Airport pickup, short-term stay, multilingual contract support, residence registration and tax paperwork.",
+    "how.2.d":
+      "Airport pickup, short-term stay, multilingual contract support, residence registration and tax paperwork.",
     "how.3.t": "Settling In",
     "how.3.d": "School search, medical referrals, lifestyle and neighborhood guidance.",
     "how.4.t": "Ongoing Care",
@@ -43,7 +46,8 @@ const dicts: Record<Lang, Dict> = {
     "svc.other": "Other",
     "svc.other.d": "Anything settlement-related. If it's part of the move, it's ours.",
     "hr.title": "For HR teams",
-    "hr.sub": "Choose how long WITH Care manages your team's settlement. Sales-assisted, no self-serve checkout.",
+    "hr.sub":
+      "Choose how long WITH Care manages your team's settlement. Sales-assisted, no self-serve checkout.",
     "tier.trial": "Trial",
     "tier.trial.d": "1 month",
     "tier.basic": "Basic",
@@ -150,6 +154,13 @@ const dicts: Record<Lang, Dict> = {
     "dash.no": "No",
     "dash.generated": "Generated",
 
+    /* ── Care status / category enums (display labels only — data values stay English) ── */
+    "status.New": "New",
+    "status.In Progress": "In Progress",
+    "status.Pending Info": "Pending Info",
+    "status.Resolved": "Resolved",
+    "status.Closed": "Closed",
+
     /* ── Admin ── */
     "admin.title": "WITH Care Admin",
     "admin.nav.companies": "Companies",
@@ -157,11 +168,16 @@ const dicts: Record<Lang, Dict> = {
     "admin.nav.requests": "Requests",
     "admin.nav.reports": "Reports",
     "admin.stat.companies": "Companies",
+    "admin.stat.companies.sub": "active accounts",
     "admin.stat.employees": "Employees",
+    "admin.stat.employees.sub": "enrolled staff",
     "admin.stat.openRequests": "Open Requests",
+    "admin.stat.openRequests.sub": "need attention",
     "admin.stat.reports": "Reports",
+    "admin.stat.reports.sub": "generated",
 
     "co.section": "Partner Companies",
+    "co.section.sub": "{count} company accounts",
     "co.new": "New company",
     "co.form.title": "New Company",
     "co.form.name": "Company name",
@@ -169,6 +185,8 @@ const dicts: Record<Lang, Dict> = {
     "co.form.hrEmail": "HR contact email",
     "co.form.seats": "Seats",
     "co.form.submit": "Create company",
+    "co.toast.created": "Company created",
+    "co.empty": "No companies yet. Create your first company account above.",
     "co.col.company": "Company",
     "co.col.tier": "Tier",
     "co.col.contract": "Contract",
@@ -176,6 +194,7 @@ const dicts: Record<Lang, Dict> = {
     "co.col.hr": "HR Contact",
 
     "emp.section": "Care Employees",
+    "emp.section.sub": "{count} employee records",
     "emp.new": "New",
     "emp.form.title": "New Employee",
     "emp.form.uid": "User ID",
@@ -184,6 +203,7 @@ const dicts: Record<Lang, Dict> = {
     "emp.form.nationality": "Nationality",
     "emp.form.familySize": "Family size",
     "emp.form.submit": "Create employee",
+    "emp.toast.created": "Employee created",
     "emp.col.name": "Name",
     "emp.col.company": "Company",
     "emp.col.stage": "Stage",
@@ -195,17 +215,21 @@ const dicts: Record<Lang, Dict> = {
     "emp.detail.rent": "Monthly rent (USD)",
 
     "req.section": "All Requests",
+    "req.section.sub": "{count} requests shown",
     "req.empty.list": "No requests match filters",
     "req.empty.detail": "Select a request to view details",
     "req.col.category": "Category",
     "req.col.id": "ID",
 
     "rep.section": "Reports",
+    "rep.section.sub": "{count} reports generated",
     "rep.new": "Generate report",
     "rep.form.title": "New Report",
     "rep.form.period": "Period label (e.g. June 2026)",
     "rep.form.summary": "Executive summary",
     "rep.form.submit": "Generate",
+    "rep.toast.created": "Report generated",
+    "rep.empty": "No reports yet. Generate your first report above.",
 
     /* ── Staff ── */
     "staff.title": "Care Operations",
@@ -245,7 +269,8 @@ const dicts: Record<Lang, Dict> = {
     "mycare.req.empty.detail": "Select a request to read the thread",
     "mycare.housing.section": "My Housing",
     "mycare.housing.empty": "No housing on file yet.",
-    "mycare.housing.empty.sub": "Your staff coordinator will update this once your lease is arranged.",
+    "mycare.housing.empty.sub":
+      "Your staff coordinator will update this once your lease is arranged.",
     "mycare.housing.current": "Current residence",
     "mycare.housing.rent": "Monthly rent",
     "mycare.housing.start": "Lease start",
@@ -400,17 +425,28 @@ const dicts: Record<Lang, Dict> = {
     "dash.no": "아니오",
     "dash.generated": "생성됨",
 
+    "status.New": "신규",
+    "status.In Progress": "진행 중",
+    "status.Pending Info": "정보 대기",
+    "status.Resolved": "해결됨",
+    "status.Closed": "종료",
+
     "admin.title": "WITH Care 관리자",
     "admin.nav.companies": "회사",
     "admin.nav.employees": "직원",
     "admin.nav.requests": "요청",
     "admin.nav.reports": "보고서",
     "admin.stat.companies": "회사",
+    "admin.stat.companies.sub": "활성 계정",
     "admin.stat.employees": "직원",
+    "admin.stat.employees.sub": "등록된 직원",
     "admin.stat.openRequests": "진행 중 요청",
+    "admin.stat.openRequests.sub": "확인 필요",
     "admin.stat.reports": "보고서",
+    "admin.stat.reports.sub": "생성됨",
 
     "co.section": "파트너 회사",
+    "co.section.sub": "회사 계정 {count}개",
     "co.new": "새 회사",
     "co.form.title": "새 회사 등록",
     "co.form.name": "회사명",
@@ -418,6 +454,8 @@ const dicts: Record<Lang, Dict> = {
     "co.form.hrEmail": "HR 담당자 이메일",
     "co.form.seats": "좌석 수",
     "co.form.submit": "회사 생성",
+    "co.toast.created": "회사가 생성되었습니다",
+    "co.empty": "등록된 회사가 없습니다. 위에서 첫 회사를 등록하세요.",
     "co.col.company": "회사",
     "co.col.tier": "등급",
     "co.col.contract": "계약",
@@ -425,6 +463,7 @@ const dicts: Record<Lang, Dict> = {
     "co.col.hr": "HR 담당자",
 
     "emp.section": "케어 직원",
+    "emp.section.sub": "직원 기록 {count}건",
     "emp.new": "신규",
     "emp.form.title": "새 직원 등록",
     "emp.form.uid": "사용자 ID",
@@ -433,6 +472,7 @@ const dicts: Record<Lang, Dict> = {
     "emp.form.nationality": "국적",
     "emp.form.familySize": "가족 수",
     "emp.form.submit": "직원 생성",
+    "emp.toast.created": "직원이 생성되었습니다",
     "emp.col.name": "이름",
     "emp.col.company": "회사",
     "emp.col.stage": "단계",
@@ -444,17 +484,21 @@ const dicts: Record<Lang, Dict> = {
     "emp.detail.rent": "월 임대료 (USD)",
 
     "req.section": "전체 요청",
+    "req.section.sub": "요청 {count}건 표시됨",
     "req.empty.list": "필터에 맞는 요청이 없습니다",
     "req.empty.detail": "요청을 선택해 상세 정보를 보세요",
     "req.col.category": "카테고리",
     "req.col.id": "ID",
 
     "rep.section": "보고서",
+    "rep.section.sub": "보고서 {count}건 생성됨",
     "rep.new": "보고서 생성",
     "rep.form.title": "새 보고서",
     "rep.form.period": "기간 레이블 (예: 2026년 6월)",
     "rep.form.summary": "요약",
     "rep.form.submit": "생성",
+    "rep.toast.created": "보고서가 생성되었습니다",
+    "rep.empty": "생성된 보고서가 없습니다. 위에서 첫 보고서를 생성하세요.",
 
     "staff.title": "케어 운영",
     "staff.nav.mine": "내 요청",
@@ -522,7 +566,8 @@ const dicts: Record<Lang, Dict> = {
     "how.1.t": "Trước khi đến",
     "how.1.d": "Tư vấn nhà ở theo gia đình, ngân sách, đi lại. So sánh khu vực.",
     "how.2.t": "Đến & nhận nhà",
-    "how.2.d": "Đón sân bay, lưu trú ngắn hạn, hỗ trợ hợp đồng đa ngôn ngữ, đăng ký tạm trú và thuế.",
+    "how.2.d":
+      "Đón sân bay, lưu trú ngắn hạn, hỗ trợ hợp đồng đa ngôn ngữ, đăng ký tạm trú và thuế.",
     "how.3.t": "Ổn định",
     "how.3.d": "Tìm trường, giới thiệu y tế, hướng dẫn lối sống.",
     "how.4.t": "Chăm sóc liên tục",
@@ -647,17 +692,28 @@ const dicts: Record<Lang, Dict> = {
     "dash.no": "Không",
     "dash.generated": "Đã tạo",
 
+    "status.New": "Mới",
+    "status.In Progress": "Đang xử lý",
+    "status.Pending Info": "Chờ thông tin",
+    "status.Resolved": "Đã giải quyết",
+    "status.Closed": "Đã đóng",
+
     "admin.title": "Quản Trị WITH Care",
     "admin.nav.companies": "Công ty",
     "admin.nav.employees": "Nhân viên",
     "admin.nav.requests": "Yêu cầu",
     "admin.nav.reports": "Báo cáo",
     "admin.stat.companies": "Công ty",
+    "admin.stat.companies.sub": "tài khoản hoạt động",
     "admin.stat.employees": "Nhân viên",
+    "admin.stat.employees.sub": "nhân viên đã đăng ký",
     "admin.stat.openRequests": "Yêu cầu mở",
+    "admin.stat.openRequests.sub": "cần xử lý",
     "admin.stat.reports": "Báo cáo",
+    "admin.stat.reports.sub": "đã tạo",
 
     "co.section": "Công ty đối tác",
+    "co.section.sub": "{count} tài khoản công ty",
     "co.new": "Thêm công ty",
     "co.form.title": "Công ty mới",
     "co.form.name": "Tên công ty",
@@ -665,6 +721,8 @@ const dicts: Record<Lang, Dict> = {
     "co.form.hrEmail": "Email liên hệ HR",
     "co.form.seats": "Số ghế",
     "co.form.submit": "Tạo công ty",
+    "co.toast.created": "Đã tạo công ty",
+    "co.empty": "Chưa có công ty nào. Hãy tạo công ty đầu tiên ở trên.",
     "co.col.company": "Công ty",
     "co.col.tier": "Gói",
     "co.col.contract": "Hợp đồng",
@@ -672,6 +730,7 @@ const dicts: Record<Lang, Dict> = {
     "co.col.hr": "Liên hệ HR",
 
     "emp.section": "Nhân viên chăm sóc",
+    "emp.section.sub": "{count} hồ sơ nhân viên",
     "emp.new": "Thêm mới",
     "emp.form.title": "Nhân viên mới",
     "emp.form.uid": "Tên đăng nhập",
@@ -680,6 +739,7 @@ const dicts: Record<Lang, Dict> = {
     "emp.form.nationality": "Quốc tịch",
     "emp.form.familySize": "Số thành viên gia đình",
     "emp.form.submit": "Tạo nhân viên",
+    "emp.toast.created": "Đã tạo nhân viên",
     "emp.col.name": "Họ tên",
     "emp.col.company": "Công ty",
     "emp.col.stage": "Giai đoạn",
@@ -691,17 +751,21 @@ const dicts: Record<Lang, Dict> = {
     "emp.detail.rent": "Tiền thuê hàng tháng (USD)",
 
     "req.section": "Tất cả yêu cầu",
+    "req.section.sub": "{count} yêu cầu đang hiển thị",
     "req.empty.list": "Không có yêu cầu nào phù hợp",
     "req.empty.detail": "Chọn yêu cầu để xem chi tiết",
     "req.col.category": "Danh mục",
     "req.col.id": "Mã",
 
     "rep.section": "Báo cáo",
+    "rep.section.sub": "{count} báo cáo đã tạo",
     "rep.new": "Tạo báo cáo",
     "rep.form.title": "Báo cáo mới",
     "rep.form.period": "Nhãn kỳ (VD: Tháng 6/2026)",
     "rep.form.summary": "Tóm tắt",
     "rep.form.submit": "Tạo",
+    "rep.toast.created": "Đã tạo báo cáo",
+    "rep.empty": "Chưa có báo cáo nào. Hãy tạo báo cáo đầu tiên ở trên.",
 
     "staff.title": "Vận hành Chăm Sóc",
     "staff.nav.mine": "Yêu cầu của tôi",
@@ -769,7 +833,9 @@ export function CareLangProvider({ children }: { children: ReactNode }) {
     if (vars) for (const [vk, vv] of Object.entries(vars)) s = s.replace(`{${vk}}`, vv);
     return s;
   };
-  return <CareLangContext.Provider value={{ lang, setLang, t }}>{children}</CareLangContext.Provider>;
+  return (
+    <CareLangContext.Provider value={{ lang, setLang, t }}>{children}</CareLangContext.Provider>
+  );
 }
 
 export const useCareLang = () => useContext(CareLangContext);

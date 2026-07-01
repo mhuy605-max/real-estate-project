@@ -96,25 +96,25 @@ function AdminDashboard() {
         <StatCard
           label={t("admin.stat.companies")}
           value={state.companies.length}
-          sub="active accounts"
+          sub={t("admin.stat.companies.sub")}
           tone="teal"
         />
         <StatCard
           label={t("admin.stat.employees")}
           value={state.users.filter((u) => u.role === "employee").length}
-          sub="enrolled staff"
+          sub={t("admin.stat.employees.sub")}
           tone="coral"
         />
         <StatCard
           label={t("admin.stat.openRequests")}
           value={openCount}
-          sub="need attention"
+          sub={t("admin.stat.openRequests.sub")}
           tone="amber"
         />
         <StatCard
           label={t("admin.stat.reports")}
           value={state.reports.length}
-          sub="generated"
+          sub={t("admin.stat.reports.sub")}
           tone="sky"
         />
       </div>
@@ -171,7 +171,7 @@ function CompaniesTab() {
     <div className="space-y-5">
       <SectionHeader
         title={t("co.section")}
-        sub={`${state.companies.length} company accounts`}
+        sub={t("co.section.sub", { count: String(state.companies.length) })}
         action={
           <ActionBtn onClick={() => setShow((s) => !s)}>
             <Plus className="h-3.5 w-3.5" /> {t("co.new")}
@@ -193,7 +193,7 @@ function CompaniesTab() {
               <form
                 onSubmit={form.handleSubmit((v) => {
                   createCareCompany(v);
-                  toast.success("Company created");
+                  toast.success(t("co.toast.created"));
                   form.reset();
                   setShow(false);
                 })}
@@ -241,7 +241,7 @@ function CompaniesTab() {
 
       {state.companies.length === 0 ? (
         <EmptyState
-          message="No companies yet. Create your first company account above."
+          message={t("co.empty")}
           icon={<Building2 className="h-5 w-5 text-white/30" />}
         />
       ) : (
@@ -351,7 +351,7 @@ function EmployeesTab() {
     <div className="space-y-5">
       <SectionHeader
         title={t("emp.section")}
-        sub={`${employees.length} employee records`}
+        sub={t("emp.section.sub", { count: String(employees.length) })}
         action={
           <div className="flex items-center gap-2">
             <select
@@ -387,7 +387,7 @@ function EmployeesTab() {
               <form
                 onSubmit={form.handleSubmit((v) => {
                   createCareEmployee({ ...v, disabled: false, languagePref: "en" });
-                  toast.success("Employee created");
+                  toast.success(t("emp.toast.created"));
                   form.reset();
                   setShow(false);
                 })}
@@ -637,7 +637,7 @@ function RequestsTab() {
     <div className="space-y-5">
       <SectionHeader
         title={t("req.section")}
-        sub={`${list.length} request${list.length !== 1 ? "s" : ""} shown`}
+        sub={t("req.section.sub", { count: String(list.length) })}
       />
 
       {/* Filter bar */}
@@ -672,7 +672,9 @@ function RequestsTab() {
         >
           <option value="all">{t("dash.allStatuses")}</option>
           {CARE_STATUSES.map((s) => (
-            <option key={s}>{s}</option>
+            <option key={s} value={s}>
+              {t(`status.${s}`)}
+            </option>
           ))}
         </select>
       </div>
@@ -699,7 +701,7 @@ function RequestsTab() {
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-[10px] text-white/28 font-mono">{r.id}</span>
-                  <Pill tone={statusTone(r.status)}>{r.status}</Pill>
+                  <Pill tone={statusTone(r.status)}>{t(`status.${r.status}`)}</Pill>
                 </div>
                 <div className="text-[13px] font-semibold text-white/90 leading-snug">
                   {r.subject}
@@ -707,7 +709,7 @@ function RequestsTab() {
                 <div className="mt-1.5 flex items-center justify-between">
                   <span className="text-[11px] text-white/38">{r.category}</span>
                   <span className="text-[11px] text-white/30">
-                    {getCompanyName(state.companies, r.companyId) || "Guest"}
+                    {getCompanyName(state.companies, r.companyId) || t("dash.guest")}
                   </span>
                 </div>
               </button>
@@ -731,7 +733,7 @@ function RequestsTab() {
                     {selected.subject}
                   </h2>
                   <p className="text-[11px] text-white/35 mt-0.5">
-                    {getCompanyName(state.companies, selected.companyId) || "Guest"}
+                    {getCompanyName(state.companies, selected.companyId) || t("dash.guest")}
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -743,7 +745,9 @@ function RequestsTab() {
                     }
                   >
                     {CARE_STATUSES.map((s) => (
-                      <option key={s}>{s}</option>
+                      <option key={s} value={s}>
+                        {t(`status.${s}`)}
+                      </option>
                     ))}
                   </select>
                   <select
@@ -862,7 +866,7 @@ function ReportsTab() {
     <div className="space-y-5">
       <SectionHeader
         title={t("rep.section")}
-        sub={`${state.reports.length} report${state.reports.length !== 1 ? "s" : ""} generated`}
+        sub={t("rep.section.sub", { count: String(state.reports.length) })}
         action={
           <ActionBtn onClick={() => setShow((s) => !s)}>
             <Plus className="h-3.5 w-3.5" /> {t("rep.new")}
@@ -884,7 +888,7 @@ function ReportsTab() {
               <form
                 onSubmit={form.handleSubmit((v) => {
                   generateCareReport(v.companyId, v.kind, v.periodLabel, v.summary);
-                  toast.success("Report generated");
+                  toast.success(t("rep.toast.created"));
                   form.reset();
                   setShow(false);
                 })}
@@ -926,7 +930,7 @@ function ReportsTab() {
 
       {state.reports.length === 0 ? (
         <EmptyState
-          message="No reports yet. Generate your first report above."
+          message={t("rep.empty")}
           icon={<FileBarChart className="h-5 w-5 text-white/30" />}
         />
       ) : (

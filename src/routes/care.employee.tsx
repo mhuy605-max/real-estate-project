@@ -253,7 +253,7 @@ function MyRequestsTab() {
               >
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-mono text-[10px] text-white/25">{r.id}</span>
-                  <Pill tone={statusTone(r.status)}>{r.status}</Pill>
+                  <Pill tone={statusTone(r.status)}>{t(`status.${r.status}`)}</Pill>
                 </div>
                 <div className="text-[13px] font-semibold text-white/90 leading-snug mb-1.5">
                   {r.subject}
@@ -290,7 +290,7 @@ function MyRequestsTab() {
                       {selected.subject}
                     </h2>
                   </div>
-                  <Pill tone={statusTone(selected.status)}>{selected.status}</Pill>
+                  <Pill tone={statusTone(selected.status)}>{t(`status.${selected.status}`)}</Pill>
                 </div>
                 <p className="text-[11px] text-white/30 tabular-nums mt-1.5">
                   <CalendarDays className="inline h-3 w-3 mr-1 opacity-60" />

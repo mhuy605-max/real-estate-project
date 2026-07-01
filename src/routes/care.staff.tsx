@@ -155,7 +155,7 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
                   {/* Top row: id + status */}
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-mono text-[10px] text-white/25">{r.id}</span>
-                    <Pill tone={statusTone(r.status)}>{r.status}</Pill>
+                    <Pill tone={statusTone(r.status)}>{t(`status.${r.status}`)}</Pill>
                   </div>
 
                   {/* Subject */}
@@ -197,7 +197,9 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
                       <span className={EBW}>{selected.category}</span>
                       <span className="text-white/18 text-[10px]">·</span>
                       <span className="font-mono text-[10px] text-white/25">{selected.id}</span>
-                      <Pill tone={statusTone(selected.status)}>{selected.status}</Pill>
+                      <Pill tone={statusTone(selected.status)}>
+                        {t(`status.${selected.status}`)}
+                      </Pill>
                     </div>
                     <h2 className="text-[16px] font-semibold text-white/92 leading-snug">
                       {selected.subject}
@@ -215,7 +217,7 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
                     >
                       {CARE_STATUSES.map((s) => (
                         <option key={s} value={s}>
-                          {s}
+                          {t(`status.${s}`)}
                         </option>
                       ))}
                     </select>
