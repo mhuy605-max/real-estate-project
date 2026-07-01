@@ -3,7 +3,7 @@ import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { g as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
 import { K as Construction, O as Landmark, T as Lock, dt as ArrowRight, i as Users, j as House, l as Star, n as X, nt as ChevronDown, o as TrendingUp, ot as Building2, ut as ArrowUpRight, x as Menu } from "../_libs/lucide-react.mjs";
-import { r as motion } from "../_libs/framer-motion.mjs";
+import { a as motion } from "../_libs/framer-motion.mjs";
 import { t as cn } from "./utils-C_uf36nf.mjs";
 import { n as useLang } from "./LangContext-BsxfAWbA.mjs";
 import { a as Line, c as ResponsiveContainer, i as XAxis, l as Tooltip, n as LineChart, o as CartesianGrid, r as YAxis, u as Legend } from "../_libs/recharts+[...].mjs";

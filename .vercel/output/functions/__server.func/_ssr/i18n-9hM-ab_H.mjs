@@ -1,7 +1,7 @@
 import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/i18n-BNcuN0TD.js
+//#region node_modules/.nitro/vite/services/ssr/assets/i18n-9hM-ab_H.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var CARE_CATEGORIES = [
@@ -463,6 +463,12 @@ var dicts = {
 		"form.haveAccount": "I already have an account",
 		"form.success": "We've logged your request as {ref} — our team will follow up within 24 hours.",
 		"footer.tagline": "Settlement support for every step of the move.",
+		"hero.stack.1.label": "District comparison ready",
+		"hero.stack.1.sub": "District 2 · District 7 · Thảo Điền",
+		"hero.stack.2.label": "TRC application filed",
+		"hero.stack.2.sub": "Est. approval in 9 business days",
+		"hero.stack.3.label": "Onboarding call booked",
+		"hero.stack.3.sub": "Thu, 10:00 — with Mai Trần",
 		"tier.included": "What's included",
 		"tier.agent.label": "Agent",
 		"tier.cta": "Talk to sales",
@@ -758,6 +764,12 @@ var dicts = {
 		"form.haveAccount": "이미 계정이 있습니다",
 		"form.success": "요청을 {ref}로 접수했습니다 — 24시간 내 연락드립니다.",
 		"footer.tagline": "이사의 모든 단계를 위한 정착 지원.",
+		"hero.stack.1.label": "지역 비교 완료",
+		"hero.stack.1.sub": "2군 · 7군 · 타오디엔",
+		"hero.stack.2.label": "거주증 신청 접수",
+		"hero.stack.2.sub": "영업일 기준 9일 내 승인 예정",
+		"hero.stack.3.label": "온보딩 상담 예약됨",
+		"hero.stack.3.sub": "목요일 10:00 — 마이 트란 담당",
 		"login.tag": "케어 포털",
 		"login.title": "다시 오셨군요",
 		"login.subtitle": "계정에 로그인하세요",
@@ -1010,6 +1022,12 @@ var dicts = {
 		"form.haveAccount": "Tôi đã có tài khoản",
 		"form.success": "Đã ghi nhận yêu cầu {ref} — chúng tôi sẽ liên hệ trong 24 giờ.",
 		"footer.tagline": "Hỗ trợ định cư cho mỗi bước của hành trình.",
+		"hero.stack.1.label": "Đã có so sánh khu vực",
+		"hero.stack.1.sub": "Quận 2 · Quận 7 · Thảo Điền",
+		"hero.stack.2.label": "Đã nộp hồ sơ TRC",
+		"hero.stack.2.sub": "Dự kiến duyệt trong 9 ngày làm việc",
+		"hero.stack.3.label": "Đã đặt lịch tư vấn nhập môn",
+		"hero.stack.3.sub": "Thứ Năm, 10:00 — phụ trách: Mai Trần",
 		"login.tag": "Cổng Chăm Sóc",
 		"login.title": "Chào mừng trở lại",
 		"login.subtitle": "Đăng nhập vào tài khoản của bạn",

@@ -9812,6 +9812,46 @@ function useCombineMotionValues(values, combineValues) {
 	return value;
 }
 //#endregion
+//#region node_modules/framer-motion/dist/es/value/use-motion-template.mjs
+/**
+* Combine multiple motion values into a new one using a string template literal.
+*
+* ```jsx
+* import {
+*   motion,
+*   useSpring,
+*   useMotionValue,
+*   useMotionTemplate
+* } from "framer-motion"
+*
+* function Component() {
+*   const shadowX = useSpring(0)
+*   const shadowY = useMotionValue(0)
+*   const shadow = useMotionTemplate`drop-shadow(${shadowX}px ${shadowY}px 20px rgba(0,0,0,0.3))`
+*
+*   return <motion.div style={{ filter: shadow }} />
+* }
+* ```
+*
+* @public
+*/
+function useMotionTemplate(fragments, ...values) {
+	/**
+	* Create a function that will build a string from the latest motion values.
+	*/
+	const numFragments = fragments.length;
+	function buildValue() {
+		let output = ``;
+		for (let i = 0; i < numFragments; i++) {
+			output += fragments[i];
+			const value = values[i];
+			if (value) output += isMotionValue(value) ? value.get() : value;
+		}
+		return output;
+	}
+	return useCombineMotionValues(values.filter(isMotionValue), buildValue);
+}
+//#endregion
 //#region node_modules/framer-motion/dist/es/value/use-computed.mjs
 function useComputed(compute) {
 	/**
@@ -9883,4 +9923,43 @@ function useSpring(source, options = {}) {
 	});
 }
 //#endregion
-export { AnimatePresence as i, useMotionValue as n, motion as r, useSpring as t };
+//#region node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion.mjs
+/**
+* A hook that returns `true` if we should be using reduced motion based on the current device's Reduced Motion setting.
+*
+* This can be used to implement changes to your UI based on Reduced Motion. For instance, replacing motion-sickness inducing
+* `x`/`y` animations with `opacity`, disabling the autoplay of background videos, or turning off parallax motion.
+*
+* It will actively respond to changes and re-render your components with the latest setting.
+*
+* ```jsx
+* export function Sidebar({ isOpen }) {
+*   const shouldReduceMotion = useReducedMotion()
+*   const closedX = shouldReduceMotion ? 0 : "-100%"
+*
+*   return (
+*     <motion.div animate={{
+*       opacity: isOpen ? 1 : 0,
+*       x: isOpen ? 0 : closedX
+*     }} />
+*   )
+* }
+* ```
+*
+* @return boolean
+*
+* @public
+*/
+function useReducedMotion() {
+	/**
+	* Lazy initialisation of prefersReducedMotion
+	*/
+	!hasReducedMotionListener.current && initPrefersReducedMotion();
+	const [shouldReduceMotion] = (0, import_react.useState)(prefersReducedMotion.current);
+	/**
+	* TODO See if people miss automatically updating shouldReduceMotion setting
+	*/
+	return shouldReduceMotion;
+}
+//#endregion
+export { motion as a, useMotionValue as i, useSpring as n, AnimatePresence as o, useMotionTemplate as r, useReducedMotion as t };

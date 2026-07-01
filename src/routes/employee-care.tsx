@@ -4,7 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState, useEffect, useRef, memo } from "react";
 import { toast } from "sonner";
-import { motion, useMotionValue, useSpring, type Variants } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useMotionTemplate,
+  useSpring,
+  useReducedMotion,
+  type Variants,
+} from "framer-motion";
 import {
   Home,
   FileText,
@@ -61,16 +68,38 @@ function EmployeeCarePageWrapper() {
   return <EmployeeCarePage />;
 }
 
-/* ── Motion primitives ───────────────────────────────────────────────────── */
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
-};
+/* ── Motion primitives — respect prefers-reduced-motion ──────────────────── */
+function fadeUpVariants(reduced: boolean): Variants {
+  return {
+    hidden: { opacity: reduced ? 1 : 0, y: reduced ? 0 : 24 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: reduced ? { duration: 0 } : { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+}
 
-const staggerParent: Variants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
-};
+function staggerParentVariants(reduced: boolean): Variants {
+  return {
+    hidden: {},
+    visible: {
+      transition: reduced
+        ? { staggerChildren: 0, delayChildren: 0 }
+        : { staggerChildren: 0.09, delayChildren: 0.05 },
+    },
+  };
+}
+
+/** Shared hook: gives each section its reduced-motion-aware fade/stagger variants. */
+function useSectionMotion() {
+  const reduced = !!useReducedMotion();
+  return {
+    reduced,
+    fadeUp: fadeUpVariants(reduced),
+    staggerParent: staggerParentVariants(reduced),
+  };
+}
 
 const springTransition = { type: "spring" as const, stiffness: 120, damping: 18 };
 
@@ -100,12 +129,14 @@ const MagneticCTA = memo(function MagneticCTA({
   className: string;
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
+  const reduced = !!useReducedMotion();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const sx = useSpring(x, { stiffness: 200, damping: 15, mass: 0.3 });
   const sy = useSpring(y, { stiffness: 200, damping: 15, mass: 0.3 });
 
   function handleMove(e: React.MouseEvent<HTMLAnchorElement>) {
+    if (reduced) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -135,7 +166,10 @@ const MagneticCTA = memo(function MagneticCTA({
   );
 });
 
-/* ── Spotlight card — cursor-tracked radial glow, isolated + memoized ───── */
+/* ── Spotlight card — cursor-tracked radial glow ─────────────────────────
+ * Uses useMotionValue + useMotionTemplate exclusively: the glow position
+ * updates outside React's render cycle on every mousemove, so this never
+ * triggers a re-render (unlike a useState-driven version would). */
 const SpotlightCard = memo(function SpotlightCard({
   children,
   className,
@@ -143,52 +177,48 @@ const SpotlightCard = memo(function SpotlightCard({
   children: React.ReactNode;
   className?: string;
 }) {
-  const [pos, setPos] = useState({ x: 50, y: 50 });
+  const mx = useMotionValue(50);
+  const my = useMotionValue(50);
+  const backgroundImage = useMotionTemplate`radial-gradient(320px circle at ${mx}% ${my}%, rgba(20,167,108,0.10), transparent 65%)`;
+
+  function handleMove(e: React.MouseEvent<HTMLDivElement>) {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mx.set(((e.clientX - rect.left) / rect.width) * 100);
+    my.set(((e.clientY - rect.top) / rect.height) * 100);
+  }
 
   return (
-    <div
-      onMouseMove={(e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        setPos({
-          x: ((e.clientX - rect.left) / rect.width) * 100,
-          y: ((e.clientY - rect.top) / rect.height) * 100,
-        });
-      }}
-      style={{
-        backgroundImage: `radial-gradient(320px circle at ${pos.x}% ${pos.y}%, rgba(20,167,108,0.10), transparent 65%)`,
-      }}
-      className={className}
-    >
+    <motion.div onMouseMove={handleMove} style={{ backgroundImage }} className={className}>
       {children}
-    </div>
+    </motion.div>
   );
 });
 
 /* ── Floating bento preview stack — perpetual motion, isolated leaf ─────── */
 const FloatingStack = memo(function FloatingStack() {
+  const { t } = useCareLang();
+  const reduced = !!useReducedMotion();
   const items = [
-    {
-      icon: MapPin,
-      label: "District comparison ready",
-      sub: "District 2 · District 7 · Thảo Điền",
-    },
-    { icon: FileCheck, label: "TRC application filed", sub: "Est. approval in 9 business days" },
-    { icon: HeartHandshake, label: "Onboarding call booked", sub: "Thu, 10:00 — with Mai Trần" },
+    { icon: MapPin, labelKey: "hero.stack.1.label", subKey: "hero.stack.1.sub" },
+    { icon: FileCheck, labelKey: "hero.stack.2.label", subKey: "hero.stack.2.sub" },
+    { icon: HeartHandshake, labelKey: "hero.stack.3.label", subKey: "hero.stack.3.sub" },
   ];
   return (
     <div className="relative mx-auto hidden h-[420px] w-full max-w-sm lg:block">
       {items.map((it, i) => (
         <motion.div
-          key={it.label}
-          initial={{ opacity: 0, y: 30, rotate: i % 2 === 0 ? -4 : 4 }}
+          key={it.labelKey}
+          initial={{ opacity: 0, y: reduced ? 0 : 30, rotate: i % 2 === 0 ? -4 : 4 }}
           animate={{
             opacity: 1,
-            y: [0, -10, 0],
+            y: reduced ? 0 : [0, -10, 0],
             rotate: i % 2 === 0 ? -3 : 3,
           }}
           transition={{
-            opacity: { duration: 0.6, delay: 0.3 + i * 0.15 },
-            y: { duration: 4.5 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 },
+            opacity: { duration: reduced ? 0 : 0.6, delay: reduced ? 0 : 0.3 + i * 0.15 },
+            y: reduced
+              ? { duration: 0 }
+              : { duration: 4.5 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 },
           }}
           style={{
             top: `${i * 34}%`,
@@ -202,8 +232,10 @@ const FloatingStack = memo(function FloatingStack() {
               <it.icon className="h-4 w-4 text-[var(--ec-coral-soft)]" />
             </div>
             <div className="min-w-0">
-              <p className="text-[13px] font-semibold leading-snug text-white/90">{it.label}</p>
-              <p className="mt-0.5 truncate text-[11px] text-white/45">{it.sub}</p>
+              <p className="text-[13px] font-semibold leading-snug text-white/90">
+                {t(it.labelKey)}
+              </p>
+              <p className="mt-0.5 truncate text-[11px] text-white/45">{t(it.subKey)}</p>
             </div>
           </div>
         </motion.div>
@@ -369,6 +401,7 @@ function Nav() {
 /* ── Hero — asymmetric split screen ──────────────────────────────────────── */
 function Hero() {
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useSectionMotion();
   return (
     <section className="relative overflow-hidden bg-[var(--ec-teal-deep)] pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-36 md:pb-28 text-white">
       <div
@@ -462,6 +495,7 @@ function Hero() {
 }
 
 function SectionHeader({ eyebrow, title, sub }: { eyebrow?: string; title: string; sub?: string }) {
+  const { fadeUp } = useSectionMotion();
   return (
     <motion.div
       initial="hidden"
@@ -509,6 +543,7 @@ const CARE_PHOTOS = [
 ];
 
 function PhotoStrip() {
+  const { fadeUp, staggerParent } = useSectionMotion();
   return (
     <div className="bg-[var(--ec-teal-deep)] py-10 overflow-hidden">
       <motion.div
@@ -549,6 +584,7 @@ function PhotoStrip() {
 /* ── How it works — asymmetric bento with spotlight cards ────────────────── */
 function HowItWorks() {
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useSectionMotion();
   const steps = [
     { icon: Compass, k: "1" },
     { icon: Plane, k: "2" },
@@ -594,6 +630,7 @@ function HowItWorks() {
 /* ── Services — true bento grid, mixed cell sizes ─────────────────────────── */
 function Services() {
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useSectionMotion();
   const items = [
     { icon: Home, k: "housing", span: "md:col-span-2 md:row-span-2" },
     { icon: FileText, k: "paperwork", span: "" },
@@ -722,10 +759,10 @@ function FeatureRow({ label, level }: TierFeature) {
       <span className="shrink-0">
         {level === "yes" && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" />}
         {level === "partial" && <Minus className="h-3.5 w-3.5 text-amber-400" />}
-        {level === "no" && <XIcon className="h-3.5 w-3.5 text-white/20" />}
+        {level === "no" && <XIcon className="h-3.5 w-3.5 text-white/45" />}
       </span>
       <span
-        className={`text-[13px] leading-snug ${level === "no" ? "text-white/25 line-through" : level === "partial" ? "text-white/70" : "text-white/85"}`}
+        className={`text-[13px] leading-snug ${level === "no" ? "text-white/45 line-through" : level === "partial" ? "text-white/70" : "text-white/85"}`}
       >
         {label}
       </span>
@@ -736,6 +773,7 @@ function FeatureRow({ label, level }: TierFeature) {
 /* ── HR Tiers — asymmetric offsets, featured tier elevated, spring hover ─── */
 function HRTiers() {
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useSectionMotion();
   const [open, setOpen] = useState<string | null>(null);
 
   const tiers = [
@@ -889,7 +927,7 @@ function HRTiers() {
         </motion.div>
 
         {/* Legend */}
-        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-white/35">
+        <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-white/45">
           <span className="flex items-center gap-1.5">
             <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> Included
           </span>
@@ -897,7 +935,7 @@ function HRTiers() {
             <Minus className="h-3.5 w-3.5 text-amber-400" /> Partial / limited
           </span>
           <span className="flex items-center gap-1.5">
-            <XIcon className="h-3.5 w-3.5 text-white/20" /> Not included
+            <XIcon className="h-3.5 w-3.5 text-white/45" /> Not included
           </span>
         </div>
       </div>
@@ -919,6 +957,7 @@ type FormVals = z.infer<typeof schema>;
 function RequestForm() {
   const { t } = useCareLang();
   const { submitCareRequest } = useCarePortal();
+  const { fadeUp } = useSectionMotion();
   const [submitting, setSubmitting] = useState(false);
   const form = useForm<FormVals>({
     resolver: zodResolver(schema),

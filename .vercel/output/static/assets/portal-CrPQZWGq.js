@@ -1,1 +1,0 @@
-import{o as e}from"./useStore-DgTVU5_6.js";import{S as t}from"./index-TPXcy9EX.js";var n=e();function r(){return(0,n.jsx)(`div`,{className:`font-inter`,children:(0,n.jsx)(t,{})})}export{r as component};

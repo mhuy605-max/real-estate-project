@@ -2,46 +2,62 @@ import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { g as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-import { c as useCareLang, l as useCarePortal, t as CARE_CATEGORIES } from "./i18n-BNcuN0TD.mjs";
+import { c as useCareLang, l as useCarePortal, t as CARE_CATEGORIES } from "./i18n-9hM-ab_H.mjs";
 import { $ as ChevronUp, D as Languages, H as Ellipsis, J as Clock, L as FileText, M as HeartHandshake, N as GraduationCap, R as FileCheck, S as MapPin, Z as CircleCheck, c as Stethoscope, d as Shield, dt as ArrowRight, h as Plane, i as Users, j as House, k as KeyRound, n as X, nt as ChevronDown, ot as Building2, q as Compass, t as Zap, u as Sparkles, x as Menu, y as Minus } from "../_libs/lucide-react.mjs";
-import { n as useMotionValue, r as motion, t as useSpring } from "../_libs/framer-motion.mjs";
+import { a as motion, i as useMotionValue, n as useSpring, r as useMotionTemplate, t as useReducedMotion } from "../_libs/framer-motion.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
 import { a as objectType, i as enumType, o as stringType } from "../_libs/zod.mjs";
 import { n as useForm, t as u } from "../_libs/@hookform/resolvers+[...].mjs";
 import { n as SheetClose, r as SheetContent, t as Sheet } from "./sheet-Cj8uvqUW.mjs";
 import { t as with_logo_default } from "./with-logo-BnTFlW0T.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/employee-care-DWfuOH0L.js
+//#region node_modules/.nitro/vite/services/ssr/assets/employee-care-90FZhXgI.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function EmployeeCarePageWrapper() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmployeeCarePage, {});
 }
-var fadeUp = {
-	hidden: {
-		opacity: 0,
-		y: 24
-	},
-	visible: {
-		opacity: 1,
-		y: 0,
-		transition: {
-			duration: .6,
-			ease: [
-				.16,
-				1,
-				.3,
-				1
-			]
+function fadeUpVariants(reduced) {
+	return {
+		hidden: {
+			opacity: reduced ? 1 : 0,
+			y: reduced ? 0 : 24
+		},
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: reduced ? { duration: 0 } : {
+				duration: .6,
+				ease: [
+					.16,
+					1,
+					.3,
+					1
+				]
+			}
 		}
-	}
-};
-var staggerParent = {
-	hidden: {},
-	visible: { transition: {
-		staggerChildren: .09,
-		delayChildren: .05
-	} }
-};
+	};
+}
+function staggerParentVariants(reduced) {
+	return {
+		hidden: {},
+		visible: { transition: reduced ? {
+			staggerChildren: 0,
+			delayChildren: 0
+		} : {
+			staggerChildren: .09,
+			delayChildren: .05
+		} }
+	};
+}
+/** Shared hook: gives each section its reduced-motion-aware fade/stagger variants. */
+function useSectionMotion() {
+	const reduced = !!useReducedMotion();
+	return {
+		reduced,
+		fadeUp: fadeUpVariants(reduced),
+		staggerParent: staggerParentVariants(reduced)
+	};
+}
 var springTransition = {
 	type: "spring",
 	stiffness: 120,
@@ -59,6 +75,7 @@ var GrainOverlay = (0, import_react.memo)(function GrainOverlay() {
 });
 var MagneticCTA = (0, import_react.memo)(function MagneticCTA({ href, children, className }) {
 	const ref = (0, import_react.useRef)(null);
+	const reduced = !!useReducedMotion();
 	const x = useMotionValue(0);
 	const y = useMotionValue(0);
 	const sx = useSpring(x, {
@@ -72,6 +89,7 @@ var MagneticCTA = (0, import_react.memo)(function MagneticCTA({ href, children, 
 		mass: .3
 	});
 	function handleMove(e) {
+		if (reduced) return;
 		const el = ref.current;
 		if (!el) return;
 		const rect = el.getBoundingClientRect();
@@ -99,51 +117,51 @@ var MagneticCTA = (0, import_react.memo)(function MagneticCTA({ href, children, 
 	});
 });
 var SpotlightCard = (0, import_react.memo)(function SpotlightCard({ children, className }) {
-	const [pos, setPos] = (0, import_react.useState)({
-		x: 50,
-		y: 50
-	});
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		onMouseMove: (e) => {
-			const rect = e.currentTarget.getBoundingClientRect();
-			setPos({
-				x: (e.clientX - rect.left) / rect.width * 100,
-				y: (e.clientY - rect.top) / rect.height * 100
-			});
-		},
-		style: { backgroundImage: `radial-gradient(320px circle at ${pos.x}% ${pos.y}%, rgba(20,167,108,0.10), transparent 65%)` },
+	const mx = useMotionValue(50);
+	const my = useMotionValue(50);
+	const backgroundImage = useMotionTemplate`radial-gradient(320px circle at ${mx}% ${my}%, rgba(20,167,108,0.10), transparent 65%)`;
+	function handleMove(e) {
+		const rect = e.currentTarget.getBoundingClientRect();
+		mx.set((e.clientX - rect.left) / rect.width * 100);
+		my.set((e.clientY - rect.top) / rect.height * 100);
+	}
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+		onMouseMove: handleMove,
+		style: { backgroundImage },
 		className,
 		children
 	});
 });
 var FloatingStack = (0, import_react.memo)(function FloatingStack() {
+	const { t } = useCareLang();
+	const reduced = !!useReducedMotion();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "relative mx-auto hidden h-[420px] w-full max-w-sm lg:block",
 		children: [
 			{
 				icon: MapPin,
-				label: "District comparison ready",
-				sub: "District 2 · District 7 · Thảo Điền"
+				labelKey: "hero.stack.1.label",
+				subKey: "hero.stack.1.sub"
 			},
 			{
 				icon: FileCheck,
-				label: "TRC application filed",
-				sub: "Est. approval in 9 business days"
+				labelKey: "hero.stack.2.label",
+				subKey: "hero.stack.2.sub"
 			},
 			{
 				icon: HeartHandshake,
-				label: "Onboarding call booked",
-				sub: "Thu, 10:00 — with Mai Trần"
+				labelKey: "hero.stack.3.label",
+				subKey: "hero.stack.3.sub"
 			}
 		].map((it, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
 			initial: {
 				opacity: 0,
-				y: 30,
+				y: reduced ? 0 : 30,
 				rotate: i % 2 === 0 ? -4 : 4
 			},
 			animate: {
 				opacity: 1,
-				y: [
+				y: reduced ? 0 : [
 					0,
 					-10,
 					0
@@ -152,10 +170,10 @@ var FloatingStack = (0, import_react.memo)(function FloatingStack() {
 			},
 			transition: {
 				opacity: {
-					duration: .6,
-					delay: .3 + i * .15
+					duration: reduced ? 0 : .6,
+					delay: reduced ? 0 : .3 + i * .15
 				},
-				y: {
+				y: reduced ? { duration: 0 } : {
 					duration: 4.5 + i,
 					repeat: Infinity,
 					ease: "easeInOut",
@@ -177,14 +195,14 @@ var FloatingStack = (0, import_react.memo)(function FloatingStack() {
 					className: "min-w-0",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "text-[13px] font-semibold leading-snug text-white/90",
-						children: it.label
+						children: t(it.labelKey)
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 						className: "mt-0.5 truncate text-[11px] text-white/45",
-						children: it.sub
+						children: t(it.subKey)
 					})]
 				})]
 			})
-		}, it.label))
+		}, it.labelKey))
 	});
 });
 var LANGS = [
@@ -346,6 +364,7 @@ function Nav() {
 }
 function Hero() {
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useSectionMotion();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
 		className: "relative overflow-hidden bg-[var(--ec-teal-deep)] pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-36 md:pb-28 text-white",
 		children: [
@@ -445,6 +464,7 @@ function Hero() {
 	});
 }
 function SectionHeader({ eyebrow, title, sub }) {
+	const { fadeUp } = useSectionMotion();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
 		initial: "hidden",
 		whileInView: "visible",
@@ -493,6 +513,7 @@ var CARE_PHOTOS = [
 	}
 ];
 function PhotoStrip() {
+	const { fadeUp, staggerParent } = useSectionMotion();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "bg-[var(--ec-teal-deep)] py-10 overflow-hidden",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
@@ -534,6 +555,7 @@ function PhotoStrip() {
 }
 function HowItWorks() {
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useSectionMotion();
 	const steps = [
 		{
 			icon: Compass,
@@ -608,6 +630,7 @@ function HowItWorks() {
 }
 function Services() {
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useSectionMotion();
 	const items = [
 		{
 			icon: House,
@@ -865,16 +888,17 @@ function FeatureRow({ label, level }) {
 			children: [
 				level === "yes" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "h-3.5 w-3.5 text-emerald-400" }),
 				level === "partial" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Minus, { className: "h-3.5 w-3.5 text-amber-400" }),
-				level === "no" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-3.5 w-3.5 text-white/20" })
+				level === "no" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-3.5 w-3.5 text-white/45" })
 			]
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-			className: `text-[13px] leading-snug ${level === "no" ? "text-white/25 line-through" : level === "partial" ? "text-white/70" : "text-white/85"}`,
+			className: `text-[13px] leading-snug ${level === "no" ? "text-white/45 line-through" : level === "partial" ? "text-white/70" : "text-white/85"}`,
 			children: label
 		})]
 	});
 }
 function HRTiers() {
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useSectionMotion();
 	const [open, setOpen] = (0, import_react.useState)(null);
 	const tiers = [
 		{
@@ -1054,7 +1078,7 @@ function HRTiers() {
 					})
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-white/35",
+					className: "mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-white/45",
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 							className: "flex items-center gap-1.5",
@@ -1066,7 +1090,7 @@ function HRTiers() {
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 							className: "flex items-center gap-1.5",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-3.5 w-3.5 text-white/20" }), " Not included"]
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { className: "h-3.5 w-3.5 text-white/45" }), " Not included"]
 						})
 					]
 				})
@@ -1085,6 +1109,7 @@ var schema = objectType({
 function RequestForm() {
 	const { t } = useCareLang();
 	const { submitCareRequest } = useCarePortal();
+	const { fadeUp } = useSectionMotion();
 	const [submitting, setSubmitting] = (0, import_react.useState)(false);
 	const form = useForm({
 		resolver: u(schema),

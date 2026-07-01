@@ -3,7 +3,7 @@ import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { _ as Navigate, g as Link, v as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
 import { L as FileText, U as DollarSign, Z as CircleCheck, a as TriangleAlert, b as MessageSquare, j as House, o as TrendingUp, p as Send, u as Sparkles, w as LogOut } from "../_libs/lucide-react.mjs";
-import { r as motion } from "../_libs/framer-motion.mjs";
+import { a as motion } from "../_libs/framer-motion.mjs";
 import { t as cn } from "./utils-C_uf36nf.mjs";
 import { n as useLang } from "./LangContext-BsxfAWbA.mjs";
 import { a as usePortal } from "./store-Ckbp1fQa.mjs";

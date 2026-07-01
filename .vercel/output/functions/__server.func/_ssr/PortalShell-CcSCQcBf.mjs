@@ -1,7 +1,7 @@
 import { g as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
 import { G as Crown, j as House, w as LogOut, x as Menu } from "../_libs/lucide-react.mjs";
-import { i as AnimatePresence, r as motion } from "../_libs/framer-motion.mjs";
+import { a as motion, o as AnimatePresence } from "../_libs/framer-motion.mjs";
 import { i as SheetTrigger, r as SheetContent, t as Sheet } from "./sheet-Cj8uvqUW.mjs";
 import { n as WithLogo, t as PortalLangSwitcher } from "./portalTranslations-BjcHVlWO.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/PortalShell-CcSCQcBf.js

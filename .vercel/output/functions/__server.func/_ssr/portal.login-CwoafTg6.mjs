@@ -3,7 +3,7 @@ import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { g as Link, v as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
 import { $ as ChevronUp, B as Eye, Q as CircleAlert, T as Lock, V as EyeOff, ft as ArrowLeft, nt as ChevronDown, ot as Building2 } from "../_libs/lucide-react.mjs";
-import { i as AnimatePresence, r as motion } from "../_libs/framer-motion.mjs";
+import { a as motion, o as AnimatePresence } from "../_libs/framer-motion.mjs";
 import { n as useLang } from "./LangContext-BsxfAWbA.mjs";
 import { a as usePortal } from "./store-Ckbp1fQa.mjs";
 import { n as WithLogo, r as pt, t as PortalLangSwitcher } from "./portalTranslations-BjcHVlWO.mjs";

@@ -1,6 +1,6 @@
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
 import { t as with_logo_black_default } from "./with-logo-black-CurIuk3w.mjs";
-import { r as motion } from "../_libs/framer-motion.mjs";
+import { a as motion } from "../_libs/framer-motion.mjs";
 import { t as with_logo_default } from "./with-logo-BnTFlW0T.mjs";
 import { n as useLang } from "./LangContext-BsxfAWbA.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/portalTranslations-BjcHVlWO.js

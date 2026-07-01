@@ -2,17 +2,17 @@ import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { c as HeadContent, d as createRouter, f as Outlet, g as Link, h as createRootRouteWithContext, m as createFileRoute, p as lazyRouteComponent, s as Scripts, y as useRouter } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-import { i as CarePortalProvider, r as CareLangProvider, t as CARE_CATEGORIES } from "./i18n-BNcuN0TD.mjs";
+import { i as CarePortalProvider, r as CareLangProvider, t as CARE_CATEGORIES } from "./i18n-9hM-ab_H.mjs";
 import { a as objectType, i as enumType, o as stringType } from "../_libs/zod.mjs";
 import { t as LangProvider } from "./LangContext-BsxfAWbA.mjs";
 import { t as PortalProvider } from "./store-Ckbp1fQa.mjs";
 import { t as Toaster$1 } from "./sonner-DoFKumIW.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { t as QueryClientProvider } from "../_libs/tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-C5SFcHa7.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-CbsiIrT3.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-Nsr6MJZl.css";
+var styles_default = "/assets/styles-DbkUpQAU.css";
 function NotFoundComponent() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "flex min-h-screen items-center justify-center bg-background px-4",
@@ -190,7 +190,7 @@ var Route$12 = createFileRoute("/portal")({
 	] }),
 	component: lazyRouteComponent($$splitComponentImporter$12, "component")
 });
-var $$splitComponentImporter$11 = () => import("./employee-care-DWfuOH0L.mjs");
+var $$splitComponentImporter$11 = () => import("./employee-care-90FZhXgI.mjs");
 var Route$11 = createFileRoute("/employee-care")({
 	head: () => ({ meta: [
 		{ title: "WITH Care — Settlement Support for Your Team in Vietnam" },
@@ -255,22 +255,22 @@ var $$splitComponentImporter$5 = () => import("./portal.investor-BrjG8v9Q.mjs");
 var Route$5 = createFileRoute("/portal/investor")({ component: lazyRouteComponent($$splitComponentImporter$5, "component") });
 var $$splitComponentImporter$4 = () => import("./portal.admin-CByHIvo3.mjs");
 var Route$4 = createFileRoute("/portal/admin")({ component: lazyRouteComponent($$splitComponentImporter$4, "component") });
-var $$splitComponentImporter$3 = () => import("./care.staff-p_Y_GrEG.mjs");
+var $$splitComponentImporter$3 = () => import("./care.staff-CRjBQFtq.mjs");
 var Route$3 = createFileRoute("/care/staff")({
 	head: () => ({ meta: [{ title: "Staff — WITH Care" }] }),
 	component: lazyRouteComponent($$splitComponentImporter$3, "component")
 });
-var $$splitComponentImporter$2 = () => import("./care.login-CHAsxeD1.mjs");
+var $$splitComponentImporter$2 = () => import("./care.login-Dn7xfo0-.mjs");
 var Route$2 = createFileRoute("/care/login")({
 	head: () => ({ meta: [{ title: "Sign in — WITH Care" }] }),
 	component: lazyRouteComponent($$splitComponentImporter$2, "component")
 });
-var $$splitComponentImporter$1 = () => import("./care.employee-DWNWEfX4.mjs");
+var $$splitComponentImporter$1 = () => import("./care.employee-lLNjbBjX.mjs");
 var Route$1 = createFileRoute("/care/employee")({
 	head: () => ({ meta: [{ title: "My Care — WITH Care" }] }),
 	component: lazyRouteComponent($$splitComponentImporter$1, "component")
 });
-var $$splitComponentImporter = () => import("./care.admin-SYkcvNJf.mjs");
+var $$splitComponentImporter = () => import("./care.admin-BYOuDMEl.mjs");
 var Route = createFileRoute("/care/admin")({
 	head: () => ({ meta: [{ title: "Admin — WITH Care" }] }),
 	component: lazyRouteComponent($$splitComponentImporter, "component")
