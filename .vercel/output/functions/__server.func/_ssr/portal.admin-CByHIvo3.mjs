@@ -2,7 +2,7 @@ import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { _ as Navigate, v as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-import { C as Mail, H as DollarSign, J as ClipboardList, U as Database, W as Crown, a as TriangleAlert, d as Shield, f as Settings, i as Users, n as X, o as TrendingUp, p as Send, s as Trash2, u as Sparkles, v as Pencil } from "../_libs/lucide-react.mjs";
+import { C as Mail, G as Crown, U as DollarSign, W as Database, Y as ClipboardList, a as TriangleAlert, d as Shield, f as Settings, i as Users, n as X, o as TrendingUp, p as Send, s as Trash2, u as Sparkles, v as Pencil } from "../_libs/lucide-react.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
 import { t as cn } from "./utils-C_uf36nf.mjs";
 import { a as DialogOverlay$1, c as DialogTrigger$1, i as DialogDescription$1, n as DialogClose, o as DialogPortal$1, r as DialogContent$1, s as DialogTitle$1, t as Dialog$1 } from "../_libs/@radix-ui/react-dialog+[...].mjs";

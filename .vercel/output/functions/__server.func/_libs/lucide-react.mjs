@@ -675,6 +675,26 @@ var FileChartColumnIncreasing = createLucideIcon("file-chart-column-increasing",
 * This source code is licensed under the ISC license.
 * See the LICENSE file in the root directory of this source tree.
 */
+var FileCheck = createLucideIcon("file-check", [
+	["path", {
+		d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
+		key: "1oefj6"
+	}],
+	["path", {
+		d: "M14 2v5a1 1 0 0 0 1 1h5",
+		key: "wfsgrz"
+	}],
+	["path", {
+		d: "m9 15 2 2 4-4",
+		key: "1grp1n"
+	}]
+]);
+/**
+* @license lucide-react v0.575.0 - ISC
+*
+* This source code is licensed under the ISC license.
+* See the LICENSE file in the root directory of this source tree.
+*/
 var FileText = createLucideIcon("file-text", [
 	["path", {
 		d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
@@ -1320,4 +1340,4 @@ var Zap = createLucideIcon("zap", [["path", {
 	key: "1xq2db"
 }]]);
 //#endregion
-export { ChevronRight as $, Inbox as A, EyeOff as B, Mail as C, Languages as D, Lightbulb as E, GitBranch as F, Construction as G, DollarSign as H, Funnel as I, ClipboardList as J, Compass as K, FileText as L, HeartHandshake as M, GraduationCap as N, Landmark as O, Globe as P, ChevronUp as Q, FileChartColumnIncreasing as R, MapPin as S, Lock as T, Database as U, Ellipsis as V, Crown as W, CircleCheck as X, Circle as Y, CircleAlert as Z, Percent as _, TriangleAlert as a, Building2 as at, MessageSquare as b, Stethoscope as c, Award as ct, Shield as d, ArrowLeft as dt, ChevronLeft as et, Settings as f, Phone as g, Plane as h, Users as i, CalendarDays as it, House as j, KeyRound as k, Star as l, ArrowUpRight as lt, Plus as m, X as n, Check as nt, TrendingUp as o, Briefcase as ot, Send as p, Clock as q, Wallet as r, Calendar as rt, Trash2 as s, BadgeDollarSign as st, Zap as t, ChevronDown as tt, Sparkles as u, ArrowRight as ut, Pencil as v, LogOut as w, Menu as x, Minus as y, Eye as z };
+export { ChevronUp as $, Inbox as A, Eye as B, Mail as C, Languages as D, Lightbulb as E, GitBranch as F, Crown as G, Ellipsis as H, Funnel as I, Clock as J, Construction as K, FileText as L, HeartHandshake as M, GraduationCap as N, Landmark as O, Globe as P, CircleAlert as Q, FileCheck as R, MapPin as S, Lock as T, DollarSign as U, EyeOff as V, Database as W, Circle as X, ClipboardList as Y, CircleCheck as Z, Percent as _, TriangleAlert as a, CalendarDays as at, MessageSquare as b, Stethoscope as c, BadgeDollarSign as ct, Shield as d, ArrowRight as dt, ChevronRight as et, Settings as f, ArrowLeft as ft, Phone as g, Plane as h, Users as i, Calendar as it, House as j, KeyRound as k, Star as l, Award as lt, Plus as m, X as n, ChevronDown as nt, TrendingUp as o, Building2 as ot, Send as p, Compass as q, Wallet as r, Check as rt, Trash2 as s, Briefcase as st, Zap as t, ChevronLeft as tt, Sparkles as u, ArrowUpRight as ut, Pencil as v, LogOut as w, Menu as x, Minus as y, FileChartColumnIncreasing as z };

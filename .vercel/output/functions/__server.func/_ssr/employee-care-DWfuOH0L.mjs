@@ -3,33 +3,190 @@ import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { g as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
 import { c as useCareLang, l as useCarePortal, t as CARE_CATEGORIES } from "./i18n-BNcuN0TD.mjs";
-import { D as Languages, K as Compass, L as FileText, M as HeartHandshake, N as GraduationCap, Q as ChevronUp, V as Ellipsis, X as CircleCheck, at as Building2, c as Stethoscope, d as Shield, h as Plane, i as Users, j as House, k as KeyRound, n as X, q as Clock, t as Zap, tt as ChevronDown, u as Sparkles, ut as ArrowRight, x as Menu, y as Minus } from "../_libs/lucide-react.mjs";
+import { $ as ChevronUp, D as Languages, H as Ellipsis, J as Clock, L as FileText, M as HeartHandshake, N as GraduationCap, R as FileCheck, S as MapPin, Z as CircleCheck, c as Stethoscope, d as Shield, dt as ArrowRight, h as Plane, i as Users, j as House, k as KeyRound, n as X, nt as ChevronDown, ot as Building2, q as Compass, t as Zap, u as Sparkles, x as Menu, y as Minus } from "../_libs/lucide-react.mjs";
+import { n as useMotionValue, r as motion, t as useSpring } from "../_libs/framer-motion.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
 import { a as objectType, i as enumType, o as stringType } from "../_libs/zod.mjs";
 import { n as useForm, t as u } from "../_libs/@hookform/resolvers+[...].mjs";
 import { n as SheetClose, r as SheetContent, t as Sheet } from "./sheet-Cj8uvqUW.mjs";
 import { t as with_logo_default } from "./with-logo-BnTFlW0T.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/employee-care-DJ5L4qpe.js
+//#region node_modules/.nitro/vite/services/ssr/assets/employee-care-DWfuOH0L.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function EmployeeCarePageWrapper() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmployeeCarePage, {});
 }
-function useReveal() {
-	(0, import_react.useEffect)(() => {
-		const els = document.querySelectorAll(".reveal, .reveal-left");
-		const io = new IntersectionObserver((entries) => {
-			entries.forEach((e) => {
-				if (e.isIntersecting) {
-					e.target.classList.add("visible");
-					io.unobserve(e.target);
-				}
+var fadeUp = {
+	hidden: {
+		opacity: 0,
+		y: 24
+	},
+	visible: {
+		opacity: 1,
+		y: 0,
+		transition: {
+			duration: .6,
+			ease: [
+				.16,
+				1,
+				.3,
+				1
+			]
+		}
+	}
+};
+var staggerParent = {
+	hidden: {},
+	visible: { transition: {
+		staggerChildren: .09,
+		delayChildren: .05
+	} }
+};
+var springTransition = {
+	type: "spring",
+	stiffness: 120,
+	damping: 18
+};
+var GrainOverlay = (0, import_react.memo)(function GrainOverlay() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		"aria-hidden": "true",
+		className: "pointer-events-none fixed inset-0 z-[1] opacity-[0.035]",
+		style: {
+			backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")",
+			backgroundSize: "200px 200px"
+		}
+	});
+});
+var MagneticCTA = (0, import_react.memo)(function MagneticCTA({ href, children, className }) {
+	const ref = (0, import_react.useRef)(null);
+	const x = useMotionValue(0);
+	const y = useMotionValue(0);
+	const sx = useSpring(x, {
+		stiffness: 200,
+		damping: 15,
+		mass: .3
+	});
+	const sy = useSpring(y, {
+		stiffness: 200,
+		damping: 15,
+		mass: .3
+	});
+	function handleMove(e) {
+		const el = ref.current;
+		if (!el) return;
+		const rect = el.getBoundingClientRect();
+		const relX = e.clientX - rect.left - rect.width / 2;
+		const relY = e.clientY - rect.top - rect.height / 2;
+		x.set(relX * .35);
+		y.set(relY * .35);
+	}
+	function handleLeave() {
+		x.set(0);
+		y.set(0);
+	}
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.a, {
+		ref,
+		href,
+		onMouseMove: handleMove,
+		onMouseLeave: handleLeave,
+		style: {
+			x: sx,
+			y: sy
+		},
+		whileTap: { scale: .95 },
+		className,
+		children
+	});
+});
+var SpotlightCard = (0, import_react.memo)(function SpotlightCard({ children, className }) {
+	const [pos, setPos] = (0, import_react.useState)({
+		x: 50,
+		y: 50
+	});
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		onMouseMove: (e) => {
+			const rect = e.currentTarget.getBoundingClientRect();
+			setPos({
+				x: (e.clientX - rect.left) / rect.width * 100,
+				y: (e.clientY - rect.top) / rect.height * 100
 			});
-		}, { threshold: .12 });
-		els.forEach((el) => io.observe(el));
-		return () => io.disconnect();
-	}, []);
-}
+		},
+		style: { backgroundImage: `radial-gradient(320px circle at ${pos.x}% ${pos.y}%, rgba(20,167,108,0.10), transparent 65%)` },
+		className,
+		children
+	});
+});
+var FloatingStack = (0, import_react.memo)(function FloatingStack() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		className: "relative mx-auto hidden h-[420px] w-full max-w-sm lg:block",
+		children: [
+			{
+				icon: MapPin,
+				label: "District comparison ready",
+				sub: "District 2 · District 7 · Thảo Điền"
+			},
+			{
+				icon: FileCheck,
+				label: "TRC application filed",
+				sub: "Est. approval in 9 business days"
+			},
+			{
+				icon: HeartHandshake,
+				label: "Onboarding call booked",
+				sub: "Thu, 10:00 — with Mai Trần"
+			}
+		].map((it, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+			initial: {
+				opacity: 0,
+				y: 30,
+				rotate: i % 2 === 0 ? -4 : 4
+			},
+			animate: {
+				opacity: 1,
+				y: [
+					0,
+					-10,
+					0
+				],
+				rotate: i % 2 === 0 ? -3 : 3
+			},
+			transition: {
+				opacity: {
+					duration: .6,
+					delay: .3 + i * .15
+				},
+				y: {
+					duration: 4.5 + i,
+					repeat: Infinity,
+					ease: "easeInOut",
+					delay: i * .4
+				}
+			},
+			style: {
+				top: `${i * 34}%`,
+				left: i === 1 ? "8%" : i === 2 ? "18%" : "0%",
+				zIndex: 10 - i
+			},
+			className: "absolute w-[86%] rounded-2xl border border-white/10 bg-white/[0.06] p-4 shadow-2xl shadow-black/30 backdrop-blur-xl",
+			children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex items-start gap-3",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--ec-coral)]/20 ring-1 ring-[var(--ec-coral)]/30",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(it.icon, { className: "h-4 w-4 text-[var(--ec-coral-soft)]" })
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "min-w-0",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-[13px] font-semibold leading-snug text-white/90",
+						children: it.label
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "mt-0.5 truncate text-[11px] text-white/45",
+						children: it.sub
+					})]
+				})]
+			})
+		}, it.label))
+	});
+});
 var LANGS = [
 	"en",
 	"ko",
@@ -41,7 +198,7 @@ function LanguagePicker() {
 		className: "inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/5 px-1 py-1 text-xs backdrop-blur",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Languages, { className: "ml-2 h-3.5 w-3.5 opacity-60" }), LANGS.map((l) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 			onClick: () => setLang(l),
-			className: `rounded-full px-2.5 py-1 uppercase tracking-wide transition-all ${lang === l ? "bg-[var(--ec-coral)] text-white shadow-sm" : "text-white/60 hover:text-white"}`,
+			className: `rounded-full px-2.5 py-1 uppercase tracking-wide transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 ${lang === l ? "bg-[var(--ec-coral)] text-white shadow-sm" : "text-white/60 hover:text-white"}`,
 			children: l
 		}, l))]
 	});
@@ -98,7 +255,7 @@ function Nav() {
 					className: "hidden items-center gap-7 text-sm md:flex",
 					children: NAV_LINKS.map(({ href, k }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
 						href,
-						className: "opacity-70 transition hover:opacity-100",
+						className: "rounded-sm opacity-70 transition hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
 						children: t(k)
 					}, href))
 				}),
@@ -108,19 +265,19 @@ function Nav() {
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LanguagePicker, {}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 							to: "/portal",
-							className: "hidden rounded-full bg-[var(--ec-coral)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#109c5f] md:inline-flex",
+							className: "hidden rounded-full bg-[var(--ec-coral)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#109c5f] active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:inline-flex",
 							children: "Portal"
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Link, {
 							to: "/with-property",
-							className: "hidden rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium text-white/70 backdrop-blur transition hover:bg-white/10 hover:text-white md:inline-flex",
+							className: "hidden rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium text-white/70 backdrop-blur transition hover:bg-white/10 hover:text-white active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:inline-flex",
 							children: "WithProperty"
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 							type: "button",
 							onClick: () => setMenuOpen(true),
 							"aria-label": "Open menu",
-							className: "inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white backdrop-blur transition hover:bg-white/10 md:hidden",
+							className: "inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white backdrop-blur transition hover:bg-white/10 active:scale-[0.94] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:hidden",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Menu, {
 								className: "h-4.5 w-4.5",
 								style: {
@@ -190,21 +347,14 @@ function Nav() {
 function Hero() {
 	const { t } = useCareLang();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
-		className: "relative overflow-hidden bg-[var(--ec-teal-deep)] pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-36 md:pb-32 text-white",
+		className: "relative overflow-hidden bg-[var(--ec-teal-deep)] pt-28 pb-20 sm:pt-32 sm:pb-24 md:pt-36 md:pb-28 text-white",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "pointer-events-none absolute inset-0",
-				style: { background: "radial-gradient(65% 55% at 15% 25%, rgba(224,122,95,0.22) 0%, transparent 70%), radial-gradient(55% 55% at 85% 85%, rgba(45,140,140,0.28) 0%, transparent 70%)" }
+				style: { background: "radial-gradient(65% 55% at 12% 20%, rgba(224,122,95,0.20) 0%, transparent 70%), radial-gradient(55% 55% at 90% 80%, rgba(20,167,108,0.30) 0%, transparent 70%)" }
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "pointer-events-none absolute inset-0 opacity-[0.04]",
-				style: {
-					backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E\")",
-					backgroundSize: "200px 200px"
-				}
-			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden",
+				className: "pointer-events-none absolute inset-0 flex items-center justify-start overflow-hidden",
 				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 					src: with_logo_default,
 					alt: "",
@@ -214,78 +364,103 @@ function Hero() {
 					loading: "eager",
 					decoding: "async",
 					fetchPriority: "high",
-					className: "w-[28%] max-w-xs brightness-0 invert opacity-[0.12] select-none"
+					className: "-translate-x-1/4 w-[38%] max-w-md brightness-0 invert opacity-[0.06] select-none"
 				})
 			}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "relative mx-auto max-w-7xl px-5 sm:px-6",
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "mb-4 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.18em] text-[var(--ec-coral-soft)] anim-fade-in delay-100 sm:mb-5",
-						children: t("hero.eyebrow")
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", {
-						className: "font-display text-4xl leading-[1.1] tracking-tight sm:text-5xl sm:leading-[1.05] md:text-6xl md:leading-[1.02] anim-fade-up delay-200",
-						children: t("hero.title")
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-						className: "mt-5 max-w-xl text-base text-white/65 sm:mt-6 sm:text-lg anim-fade-up delay-300",
-						children: t("hero.sub")
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap anim-fade-up delay-400",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-							href: "#request",
-							className: "inline-flex items-center justify-center gap-2 rounded-full bg-[var(--ec-coral)] px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[var(--ec-coral)]/30 transition hover:bg-[#109c5f] hover:shadow-[var(--ec-coral)]/45",
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "relative mx-auto grid max-w-7xl gap-14 px-5 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-8",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+					initial: "hidden",
+					animate: "visible",
+					variants: staggerParent,
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.p, {
+							variants: fadeUp,
+							className: "mb-4 inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.18em] text-[var(--ec-coral-soft)] sm:mb-5",
+							children: t("hero.eyebrow")
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.h1, {
+							variants: fadeUp,
+							className: "font-display text-4xl leading-[1.08] tracking-tight text-balance sm:text-5xl sm:leading-[1.04] md:text-[3.4rem] md:leading-[1.02]",
+							children: t("hero.title")
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.p, {
+							variants: fadeUp,
+							className: "mt-5 max-w-xl text-base text-white/65 sm:mt-6 sm:text-lg",
+							children: t("hero.sub")
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+							variants: fadeUp,
+							className: "mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(MagneticCTA, {
+								href: "#request",
+								className: "inline-flex items-center justify-center gap-2 rounded-full bg-[var(--ec-coral)] px-7 py-3.5 text-sm font-semibold text-white shadow-xl shadow-[var(--ec-coral)]/30 transition-colors hover:bg-[#109c5f] hover:shadow-[var(--ec-coral)]/45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
+								children: [
+									t("hero.cta.request"),
+									" ",
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "h-4 w-4" })
+								]
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+								href: "#hr",
+								className: "inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-medium text-white backdrop-blur transition hover:bg-white/10 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
+								children: t("hero.cta.hr")
+							})]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+							variants: fadeUp,
+							className: "mt-10 flex flex-wrap gap-3 sm:mt-12 sm:gap-4",
 							children: [
-								t("hero.cta.request"),
-								" ",
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "h-4 w-4" })
-							]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "#hr",
-							className: "inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-7 py-3.5 text-sm font-medium text-white backdrop-blur transition hover:bg-white/10",
-							children: t("hero.cta.hr")
-						})]
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "mt-10 flex flex-wrap gap-3 sm:mt-12 sm:gap-4 anim-fade-in delay-600",
-						children: [
-							{
-								label: "4 Service Categories",
-								accent: "var(--ec-coral-soft)"
-							},
-							{
-								label: "Pre-arrival to Renewal",
-								accent: "#3fcf94"
-							},
-							{
-								label: "EN · KO · VI",
-								accent: "var(--ec-coral-soft)"
-							}
-						].map((chip) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-white/60 backdrop-blur",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-								className: "h-1.5 w-1.5 rounded-full",
-								style: { background: chip.accent }
-							}), chip.label]
-						}, chip.label))
-					})
-				] }) })
+								{
+									label: "4 Service Categories",
+									accent: "var(--ec-coral-soft)"
+								},
+								{
+									label: "Pre-arrival to Renewal",
+									accent: "#3fcf94"
+								},
+								{
+									label: "EN · KO · VI",
+									accent: "var(--ec-coral-soft)"
+								}
+							].map((chip) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-white/60 backdrop-blur",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: "h-1.5 w-1.5 rounded-full",
+									style: { background: chip.accent }
+								}), chip.label]
+							}, chip.label))
+						})
+					]
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+					initial: { opacity: 0 },
+					animate: { opacity: 1 },
+					transition: {
+						duration: .8,
+						delay: .4
+					},
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FloatingStack, {})
+				})]
 			})
 		]
 	});
 }
 function SectionHeader({ eyebrow, title, sub }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "mb-8 max-w-2xl reveal sm:mb-10 md:mb-12",
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+		initial: "hidden",
+		whileInView: "visible",
+		viewport: {
+			once: true,
+			margin: "-80px"
+		},
+		variants: fadeUp,
+		className: "mb-8 max-w-2xl sm:mb-10 md:mb-12",
 		children: [
 			eyebrow && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 				className: "mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[var(--ec-coral)]",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "inline-block h-px w-6 bg-[var(--ec-coral)]" }), eyebrow]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-				className: "font-display text-3xl tracking-tight text-[var(--ec-ink)] md:text-4xl",
+				className: "font-display text-3xl tracking-tight text-balance text-[var(--ec-ink)] md:text-4xl",
 				children: title
 			}),
 			sub && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
@@ -297,22 +472,22 @@ function SectionHeader({ eyebrow, title, sub }) {
 }
 var CARE_PHOTOS = [
 	{
-		src: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80",
+		src: "https://picsum.photos/seed/withcare-housing/600/450",
 		alt: "Modern apartment in Ho Chi Minh City",
 		label: "Housing"
 	},
 	{
-		src: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=600&q=80",
+		src: "https://picsum.photos/seed/withcare-paperwork/600/450",
 		alt: "Paperwork and documents",
 		label: "Paperwork"
 	},
 	{
-		src: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80",
+		src: "https://picsum.photos/seed/withcare-healthcare/600/450",
 		alt: "Healthcare consultation",
 		label: "Healthcare"
 	},
 	{
-		src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80",
+		src: "https://picsum.photos/seed/withcare-schooling/600/450",
 		alt: "Children at international school",
 		label: "Schooling"
 	}
@@ -320,11 +495,23 @@ var CARE_PHOTOS = [
 function PhotoStrip() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "bg-[var(--ec-teal-deep)] py-10 overflow-hidden",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+			initial: "hidden",
+			whileInView: "visible",
+			viewport: {
+				once: true,
+				margin: "-60px"
+			},
+			variants: staggerParent,
 			className: "flex gap-4 overflow-x-auto snap-x snap-mandatory px-5 pb-2 sm:px-6 md:grid md:grid-cols-4 md:overflow-visible md:max-w-7xl md:mx-auto md:pb-0",
-			children: CARE_PHOTOS.map((p, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "reveal relative min-w-[72vw] md:min-w-0 flex-shrink-0 snap-start overflow-hidden rounded-2xl aspect-[4/3] group",
-				style: { transitionDelay: `${i * 80}ms` },
+			children: CARE_PHOTOS.map((p, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+				variants: fadeUp,
+				whileHover: {
+					scale: 1.03,
+					rotate: i % 2 === 0 ? -.6 : .6
+				},
+				transition: springTransition,
+				className: "relative min-w-[72vw] md:min-w-0 flex-shrink-0 snap-start overflow-hidden rounded-2xl aspect-[4/3]",
 				children: [
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 						src: p.src,
@@ -333,7 +520,7 @@ function PhotoStrip() {
 						height: 450,
 						loading: i === 0 ? "eager" : "lazy",
 						decoding: "async",
-						className: "h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+						className: "h-full w-full object-cover"
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
@@ -365,6 +552,12 @@ function HowItWorks() {
 			k: "4"
 		}
 	];
+	const offsets = [
+		"md:mt-0",
+		"md:mt-6",
+		"md:mt-0",
+		"md:mt-6"
+	];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
 		id: "how",
 		className: "bg-[var(--ec-sand)] py-16 sm:py-20 md:py-24",
@@ -373,31 +566,41 @@ function HowItWorks() {
 			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionHeader, {
 				title: t("how.title"),
 				sub: t("how.sub")
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+				initial: "hidden",
+				whileInView: "visible",
+				viewport: {
+					once: true,
+					margin: "-80px"
+				},
+				variants: staggerParent,
 				className: "grid gap-5 md:grid-cols-2 lg:grid-cols-4",
-				children: steps.map(({ icon: Icon, k }, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "reveal group relative rounded-2xl border border-[var(--ec-teal)]/10 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-lg hover:border-[var(--ec-teal)]/25",
-					style: { transitionDelay: `${i * 80}ms` },
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "mb-5 flex items-center justify-between",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-								className: "font-display text-xs uppercase tracking-[0.2em] text-[var(--ec-muted)]",
-								children: ["0", i + 1]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--ec-teal)]/8 transition group-hover:bg-[var(--ec-teal)]/15",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { className: "h-5 w-5 text-[var(--ec-teal)]" })
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-							className: "font-display text-xl text-[var(--ec-ink)]",
-							children: t(`how.${k}.t`)
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "mt-3 text-sm leading-relaxed text-[var(--ec-muted)]",
-							children: t(`how.${k}.d`)
-						})
-					]
+				children: steps.map(({ icon: Icon, k }, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+					variants: fadeUp,
+					className: offsets[i],
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SpotlightCard, {
+						className: "group relative h-full rounded-2xl border border-[var(--ec-teal)]/10 bg-white p-7 shadow-sm transition-shadow duration-300 hover:shadow-lg hover:border-[var(--ec-teal)]/25",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "mb-5 flex items-center justify-between",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+									className: "font-display text-xs uppercase tracking-[0.2em] text-[var(--ec-muted)]",
+									children: ["0", i + 1]
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									className: "flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--ec-teal)]/8 transition group-hover:bg-[var(--ec-teal)]/15",
+									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { className: "h-5 w-5 text-[var(--ec-teal)]" })
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+								className: "font-display text-xl text-[var(--ec-ink)]",
+								children: t(`how.${k}.t`)
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "mt-3 text-sm leading-relaxed text-[var(--ec-muted)]",
+								children: t(`how.${k}.d`)
+							})
+						]
+					})
 				}, k))
 			})]
 		})
@@ -408,27 +611,33 @@ function Services() {
 	const items = [
 		{
 			icon: House,
-			k: "housing"
+			k: "housing",
+			span: "md:col-span-2 md:row-span-2"
 		},
 		{
 			icon: FileText,
-			k: "paperwork"
+			k: "paperwork",
+			span: ""
 		},
 		{
 			icon: Stethoscope,
-			k: "medical"
+			k: "medical",
+			span: ""
 		},
 		{
 			icon: GraduationCap,
-			k: "school"
+			k: "school",
+			span: "md:col-span-2"
 		},
 		{
 			icon: Sparkles,
-			k: "settle"
+			k: "settle",
+			span: ""
 		},
 		{
 			icon: Ellipsis,
-			k: "other"
+			k: "other",
+			span: ""
 		}
 	];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
@@ -440,25 +649,31 @@ function Services() {
 				eyebrow: "Services",
 				title: t("svc.title"),
 				sub: t("svc.sub")
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "grid gap-px overflow-hidden rounded-2xl border border-[var(--ec-teal)]/10 bg-[var(--ec-teal)]/8 md:grid-cols-2 lg:grid-cols-3",
-				children: items.map(({ icon: Icon, k }, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "reveal group bg-white p-7 transition-all duration-300 hover:bg-[var(--ec-sand)]",
-					style: { transitionDelay: `${i * 60}ms` },
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--ec-teal)]/8 text-[var(--ec-teal)] transition group-hover:bg-[var(--ec-teal)]/15 group-hover:scale-110",
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+				initial: "hidden",
+				whileInView: "visible",
+				viewport: {
+					once: true,
+					margin: "-80px"
+				},
+				variants: staggerParent,
+				className: "grid auto-rows-[minmax(180px,auto)] gap-4 md:grid-cols-4",
+				children: items.map(({ icon: Icon, k, span }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+					variants: fadeUp,
+					className: span,
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(SpotlightCard, {
+						className: "group flex h-full flex-col justify-between rounded-2xl border border-[var(--ec-teal)]/10 bg-white p-7 transition-colors duration-300 hover:border-[var(--ec-teal)]/25 hover:bg-[var(--ec-sand)]/40",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: "inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--ec-teal)]/8 text-[var(--ec-teal)] transition group-hover:bg-[var(--ec-teal)]/15 group-hover:scale-110",
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { className: "h-5 w-5" })
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
 							className: "font-display text-lg text-[var(--ec-ink)]",
 							children: t(`svc.${k}`)
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 							className: "mt-2 text-sm text-[var(--ec-muted)]",
 							children: t(`svc.${k}.d`)
-						})
-					]
+						})] })]
+					})
 				}, k))
 			})]
 		})
@@ -665,22 +880,26 @@ function HRTiers() {
 		{
 			k: "trial",
 			featured: false,
-			Icon: Shield
+			Icon: Shield,
+			offset: "md:mt-4"
 		},
 		{
 			k: "basic",
 			featured: false,
-			Icon: Building2
+			Icon: Building2,
+			offset: "md:mt-0"
 		},
 		{
 			k: "pro",
-			featured: false,
-			Icon: Zap
+			featured: true,
+			Icon: Zap,
+			offset: "md:-mt-4"
 		},
 		{
 			k: "premium",
 			featured: false,
-			Icon: Sparkles
+			Icon: Sparkles,
+			offset: "md:mt-4"
 		}
 	];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
@@ -689,15 +908,22 @@ function HRTiers() {
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "mx-auto max-w-7xl px-5 sm:px-6",
 			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "mb-8 max-w-2xl reveal sm:mb-10 md:mb-12",
+				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+					initial: "hidden",
+					whileInView: "visible",
+					viewport: {
+						once: true,
+						margin: "-80px"
+					},
+					variants: fadeUp,
+					className: "mb-8 max-w-2xl sm:mb-10 md:mb-12",
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 							className: "mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[var(--ec-coral-soft)]",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "inline-block h-px w-6 bg-[var(--ec-coral-soft)]" }), t("hr.title")]
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-							className: "font-display text-3xl tracking-tight md:text-4xl",
+							className: "font-display text-3xl tracking-tight text-balance md:text-4xl",
 							children: t("hr.sub")
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
@@ -706,17 +932,26 @@ function HRTiers() {
 						})
 					]
 				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+					initial: "hidden",
+					whileInView: "visible",
+					viewport: {
+						once: true,
+						margin: "-80px"
+					},
+					variants: staggerParent,
 					className: "grid gap-4 md:grid-cols-4 items-start",
-					children: tiers.map(({ k, featured, Icon }, i) => {
+					children: tiers.map(({ k, featured, Icon, offset }) => {
 						const isOpen = open === k;
 						const data = TIER_DATA[k];
-						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							style: { transitionDelay: `${i * 60}ms` },
-							className: `rounded-2xl transition-colors duration-300 ${isOpen || featured ? "bg-[var(--ec-coral)] shadow-2xl shadow-black/25 ring-1 ring-white/20" : "bg-white/5 ring-1 ring-white/10"}`,
+						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+							variants: fadeUp,
+							whileHover: { y: -4 },
+							transition: springTransition,
+							className: `rounded-2xl transition-colors duration-300 ${offset} ${isOpen || featured ? "bg-[var(--ec-coral)] shadow-2xl shadow-black/25 ring-1 ring-white/20" : "bg-white/5 ring-1 ring-white/10"}`,
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 								onClick: () => setOpen(isOpen ? null : k),
-								className: "w-full text-left p-6",
+								className: "w-full rounded-2xl text-left p-6 transition-transform active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60",
 								children: [
 									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 										className: "flex items-start justify-between gap-2",
@@ -805,7 +1040,7 @@ function HRTiers() {
 										}),
 										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
 											href: "#request",
-											className: `mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all ${isOpen || featured ? "bg-white text-[var(--ec-coral)] hover:bg-white/90" : "bg-white/10 text-white hover:bg-white/20"}`,
+											className: `mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 ${isOpen || featured ? "bg-white text-[var(--ec-coral)] hover:bg-white/90" : "bg-white/10 text-white hover:bg-white/20"}`,
 											children: [
 												t("tier.cta"),
 												" ",
@@ -881,8 +1116,14 @@ function RequestForm() {
 		className: "bg-[var(--ec-sand-warm)] py-16 sm:py-20 md:py-24",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "mx-auto grid max-w-7xl gap-8 px-5 sm:px-6 sm:gap-10 lg:grid-cols-[1fr_1.4fr] lg:gap-12",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "reveal-left",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+				initial: "hidden",
+				whileInView: "visible",
+				viewport: {
+					once: true,
+					margin: "-80px"
+				},
+				variants: fadeUp,
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(SectionHeader, {
 					eyebrow: "Request",
 					title: t("form.title"),
@@ -900,9 +1141,16 @@ function RequestForm() {
 						})
 					]
 				})]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.form, {
+				initial: "hidden",
+				whileInView: "visible",
+				viewport: {
+					once: true,
+					margin: "-80px"
+				},
+				variants: fadeUp,
 				onSubmit: form.handleSubmit(onSubmit),
-				className: "reveal rounded-2xl border border-[var(--ec-teal)]/8 bg-white p-7 shadow-md shadow-[var(--ec-teal)]/5",
+				className: "relative overflow-hidden rounded-2xl border border-[var(--ec-teal)]/8 bg-white p-7 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset,0_20px_50px_-24px_rgba(11,107,71,0.25)]",
 				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "grid gap-4 md:grid-cols-2",
 					children: [
@@ -961,15 +1209,15 @@ function RequestForm() {
 							})
 						})
 					]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 					type: "submit",
 					disabled: submitting,
-					className: "mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--ec-teal)] px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-[var(--ec-teal)]/20 transition hover:bg-[var(--ec-teal-light)] hover:shadow-[var(--ec-teal)]/30 disabled:opacity-60",
-					children: [
+					className: "mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--ec-teal)] px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-[var(--ec-teal)]/20 transition hover:bg-[var(--ec-teal-light)] hover:shadow-[var(--ec-teal)]/30 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ec-teal)]/50 disabled:opacity-60 disabled:active:scale-100",
+					children: submitting ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
 						t("form.submit"),
 						" ",
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "h-4 w-4" })
-					]
+					] })
 				})]
 			})]
 		})
@@ -1074,10 +1322,10 @@ function Footer() {
 	});
 }
 function EmployeeCarePage() {
-	useReveal();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "ec-theme min-h-screen bg-white",
 		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(GrainOverlay, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Nav, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PhotoStrip, {}),

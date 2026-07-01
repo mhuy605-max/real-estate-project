@@ -2,7 +2,7 @@ import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { _ as Navigate, v as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-import { C as Mail, J as ClipboardList, at as Building2, i as Users, n as X, o as TrendingUp, p as Send, u as Sparkles } from "../_libs/lucide-react.mjs";
+import { C as Mail, Y as ClipboardList, i as Users, n as X, o as TrendingUp, ot as Building2, p as Send, u as Sparkles } from "../_libs/lucide-react.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
 import { n as useLang } from "./LangContext-BsxfAWbA.mjs";
 import { a as usePortal, r as getInvestors } from "./store-Ckbp1fQa.mjs";

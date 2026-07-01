@@ -2,7 +2,7 @@ import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
 import { c as useCareLang, l as useCarePortal, n as CARE_STATUSES, s as getCompanyName } from "./i18n-BNcuN0TD.mjs";
-import { A as Inbox, S as MapPin, X as CircleCheck, at as Building2, b as MessageSquare, i as Users, p as Send, t as Zap } from "../_libs/lucide-react.mjs";
+import { A as Inbox, S as MapPin, Z as CircleCheck, b as MessageSquare, i as Users, ot as Building2, p as Send, t as Zap } from "../_libs/lucide-react.mjs";
 import { a as EmptyState, c as SectionHeader, d as statusTone, i as DashboardShell, l as StatCard, n as Card, o as Pill, s as PremiumCard, t as ActionBtn, u as inputCls } from "./DashboardShell-BzKrxcCi.mjs";
 //#region node_modules/.nitro/vite/services/ssr/assets/care.staff-p_Y_GrEG.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
