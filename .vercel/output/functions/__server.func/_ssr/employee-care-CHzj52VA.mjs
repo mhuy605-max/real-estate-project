@@ -11,7 +11,7 @@ import { n as useForm, t as u } from "../_libs/@hookform/resolvers+[...].mjs";
 import { n as SheetClose, r as SheetContent, t as Sheet } from "./sheet-Cj8uvqUW.mjs";
 import { i as DropdownMenuTrigger, n as DropdownMenuContent, r as DropdownMenuItem, t as DropdownMenu } from "./dropdown-menu-NQwLQ7z6.mjs";
 import { t as with_logo_default } from "./with-logo-BnTFlW0T.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/employee-care-DfYnU1GU.js
+//#region node_modules/.nitro/vite/services/ssr/assets/employee-care-CHzj52VA.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function EmployeeCarePageWrapper() {
@@ -471,14 +471,17 @@ function Hero() {
 							className: "mt-10 flex flex-wrap gap-3 sm:mt-12 sm:gap-4",
 							children: [
 								{
+									id: "categories",
 									label: t("hero.chip.categories"),
 									accent: "var(--ec-coral-soft)"
 								},
 								{
+									id: "timeline",
 									label: t("hero.chip.timeline"),
 									accent: "#3fcf94"
 								},
 								{
+									id: "languages",
 									label: t("hero.chip.languages"),
 									accent: "var(--ec-coral-soft)"
 								}
@@ -488,7 +491,7 @@ function Hero() {
 									className: "h-1.5 w-1.5 rounded-full",
 									style: { background: chip.accent }
 								}), chip.label]
-							}, chip.label))
+							}, chip.id))
 						})
 					]
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
@@ -755,18 +758,22 @@ function TrustSection() {
 	const { fadeUp, staggerParent } = useSectionMotion();
 	const stats = [
 		{
+			id: "companies",
 			value: "47",
 			label: t("trust.stat.companies")
 		},
 		{
+			id: "employees",
 			value: "1,240+",
 			label: t("trust.stat.employees")
 		},
 		{
+			id: "trc",
 			value: "9 days",
 			label: t("trust.stat.trc")
 		},
 		{
+			id: "satisfaction",
 			value: "4.8/5",
 			label: t("trust.stat.satisfaction")
 		}
@@ -813,7 +820,7 @@ function TrustSection() {
 							className: "mt-1 text-xs text-[var(--ec-muted)]",
 							children: s.label
 						})]
-					}, s.label))
+					}, s.id))
 				})
 			]
 		})
@@ -1238,6 +1245,7 @@ function FAQ() {
 		5,
 		6
 	].map((n) => ({
+		id: n,
 		q: t(`faq.q${n}`),
 		a: t(`faq.a${n}`)
 	}));
@@ -1268,7 +1276,7 @@ function FAQ() {
 						className: "mt-2 text-sm leading-relaxed text-[var(--ec-muted)]",
 						children: item.a
 					})]
-				}, item.q))
+				}, item.id))
 			})]
 		})
 	});

@@ -498,12 +498,16 @@ function Hero() {
 
           <motion.div variants={fadeUp} className="mt-10 flex flex-wrap gap-3 sm:mt-12 sm:gap-4">
             {[
-              { label: t("hero.chip.categories"), accent: "var(--ec-coral-soft)" },
-              { label: t("hero.chip.timeline"), accent: "#3fcf94" },
-              { label: t("hero.chip.languages"), accent: "var(--ec-coral-soft)" },
+              {
+                id: "categories",
+                label: t("hero.chip.categories"),
+                accent: "var(--ec-coral-soft)",
+              },
+              { id: "timeline", label: t("hero.chip.timeline"), accent: "#3fcf94" },
+              { id: "languages", label: t("hero.chip.languages"), accent: "var(--ec-coral-soft)" },
             ].map((chip) => (
               <div
-                key={chip.label}
+                key={chip.id}
                 className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-white/60 backdrop-blur"
               >
                 <span className="h-1.5 w-1.5 rounded-full" style={{ background: chip.accent }} />
@@ -714,10 +718,10 @@ function TrustSection() {
   const { t } = useCareLang();
   const { fadeUp, staggerParent } = useSectionMotion();
   const stats = [
-    { value: "47", label: t("trust.stat.companies") },
-    { value: "1,240+", label: t("trust.stat.employees") },
-    { value: "9 days", label: t("trust.stat.trc") },
-    { value: "4.8/5", label: t("trust.stat.satisfaction") },
+    { id: "companies", value: "47", label: t("trust.stat.companies") },
+    { id: "employees", value: "1,240+", label: t("trust.stat.employees") },
+    { id: "trc", value: "9 days", label: t("trust.stat.trc") },
+    { id: "satisfaction", value: "4.8/5", label: t("trust.stat.satisfaction") },
   ];
   return (
     <section className="bg-[var(--ec-sand)] py-16 sm:py-20 md:py-24">
@@ -748,7 +752,7 @@ function TrustSection() {
           className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4"
         >
           {stats.map((s) => (
-            <motion.div key={s.label} variants={fadeUp}>
+            <motion.div key={s.id} variants={fadeUp}>
               <div className="font-display text-3xl tracking-tight text-[var(--ec-ink)] md:text-4xl">
                 {s.value}
               </div>
@@ -1040,6 +1044,7 @@ function FAQ() {
   const { t } = useCareLang();
   const { fadeUp, staggerParent } = useSectionMotion();
   const items = [1, 2, 3, 4, 5, 6].map((n) => ({
+    id: n,
     q: t(`faq.q${n}`),
     a: t(`faq.a${n}`),
   }));
@@ -1056,7 +1061,7 @@ function FAQ() {
         >
           {items.map((item) => (
             <motion.div
-              key={item.q}
+              key={item.id}
               variants={fadeUp}
               className="border-t border-[var(--ec-teal)]/10 pt-5"
             >
