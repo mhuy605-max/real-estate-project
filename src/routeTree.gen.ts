@@ -20,6 +20,7 @@ import { Route as PortalLoginRouteImport } from './routes/portal.login'
 import { Route as PortalInvestorRouteImport } from './routes/portal.investor'
 import { Route as PortalAdminRouteImport } from './routes/portal.admin'
 import { Route as CareStaffRouteImport } from './routes/care.staff'
+import { Route as CarePrivacyRouteImport } from './routes/care.privacy'
 import { Route as CareLoginRouteImport } from './routes/care.login'
 import { Route as CareEmployeeRouteImport } from './routes/care.employee'
 import { Route as CareAdminRouteImport } from './routes/care.admin'
@@ -79,6 +80,11 @@ const CareStaffRoute = CareStaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => CareRoute,
 } as any)
+const CarePrivacyRoute = CarePrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => CareRoute,
+} as any)
 const CareLoginRoute = CareLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/care/admin': typeof CareAdminRoute
   '/care/employee': typeof CareEmployeeRoute
   '/care/login': typeof CareLoginRoute
+  '/care/privacy': typeof CarePrivacyRoute
   '/care/staff': typeof CareStaffRoute
   '/portal/admin': typeof PortalAdminRoute
   '/portal/investor': typeof PortalInvestorRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/care/admin': typeof CareAdminRoute
   '/care/employee': typeof CareEmployeeRoute
   '/care/login': typeof CareLoginRoute
+  '/care/privacy': typeof CarePrivacyRoute
   '/care/staff': typeof CareStaffRoute
   '/portal/admin': typeof PortalAdminRoute
   '/portal/investor': typeof PortalInvestorRoute
@@ -136,6 +144,7 @@ export interface FileRoutesById {
   '/care/admin': typeof CareAdminRoute
   '/care/employee': typeof CareEmployeeRoute
   '/care/login': typeof CareLoginRoute
+  '/care/privacy': typeof CarePrivacyRoute
   '/care/staff': typeof CareStaffRoute
   '/portal/admin': typeof PortalAdminRoute
   '/portal/investor': typeof PortalInvestorRoute
@@ -154,6 +163,7 @@ export interface FileRouteTypes {
     | '/care/admin'
     | '/care/employee'
     | '/care/login'
+    | '/care/privacy'
     | '/care/staff'
     | '/portal/admin'
     | '/portal/investor'
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/care/admin'
     | '/care/employee'
     | '/care/login'
+    | '/care/privacy'
     | '/care/staff'
     | '/portal/admin'
     | '/portal/investor'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
     | '/care/admin'
     | '/care/employee'
     | '/care/login'
+    | '/care/privacy'
     | '/care/staff'
     | '/portal/admin'
     | '/portal/investor'
@@ -280,6 +292,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CareStaffRouteImport
       parentRoute: typeof CareRoute
     }
+    '/care/privacy': {
+      id: '/care/privacy'
+      path: '/privacy'
+      fullPath: '/care/privacy'
+      preLoaderRoute: typeof CarePrivacyRouteImport
+      parentRoute: typeof CareRoute
+    }
     '/care/login': {
       id: '/care/login'
       path: '/login'
@@ -308,6 +327,7 @@ interface CareRouteChildren {
   CareAdminRoute: typeof CareAdminRoute
   CareEmployeeRoute: typeof CareEmployeeRoute
   CareLoginRoute: typeof CareLoginRoute
+  CarePrivacyRoute: typeof CarePrivacyRoute
   CareStaffRoute: typeof CareStaffRoute
 }
 
@@ -315,6 +335,7 @@ const CareRouteChildren: CareRouteChildren = {
   CareAdminRoute: CareAdminRoute,
   CareEmployeeRoute: CareEmployeeRoute,
   CareLoginRoute: CareLoginRoute,
+  CarePrivacyRoute: CarePrivacyRoute,
   CareStaffRoute: CareStaffRoute,
 }
 

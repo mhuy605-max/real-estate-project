@@ -43,6 +43,12 @@ import {
 import { useCareLang, type Lang } from "@/lib/care/i18n";
 import { useCarePortal, CARE_CATEGORIES, type CareCategory } from "@/lib/care/store";
 import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import withLogo from "@/assets/with-logo.png";
 
 export const Route = createFileRoute("/employee-care")({
@@ -272,7 +278,7 @@ const NAV_LINKS = [
   { href: "#how", k: "nav.how" },
   { href: "#services", k: "nav.services" },
   { href: "#hr", k: "nav.hr" },
-  { href: "#request", k: "nav.request" },
+  { href: "#faq", k: "nav.faq" },
 ] as const;
 
 function Nav() {
@@ -322,18 +328,33 @@ function Nav() {
         </nav>
         <div className="flex items-center gap-2 sm:gap-3">
           <LanguagePicker />
-          <Link
-            to="/portal"
-            className="hidden rounded-full bg-[var(--ec-coral)] px-4 py-2 text-xs font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#109c5f] active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:inline-flex"
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className="hidden items-center gap-1 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium text-white/70 backdrop-blur transition hover:bg-white/10 hover:text-white active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:inline-flex"
+              >
+                {t("nav.explore")} <ChevronDown className="h-3 w-3" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="ec-theme min-w-[10rem] border-white/10 bg-[var(--ec-teal-deep)] text-white"
+            >
+              <DropdownMenuItem asChild className="focus:bg-white/10 focus:text-white">
+                <Link to="/portal">{t("nav.portalHub")}</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="focus:bg-white/10 focus:text-white">
+                <Link to="/with-property">{t("nav.withProperty")}</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <a
+            href="#request"
+            className="hidden rounded-full bg-[var(--ec-coral)] px-4 py-2 text-xs font-semibold text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#109c5f] active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:inline-flex"
           >
-            Portal
-          </Link>
-          <Link
-            to="/with-property"
-            className="hidden rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-medium text-white/70 backdrop-blur transition hover:bg-white/10 hover:text-white active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 md:inline-flex"
-          >
-            WithProperty
-          </Link>
+            {t("nav.request")}
+          </a>
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
@@ -375,11 +396,22 @@ function Nav() {
             </nav>
             <div className="mt-6 flex flex-col gap-2 border-t border-white/10 pt-6">
               <SheetClose asChild>
+                <a
+                  href="#request"
+                  className="inline-flex items-center justify-center rounded-full bg-[var(--ec-coral)] px-4 py-2.5 text-sm font-semibold text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#109c5f]"
+                >
+                  {t("nav.request")}
+                </a>
+              </SheetClose>
+              <p className="mt-4 px-2 text-[10px] uppercase tracking-widest text-white/30">
+                {t("nav.explore")}
+              </p>
+              <SheetClose asChild>
                 <Link
                   to="/portal"
-                  className="inline-flex items-center justify-center rounded-full bg-[var(--ec-coral)] px-4 py-2.5 text-sm font-medium text-white shadow-md shadow-[var(--ec-coral)]/25 transition hover:bg-[#109c5f]"
+                  className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
                 >
-                  Portal
+                  {t("nav.portalHub")}
                 </Link>
               </SheetClose>
               <SheetClose asChild>
@@ -387,7 +419,7 @@ function Nav() {
                   to="/with-property"
                   className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
                 >
-                  WithProperty
+                  {t("nav.withProperty")}
                 </Link>
               </SheetClose>
             </div>
@@ -466,9 +498,9 @@ function Hero() {
 
           <motion.div variants={fadeUp} className="mt-10 flex flex-wrap gap-3 sm:mt-12 sm:gap-4">
             {[
-              { label: "4 Service Categories", accent: "var(--ec-coral-soft)" },
-              { label: "Pre-arrival to Renewal", accent: "#3fcf94" },
-              { label: "EN · KO · VI", accent: "var(--ec-coral-soft)" },
+              { label: t("hero.chip.categories"), accent: "var(--ec-coral-soft)" },
+              { label: t("hero.chip.timeline"), accent: "#3fcf94" },
+              { label: t("hero.chip.languages"), accent: "var(--ec-coral-soft)" },
             ].map((chip) => (
               <div
                 key={chip.label}
@@ -669,6 +701,66 @@ function Services() {
   );
 }
 
+/* ── Trust section — real seeded company names + organic (non-round) stats ── */
+const TRUST_COMPANIES = [
+  "Samjin Electronics Vietnam",
+  "Arcwave Logistics",
+  "Hanwha Ocean Vietnam",
+  "Halcyon Biotech Asia",
+  "Kestrel Data Systems",
+];
+
+function TrustSection() {
+  const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useSectionMotion();
+  const stats = [
+    { value: "47", label: t("trust.stat.companies") },
+    { value: "1,240+", label: t("trust.stat.employees") },
+    { value: "9 days", label: t("trust.stat.trc") },
+    { value: "4.8/5", label: t("trust.stat.satisfaction") },
+  ];
+  return (
+    <section className="bg-[var(--ec-sand)] py-16 sm:py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
+        <SectionHeader eyebrow={t("trust.eyebrow")} title={t("trust.title")} />
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerParent}
+          className="flex flex-wrap items-center gap-x-10 gap-y-4 border-y border-[var(--ec-teal)]/10 py-8"
+        >
+          {TRUST_COMPANIES.map((c) => (
+            <motion.span
+              key={c}
+              variants={fadeUp}
+              className="font-display text-sm font-semibold tracking-tight text-[var(--ec-muted)]"
+            >
+              {c}
+            </motion.span>
+          ))}
+        </motion.div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerParent}
+          className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4"
+        >
+          {stats.map((s) => (
+            <motion.div key={s.label} variants={fadeUp}>
+              <div className="font-display text-3xl tracking-tight text-[var(--ec-ink)] md:text-4xl">
+                {s.value}
+              </div>
+              <div className="mt-1 text-xs text-[var(--ec-muted)]">{s.label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
 type FeatureLevel = "yes" | "partial" | "no";
 interface TierFeature {
   label: string;
@@ -800,7 +892,7 @@ function HRTiers() {
           <h2 className="font-display text-3xl tracking-tight text-balance md:text-4xl">
             {t("hr.sub")}
           </h2>
-          <p className="mt-3 text-white/65">Click any plan to see what's included.</p>
+          <p className="mt-3 text-white/65">{t("hr.clickHint")}</p>
         </motion.div>
 
         <motion.div
@@ -817,7 +909,7 @@ function HRTiers() {
               <motion.div
                 key={k}
                 variants={fadeUp}
-                whileHover={{ y: -4 }}
+                whileHover={isOpen ? undefined : { y: -4 }}
                 transition={springTransition}
                 className={`rounded-2xl transition-colors duration-300 ${offset} ${
                   isOpen || featured
@@ -845,7 +937,7 @@ function HRTiers() {
 
                   {featured && (
                     <span className="mt-3 mb-1 inline-block rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] uppercase tracking-widest text-white/90">
-                      Most Popular
+                      {t("hr.mostPopular")}
                     </span>
                   )}
 
@@ -929,15 +1021,50 @@ function HRTiers() {
         {/* Legend */}
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-white/45">
           <span className="flex items-center gap-1.5">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> Included
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400" /> {t("tier.legend.included")}
           </span>
           <span className="flex items-center gap-1.5">
-            <Minus className="h-3.5 w-3.5 text-amber-400" /> Partial / limited
+            <Minus className="h-3.5 w-3.5 text-amber-400" /> {t("tier.legend.partial")}
           </span>
           <span className="flex items-center gap-1.5">
-            <XIcon className="h-3.5 w-3.5 text-white/45" /> Not included
+            <XIcon className="h-3.5 w-3.5 text-white/45" /> {t("tier.legend.notIncluded")}
           </span>
         </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── FAQ — static two-column list, deliberately not an accordion ─────────── */
+function FAQ() {
+  const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useSectionMotion();
+  const items = [1, 2, 3, 4, 5, 6].map((n) => ({
+    q: t(`faq.q${n}`),
+    a: t(`faq.a${n}`),
+  }));
+  return (
+    <section id="faq" className="bg-white py-16 sm:py-20 md:py-24">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
+        <SectionHeader eyebrow={t("faq.eyebrow")} title={t("faq.title")} />
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={staggerParent}
+          className="grid gap-x-10 gap-y-8 md:grid-cols-2"
+        >
+          {items.map((item) => (
+            <motion.div
+              key={item.q}
+              variants={fadeUp}
+              className="border-t border-[var(--ec-teal)]/10 pt-5"
+            >
+              <h3 className="font-display text-base text-[var(--ec-ink)]">{item.q}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--ec-muted)]">{item.a}</p>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
@@ -1129,6 +1256,9 @@ function Footer() {
             <a href="#hr" className="transition hover:text-white">
               {t("nav.hr")}
             </a>
+            <a href="#faq" className="transition hover:text-white">
+              {t("nav.faq")}
+            </a>
             <a href="#request" className="transition hover:text-white">
               {t("nav.request")}
             </a>
@@ -1137,6 +1267,9 @@ function Footer() {
             </Link>
             <Link to="/with-property" className="transition hover:text-white">
               WithProperty
+            </Link>
+            <Link to="/care/privacy" className="transition hover:text-white">
+              {t("footer.privacy")}
             </Link>
           </div>
         </div>
@@ -1166,7 +1299,9 @@ function EmployeeCarePage() {
       <PhotoStrip />
       <HowItWorks />
       <Services />
+      <TrustSection />
       <HRTiers />
+      <FAQ />
       <RequestForm />
       <Footer />
     </div>

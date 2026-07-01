@@ -13,6 +13,9 @@ const dicts: Record<Lang, Dict> = {
     "nav.hr": "For HR",
     "nav.request": "Request Support",
     "nav.login": "Sign in",
+    "nav.explore": "Explore WITH",
+    "nav.portalHub": "Portal Hub",
+    "nav.withProperty": "WithProperty",
     "hero.eyebrow": "Settlement Support, From Day One",
     "hero.title": "Your People. Settled in Vietnam, Without the Guesswork.",
     "hero.sub":
@@ -48,6 +51,14 @@ const dicts: Record<Lang, Dict> = {
     "hr.title": "For HR teams",
     "hr.sub":
       "Choose how long WITH Care manages your team's settlement. Sales-assisted, no self-serve checkout.",
+    "hr.clickHint": "Click any plan to see what's included.",
+    "hr.mostPopular": "Most Popular",
+    "tier.legend.included": "Included",
+    "tier.legend.partial": "Partial / limited",
+    "tier.legend.notIncluded": "Not included",
+    "hero.chip.categories": "4 Service Categories",
+    "hero.chip.timeline": "Pre-arrival to Renewal",
+    "hero.chip.languages": "EN · KO · VI",
     "tier.trial": "Trial",
     "tier.trial.d": "1 month",
     "tier.basic": "Basic",
@@ -69,6 +80,38 @@ const dicts: Record<Lang, Dict> = {
     "form.haveAccount": "I already have an account",
     "form.success": "We've logged your request as {ref} — our team will follow up within 24 hours.",
     "footer.tagline": "Settlement support for every step of the move.",
+    "footer.privacy": "Privacy Policy",
+
+    /* ── FAQ ── */
+    "nav.faq": "FAQ",
+    "faq.eyebrow": "FAQ",
+    "faq.title": "Before you talk to sales",
+    "faq.q1": "How does billing work?",
+    "faq.a1":
+      "Tiers are invoiced quarterly per active employee seat; unused seats roll over within the same billing cycle.",
+    "faq.q2": "Can we change tiers mid-contract?",
+    "faq.a2":
+      "Yes — upgrades take effect immediately, and downgrades apply at the next renewal date.",
+    "faq.q3": "How is employee data handled?",
+    "faq.a3":
+      "Personal details are stored only for the duration of settlement support and shared only with your assigned agent and relevant government offices. See our Privacy Policy for details.",
+    "faq.q4": "What happens if we need to cancel?",
+    "faq.a4":
+      "Trial and Basic tiers can be cancelled with 30 days' notice; Pro and Premium follow the terms agreed at signing.",
+    "faq.q5": "Which languages do agents support?",
+    "faq.a5":
+      "English is standard across all tiers. Korean and Vietnamese support is included from the Pro tier onward.",
+    "faq.q6": "What about after-hours requests?",
+    "faq.a6":
+      "Pro and Premium include a priority escalation line; Trial and Basic route after-hours requests to the next business day.",
+
+    /* ── Trust / credibility section ── */
+    "trust.eyebrow": "Trusted By",
+    "trust.title": "HR teams across Vietnam rely on WITH Care",
+    "trust.stat.companies": "companies onboarded",
+    "trust.stat.employees": "employees relocated",
+    "trust.stat.trc": "avg. TRC approval",
+    "trust.stat.satisfaction": "HR satisfaction score",
 
     /* ── Hero live-status preview stack ── */
     "hero.stack.1.label": "District comparison ready",
@@ -298,6 +341,9 @@ const dicts: Record<Lang, Dict> = {
     "nav.hr": "HR 담당자",
     "nav.request": "지원 요청",
     "nav.login": "로그인",
+    "nav.explore": "WITH 더 알아보기",
+    "nav.portalHub": "포털 허브",
+    "nav.withProperty": "WithProperty",
     "hero.eyebrow": "첫날부터 함께하는 정착 지원",
     "hero.title": "베트남에서의 정착, 추측 없이 확실하게.",
     "hero.sub": "주거, 행정, 의료, 학교 — WITH Care가 디테일을 챙겨드립니다.",
@@ -329,6 +375,14 @@ const dicts: Record<Lang, Dict> = {
     "svc.other.d": "정착 관련 무엇이든.",
     "hr.title": "HR 담당자용",
     "hr.sub": "WITH Care가 팀 정착을 관리할 기간을 선택하세요. B2B 계약 기반.",
+    "hr.clickHint": "요금제를 클릭하면 포함 내용을 확인할 수 있습니다.",
+    "hr.mostPopular": "인기 요금제",
+    "tier.legend.included": "포함됨",
+    "tier.legend.partial": "부분 지원 / 제한적",
+    "tier.legend.notIncluded": "미포함",
+    "hero.chip.categories": "4개 서비스 카테고리",
+    "hero.chip.timeline": "도착 전부터 갱신까지",
+    "hero.chip.languages": "EN · KO · VI",
     "tier.trial": "체험",
     "tier.trial.d": "1개월",
     "tier.basic": "베이직",
@@ -395,6 +449,36 @@ const dicts: Record<Lang, Dict> = {
     "form.haveAccount": "이미 계정이 있습니다",
     "form.success": "요청을 {ref}로 접수했습니다 — 24시간 내 연락드립니다.",
     "footer.tagline": "이사의 모든 단계를 위한 정착 지원.",
+
+    "footer.privacy": "개인정보처리방침",
+
+    "nav.faq": "자주 묻는 질문",
+    "faq.eyebrow": "FAQ",
+    "faq.title": "영업팀과 상담하기 전에",
+    "faq.q1": "청구는 어떻게 이루어지나요?",
+    "faq.a1":
+      "요금제는 활성 직원 좌석 기준으로 분기마다 청구되며, 미사용 좌석은 동일 청구 주기 내 이월됩니다.",
+    "faq.q2": "계약 중간에 요금제를 변경할 수 있나요?",
+    "faq.a2": "네 — 업그레이드는 즉시 적용되며, 다운그레이드는 다음 갱신일에 적용됩니다.",
+    "faq.q3": "직원 데이터는 어떻게 관리되나요?",
+    "faq.a3":
+      "개인 정보는 정착 지원 기간 동안만 보관되며, 담당 에이전트와 관련 정부 기관에만 공유됩니다. 자세한 내용은 개인정보처리방침을 참고하세요.",
+    "faq.q4": "해지가 필요하면 어떻게 되나요?",
+    "faq.a4":
+      "체험 및 베이직 요금제는 30일 사전 통지로 해지할 수 있으며, 프로 및 프리미엄은 계약 시 합의된 조건을 따릅니다.",
+    "faq.q5": "에이전트는 어떤 언어를 지원하나요?",
+    "faq.a5":
+      "모든 요금제에서 영어가 기본 제공되며, 프로 요금제부터 한국어와 베트남어 지원이 포함됩니다.",
+    "faq.q6": "업무 시간 외 요청은 어떻게 되나요?",
+    "faq.a6":
+      "프로 및 프리미엄은 우선 에스컬레이션 라인을 제공하며, 체험 및 베이직은 다음 영업일로 요청이 전달됩니다.",
+
+    "trust.eyebrow": "신뢰하는 기업들",
+    "trust.title": "베트남 전역의 HR팀이 WITH Care를 선택합니다",
+    "trust.stat.companies": "온보딩된 기업",
+    "trust.stat.employees": "정착 지원한 직원",
+    "trust.stat.trc": "평균 거주증 승인 기간",
+    "trust.stat.satisfaction": "HR 만족도 점수",
 
     "hero.stack.1.label": "지역 비교 완료",
     "hero.stack.1.sub": "2군 · 7군 · 타오디엔",
@@ -571,6 +655,9 @@ const dicts: Record<Lang, Dict> = {
     "nav.hr": "Cho HR",
     "nav.request": "Yêu cầu hỗ trợ",
     "nav.login": "Đăng nhập",
+    "nav.explore": "Khám phá WITH",
+    "nav.portalHub": "Cổng thông tin",
+    "nav.withProperty": "WithProperty",
     "hero.eyebrow": "Hỗ trợ định cư, từ ngày đầu tiên",
     "hero.title": "Nhân sự của bạn. An cư tại Việt Nam, không phải đoán.",
     "hero.sub": "Nhà ở, giấy tờ, y tế, trường học — WITH Care lo từng chi tiết.",
@@ -603,6 +690,14 @@ const dicts: Record<Lang, Dict> = {
     "svc.other.d": "Bất cứ điều gì liên quan đến định cư.",
     "hr.title": "Dành cho HR",
     "hr.sub": "Chọn thời hạn WITH Care quản lý việc định cư của đội ngũ. Theo hợp đồng B2B.",
+    "hr.clickHint": "Nhấp vào một gói để xem chi tiết bao gồm.",
+    "hr.mostPopular": "Phổ biến nhất",
+    "tier.legend.included": "Đã bao gồm",
+    "tier.legend.partial": "Một phần / giới hạn",
+    "tier.legend.notIncluded": "Không bao gồm",
+    "hero.chip.categories": "4 nhóm dịch vụ",
+    "hero.chip.timeline": "Từ trước khi đến đến khi gia hạn",
+    "hero.chip.languages": "EN · KO · VI",
     "tier.trial": "Dùng thử",
     "tier.trial.d": "1 tháng",
     "tier.basic": "Cơ bản",
@@ -669,6 +764,37 @@ const dicts: Record<Lang, Dict> = {
     "form.haveAccount": "Tôi đã có tài khoản",
     "form.success": "Đã ghi nhận yêu cầu {ref} — chúng tôi sẽ liên hệ trong 24 giờ.",
     "footer.tagline": "Hỗ trợ định cư cho mỗi bước của hành trình.",
+
+    "footer.privacy": "Chính sách bảo mật",
+
+    "nav.faq": "Câu hỏi thường gặp",
+    "faq.eyebrow": "FAQ",
+    "faq.title": "Trước khi liên hệ kinh doanh",
+    "faq.q1": "Việc thanh toán diễn ra như thế nào?",
+    "faq.a1":
+      "Các gói được lập hóa đơn hàng quý theo số chỗ nhân viên đang hoạt động; chỗ chưa dùng được chuyển tiếp trong cùng chu kỳ thanh toán.",
+    "faq.q2": "Chúng tôi có thể đổi gói giữa hợp đồng không?",
+    "faq.a2":
+      "Có — nâng cấp có hiệu lực ngay lập tức, còn hạ cấp áp dụng vào kỳ gia hạn tiếp theo.",
+    "faq.q3": "Dữ liệu nhân viên được xử lý ra sao?",
+    "faq.a3":
+      "Thông tin cá nhân chỉ được lưu trong thời gian hỗ trợ định cư và chỉ chia sẻ với nhân viên phụ trách cùng cơ quan nhà nước liên quan. Xem Chính sách bảo mật để biết chi tiết.",
+    "faq.q4": "Nếu cần hủy hợp đồng thì sao?",
+    "faq.a4":
+      "Gói Dùng thử và Cơ bản có thể hủy với thông báo trước 30 ngày; gói Pro và Premium theo điều khoản đã thỏa thuận khi ký kết.",
+    "faq.q5": "Nhân viên hỗ trợ nói được ngôn ngữ nào?",
+    "faq.a5":
+      "Tiếng Anh được hỗ trợ ở tất cả các gói. Tiếng Hàn và tiếng Việt được bao gồm từ gói Pro trở lên.",
+    "faq.q6": "Yêu cầu ngoài giờ làm việc thì sao?",
+    "faq.a6":
+      "Gói Pro và Premium có đường dây ưu tiên xử lý; gói Dùng thử và Cơ bản sẽ được xử lý vào ngày làm việc tiếp theo.",
+
+    "trust.eyebrow": "Được tin tưởng bởi",
+    "trust.title": "Các đội ngũ HR trên khắp Việt Nam tin dùng WITH Care",
+    "trust.stat.companies": "công ty đã hợp tác",
+    "trust.stat.employees": "nhân viên đã định cư",
+    "trust.stat.trc": "thời gian duyệt TRC trung bình",
+    "trust.stat.satisfaction": "điểm hài lòng của HR",
 
     "hero.stack.1.label": "Đã có so sánh khu vực",
     "hero.stack.1.sub": "Quận 2 · Quận 7 · Thảo Điền",
