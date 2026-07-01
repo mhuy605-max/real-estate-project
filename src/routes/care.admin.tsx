@@ -20,6 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 import {
   DashboardShell,
+  StatStrip,
   StatCard,
   Pill,
   statusTone,
@@ -29,6 +30,7 @@ import {
   inputCls,
   SectionHeader,
   ActionBtn,
+  useDashboardMotion,
 } from "@/components/care/DashboardShell";
 import { useCareLang } from "@/lib/care/i18n";
 import {
@@ -78,7 +80,7 @@ function AdminDashboard() {
   const nav = [
     { label: t("admin.nav.companies"), key: "companies", icon: Building2 },
     { label: t("admin.nav.employees"), key: "employees", icon: Users },
-    { label: t("admin.nav.requests"), key: "requests", icon: Inbox },
+    { label: t("admin.nav.requests"), key: "requests", icon: Inbox, badge: openCount },
     { label: t("admin.nav.reports"), key: "reports", icon: FileBarChart },
   ];
 
@@ -91,8 +93,8 @@ function AdminDashboard() {
       onSelect={(k) => setTab(k as Tab)}
       identity={identity}
     >
-      {/* Stats strip */}
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 mb-8">
+      {/* Stats strip — one bordered container with divide-x, not four boxed cards */}
+      <StatStrip>
         <StatCard
           label={t("admin.stat.companies")}
           value={state.companies.length}
@@ -117,7 +119,7 @@ function AdminDashboard() {
           sub={t("admin.stat.reports.sub")}
           tone="sky"
         />
-      </div>
+      </StatStrip>
 
       {tab === "companies" && <CompaniesTab />}
       {tab === "employees" && <EmployeesTab />}
@@ -150,6 +152,7 @@ const tierPill: Record<ContractTier, "ok" | "info" | "warn" | "muted"> = {
 function CompaniesTab() {
   const { state, createCareCompany } = useCarePortal();
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useDashboardMotion();
   const [show, setShow] = useState(false);
   const form = useForm<z.infer<typeof companySchema>>({
     resolver: zodResolver(companySchema),
@@ -265,12 +268,21 @@ function CompaniesTab() {
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-black/[0.04]">
+            <motion.tbody
+              initial="hidden"
+              animate="visible"
+              variants={staggerParent}
+              className="divide-y divide-black/[0.04]"
+            >
               {state.companies.map((c) => {
                 const used = seatsUsed(c.id);
                 const pct = c.seats > 0 ? used / c.seats : 0;
                 return (
-                  <tr key={c.id} className="group hover:bg-black/[0.025] transition-colors">
+                  <motion.tr
+                    key={c.id}
+                    variants={fadeUp}
+                    className="group hover:bg-black/[0.025] transition-colors"
+                  >
                     <td className="py-3.5 pr-4">
                       <div className="flex items-center gap-2.5">
                         <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-600/10 text-[11px] font-bold text-emerald-600">
@@ -302,10 +314,10 @@ function CompaniesTab() {
                     <td className="py-3.5 text-[12px] text-black/40 hidden md:table-cell">
                       {c.hrContactName}
                     </td>
-                  </tr>
+                  </motion.tr>
                 );
               })}
-            </tbody>
+            </motion.tbody>
           </table>
         </Card>
       )}
@@ -327,6 +339,7 @@ const empSchema = z.object({
 function EmployeesTab() {
   const { state, createCareEmployee, updateCareEmployee } = useCarePortal();
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useDashboardMotion();
   const [filter, setFilter] = useState<string>("all");
   const [show, setShow] = useState(false);
   const [edit, setEdit] = useState<string | null>(null);
@@ -467,10 +480,16 @@ function EmployeesTab() {
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-black/[0.04]">
+              <motion.tbody
+                initial="hidden"
+                animate="visible"
+                variants={staggerParent}
+                className="divide-y divide-black/[0.04]"
+              >
                 {employees.map((e) => (
-                  <tr
+                  <motion.tr
                     key={e.uid}
+                    variants={fadeUp}
                     onClick={() => setEdit(e.uid)}
                     className={`cursor-pointer transition-colors ${
                       edit === e.uid ? "bg-[#14a76c]/[0.07]" : "hover:bg-black/[0.025]"
@@ -505,9 +524,9 @@ function EmployeesTab() {
                         <span className="text-[12px] text-black/22">—</span>
                       )}
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))}
-              </tbody>
+              </motion.tbody>
             </table>
           </Card>
         )}
@@ -617,6 +636,7 @@ function EmployeesTab() {
 function RequestsTab() {
   const { state, assignCareRequest, updateCareRequestStatus, replyToCareRequest } = useCarePortal();
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useDashboardMotion();
   const [fCompany, setFCompany] = useState("all");
   const [fCat, setFCat] = useState<"all" | CareCategory>("all");
   const [fStatus, setFStatus] = useState<"all" | CareStatus>("all");
@@ -662,7 +682,9 @@ function RequestsTab() {
         >
           <option value="all">{t("dash.allCategories")}</option>
           {CARE_CATEGORIES.map((c) => (
-            <option key={c}>{c}</option>
+            <option key={c} value={c}>
+              {t(`category.${c}`)}
+            </option>
           ))}
         </select>
         <select
@@ -681,7 +703,12 @@ function RequestsTab() {
 
       <div className="grid gap-5 lg:grid-cols-[380px_1fr]">
         {/* Request list */}
-        <div className="space-y-2">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerParent}
+          className="space-y-2"
+        >
           {list.length === 0 ? (
             <EmptyState
               message={t("req.empty.list")}
@@ -689,11 +716,12 @@ function RequestsTab() {
             />
           ) : (
             list.map((r) => (
-              <button
+              <motion.button
                 key={r.id}
                 type="button"
+                variants={fadeUp}
                 onClick={() => setOpen(r.id)}
-                className={`block w-full rounded-xl border p-4 text-left transition-all duration-150 ${
+                className={`block w-full rounded-xl border p-4 text-left transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/40 ${
                   open === r.id
                     ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]"
                     : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"
@@ -712,10 +740,10 @@ function RequestsTab() {
                     {getCompanyName(state.companies, r.companyId) || t("dash.guest")}
                   </span>
                 </div>
-              </button>
+              </motion.button>
             ))
           )}
-        </div>
+        </motion.div>
 
         {/* Detail panel */}
         <div>
@@ -851,6 +879,7 @@ const repSchema = z.object({
 function ReportsTab() {
   const { state, generateCareReport } = useCarePortal();
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useDashboardMotion();
   const [show, setShow] = useState(false);
   const form = useForm<z.infer<typeof repSchema>>({
     resolver: zodResolver(repSchema),
@@ -934,29 +963,36 @@ function ReportsTab() {
           icon={<FileBarChart className="h-5 w-5 text-black/30" />}
         />
       ) : (
-        <div className="grid gap-4 md:grid-cols-2">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerParent}
+          className="grid gap-4 md:grid-cols-2"
+        >
           {state.reports.map((r) => (
-            <PremiumCard key={r.id} accent={r.kind === "Annual" ? "teal" : undefined}>
-              <div className="flex items-start justify-between mb-3">
-                <div>
-                  <p className="font-mono text-[10px] text-black/22">{r.id}</p>
-                  <h3 className="mt-1 text-[14px] font-semibold text-black/92">
-                    {getCompanyName(state.companies, r.companyId)}
-                  </h3>
-                  <p className="text-[12px] text-black/38 mt-0.5">{r.periodLabel}</p>
+            <motion.div key={r.id} variants={fadeUp}>
+              <PremiumCard accent={r.kind === "Annual" ? "teal" : undefined}>
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <p className="font-mono text-[10px] text-black/22">{r.id}</p>
+                    <h3 className="mt-1 text-[14px] font-semibold text-black/92">
+                      {getCompanyName(state.companies, r.companyId)}
+                    </h3>
+                    <p className="text-[12px] text-black/38 mt-0.5">{r.periodLabel}</p>
+                  </div>
+                  <Pill tone={r.kind === "Annual" ? "ok" : "info"}>{r.kind}</Pill>
                 </div>
-                <Pill tone={r.kind === "Annual" ? "ok" : "info"}>{r.kind}</Pill>
-              </div>
-              <p className="text-[13px] text-black/60 leading-relaxed border-t border-black/[0.06] pt-3">
-                {r.summary}
-              </p>
-              <div className="mt-3 flex items-center gap-1.5 text-[10px] text-black/28">
-                <CheckCircle2 className="h-3 w-3 text-emerald-500/60" />
-                {t("dash.generated")} {new Date(r.generatedAt).toLocaleDateString()}
-              </div>
-            </PremiumCard>
+                <p className="text-[13px] text-black/60 leading-relaxed border-t border-black/[0.06] pt-3">
+                  {r.summary}
+                </p>
+                <div className="mt-3 flex items-center gap-1.5 text-[10px] text-black/28">
+                  <CheckCircle2 className="h-3 w-3 text-emerald-500/60" />
+                  {t("dash.generated")} {new Date(r.generatedAt).toLocaleDateString()}
+                </div>
+              </PremiumCard>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
     </div>
   );

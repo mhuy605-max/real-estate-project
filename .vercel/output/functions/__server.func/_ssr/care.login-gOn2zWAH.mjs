@@ -2,12 +2,12 @@ import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { g as Link, v as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-import { c as useCareLang, l as useCarePortal } from "./i18n-C-udbzCl.mjs";
+import { c as useCareLang, l as useCarePortal } from "./i18n-CMzyrgwE.mjs";
 import { t as with_logo_black_default } from "./with-logo-black-CurIuk3w.mjs";
 import { $ as ChevronUp, B as Eye, M as HeartHandshake, Q as CircleAlert, T as Lock, V as EyeOff, ft as ArrowLeft, nt as ChevronDown } from "../_libs/lucide-react.mjs";
 import { a as motion, o as AnimatePresence } from "../_libs/framer-motion.mjs";
-import { r as CareLangSwitcher } from "./DashboardShell-ByRWoDhS.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/care.login-SsLHQwp_.js
+import { r as CareLangSwitcher } from "./DashboardShell-B2q2rbIl.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/care.login-gOn2zWAH.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function CareLoginPage() {

@@ -9,7 +9,7 @@ import { HeartHandshake, LogOut } from "lucide-react";
 import type { ReactNode } from "react";
 import { useCarePortal, type Role } from "@/lib/care/store";
 import { useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
 import { useCareLang, type Lang } from "@/lib/care/i18n";
 import withLogo from "@/assets/with-logo-black.png";
 
@@ -18,6 +18,30 @@ export const EC_BG = "#f6faf8";
 export const EC_SIDEBAR = "#ffffff";
 export const EC_CORAL = "#14a76c";
 export const EC_TEAL = "emerald-600";
+
+// ─── Shared motion variants — every dashboard tab reuses these so lists and
+// tables get consistent staggered reveals, and everything respects
+// prefers-reduced-motion from one place. ──────────────────────────────────
+export function useDashboardMotion() {
+  const reduced = !!useReducedMotion();
+  const fadeUp: Variants = {
+    hidden: { opacity: reduced ? 1 : 0, y: reduced ? 0 : 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: reduced ? { duration: 0 } : { duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+    },
+  };
+  const staggerParent: Variants = {
+    hidden: {},
+    visible: {
+      transition: reduced
+        ? { staggerChildren: 0, delayChildren: 0 }
+        : { staggerChildren: 0.045, delayChildren: 0.02 },
+    },
+  };
+  return { reduced, fadeUp, staggerParent };
+}
 
 // ─── CareLangSwitcher ────────────────────────────────────────────────────────
 const LANGS: { code: Lang; label: string }[] = [
@@ -34,7 +58,7 @@ export function CareLangSwitcher() {
         <button
           key={l.code}
           onClick={() => setLang(l.code)}
-          className={`rounded-full px-2.5 py-1 text-[11px] font-medium tracking-wide transition-all ${
+          className={`rounded-full px-2.5 py-1 text-[11px] font-medium tracking-wide transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50 ${
             lang === l.code ? "bg-[#14a76c] text-white" : "text-black/40 hover:text-black/70"
           }`}
         >
@@ -49,6 +73,7 @@ interface NavItem {
   label: string;
   key: string;
   icon: React.ComponentType<{ className?: string }>;
+  badge?: number;
 }
 
 // ─── DashboardShell ──────────────────────────────────────────────────────────
@@ -73,6 +98,7 @@ export function DashboardShell({
   const { t } = useCareLang();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const reduced = !!useReducedMotion();
 
   useEffect(() => {
     if (!state.session || state.session.role !== role) {
@@ -86,7 +112,7 @@ export function DashboardShell({
 
   return (
     <div className="min-h-screen text-[#0d1f16]" style={{ background: EC_BG }}>
-      {/* Subtle dot grid */}
+      {/* Subtle dot grid — fixed, pointer-events-none, single instance */}
       <div
         className="pointer-events-none fixed inset-0 opacity-[0.035]"
         style={{
@@ -103,7 +129,10 @@ export function DashboardShell({
         >
           {/* Brand */}
           <div className="px-5 pt-6 pb-5 border-b border-black/[0.06]">
-            <Link to="/employee-care" className="flex flex-col items-start gap-2.5 group">
+            <Link
+              to="/employee-care"
+              className="flex flex-col items-start gap-2.5 group rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50"
+            >
               <img
                 src={withLogo}
                 alt="WITH"
@@ -135,7 +164,7 @@ export function DashboardShell({
             </div>
           </div>
 
-          {/* Nav */}
+          {/* Nav — sliding layoutId indicator instead of instant show/hide */}
           <nav className="mt-5 flex-1 px-2.5 space-y-0.5 overflow-y-auto">
             {nav.map((item) => {
               const Icon = item.icon;
@@ -144,21 +173,32 @@ export function DashboardShell({
                 <button
                   key={item.key}
                   onClick={() => onSelect(item.key)}
-                  className={`relative flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-[13px] font-medium transition-all duration-150 ${
+                  className={`relative flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-[13px] font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50 ${
                     isActive
                       ? "bg-[#14a76c]/[0.10] text-[#0b6b47]"
                       : "text-black/45 hover:bg-black/[0.03] hover:text-black/75"
                   }`}
                 >
                   {isActive && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-0.5 rounded-full bg-[#14a76c]" />
+                    <motion.span
+                      layoutId="dash-nav-indicator"
+                      transition={
+                        reduced ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }
+                      }
+                      className="absolute left-0 top-1/2 -translate-y-1/2 h-4 w-0.5 rounded-full bg-[#14a76c]"
+                    />
                   )}
                   <Icon
                     className={`h-[15px] w-[15px] shrink-0 transition-colors ${
                       isActive ? "text-[#14a76c]" : ""
                     }`}
                   />
-                  {item.label}
+                  <span className="flex-1">{item.label}</span>
+                  {typeof item.badge === "number" && item.badge > 0 && (
+                    <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-[#14a76c] px-1 text-[9px] font-bold text-white tabular-nums">
+                      {item.badge}
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -172,7 +212,7 @@ export function DashboardShell({
                   logout();
                   navigate({ to: "/care/login" });
                 }}
-                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-black/35 hover:bg-black/[0.03] hover:text-black/65 transition-colors"
+                className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-black/35 hover:bg-black/[0.03] hover:text-black/65 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50"
               >
                 <LogOut className="h-[15px] w-[15px]" />
                 {t("dash.signOut")}
@@ -206,21 +246,33 @@ export function DashboardShell({
             </div>
           </div>
 
-          {/* Mobile tab bar */}
+          {/* Mobile tab bar — sliding layoutId indicator here too */}
           <div className="md:hidden border-b border-black/[0.06] px-4 py-2.5 flex gap-1.5 flex-wrap">
-            {nav.map((item) => (
-              <button
-                key={item.key}
-                onClick={() => onSelect(item.key)}
-                className={`rounded-full px-3 py-1.5 text-[11px] font-medium transition-all ${
-                  active === item.key
-                    ? "bg-[#14a76c] text-white"
-                    : "bg-black/[0.05] text-black/55 hover:text-black/85"
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+            {nav.map((item) => {
+              const isActive = active === item.key;
+              return (
+                <button
+                  key={item.key}
+                  onClick={() => onSelect(item.key)}
+                  className="relative rounded-full px-3 py-1.5 text-[11px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50"
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="dash-mobile-tab-indicator"
+                      transition={
+                        reduced ? { duration: 0 } : { type: "spring", stiffness: 380, damping: 32 }
+                      }
+                      className="absolute inset-0 rounded-full bg-[#14a76c]"
+                    />
+                  )}
+                  <span
+                    className={`relative ${isActive ? "text-white" : "text-black/55 hover:text-black/85"}`}
+                  >
+                    {item.label}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Content */}
@@ -228,10 +280,10 @@ export function DashboardShell({
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: reduced ? 0 : 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
+                transition={{ duration: reduced ? 0 : 0.2, ease: "easeOut" }}
               >
                 {children}
               </motion.div>
@@ -243,7 +295,30 @@ export function DashboardShell({
   );
 }
 
-// ─── StatCard ────────────────────────────────────────────────────────────────
+// ─── StatStrip / StatCard ────────────────────────────────────────────────────
+// A single bordered strip with divide-x separators instead of N separate
+// boxed cards — the "logic-grouping via divide-y/border-t, cards banned for
+// dense dashboard KPI rows" pattern, rather than a grid of individually
+// shadowed boxes competing for attention.
+export function StatStrip({ children }: { children: ReactNode }) {
+  const { fadeUp, staggerParent } = useDashboardMotion();
+  const items = Array.isArray(children) ? children : [children];
+  return (
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      variants={staggerParent}
+      className="mb-8 grid grid-cols-2 divide-x divide-y divide-black/[0.06] overflow-hidden rounded-2xl border border-black/[0.07] bg-white shadow-[0_1px_2px_rgba(13,31,22,0.04)] sm:flex sm:divide-y-0"
+    >
+      {items.map((child, i) => (
+        <motion.div key={i} variants={fadeUp} className="sm:flex-1 sm:min-w-0">
+          {child}
+        </motion.div>
+      ))}
+    </motion.div>
+  );
+}
+
 export function StatCard({
   label,
   value,
@@ -263,20 +338,12 @@ export function StatCard({
     default: "text-[#0d1f16]",
   }[tone];
 
-  const toneBorder = {
-    coral: "hover:border-[#14a76c]/25",
-    teal: "hover:border-[#0b6b47]/25",
-    amber: "hover:border-amber-500/25",
-    sky: "hover:border-sky-500/25",
-    default: "hover:border-black/15",
-  }[tone];
-
   return (
-    <div
-      className={`rounded-xl border border-black/[0.07] bg-white px-5 py-4 shadow-[0_1px_2px_rgba(13,31,22,0.04)] transition-all duration-200 hover:bg-[#f5faf7] ${toneBorder}`}
-    >
+    <div className="px-5 py-4 transition-colors duration-200 hover:bg-[#f5faf7]">
       <div className="text-[10px] uppercase tracking-[0.18em] text-black/38 mb-2">{label}</div>
-      <div className={`text-2xl font-semibold tracking-tight ${toneColor}`}>{value}</div>
+      <div className={`text-2xl font-semibold tracking-tight tabular-nums ${toneColor}`}>
+        {value}
+      </div>
       {sub && <div className="mt-0.5 text-[11px] text-black/32">{sub}</div>}
     </div>
   );
@@ -329,7 +396,7 @@ export function statusTone(status: string): "default" | "ok" | "warn" | "info" |
 export function Card({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <div
-      className={`rounded-2xl border border-black/[0.07] bg-white shadow-[0_1px_2px_rgba(13,31,22,0.04)] p-5 ${className ?? ""}`}
+      className={`rounded-2xl border border-black/[0.07] bg-white shadow-[0_20px_40px_-32px_rgba(13,31,22,0.18)] p-5 ${className ?? ""}`}
     >
       {children}
     </div>
@@ -355,7 +422,7 @@ export function PremiumCard({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-xl border border-black/[0.08] bg-white shadow-[0_1px_2px_rgba(13,31,22,0.04)] ${noPad ? "" : "p-5"} ${className}`}
+      className={`relative overflow-hidden rounded-xl border border-black/[0.08] bg-white shadow-[0_20px_40px_-32px_rgba(13,31,22,0.18)] ${noPad ? "" : "p-5"} ${className}`}
     >
       {accentGlow && (
         <div className="pointer-events-none absolute inset-0" style={{ background: accentGlow }} />
@@ -405,8 +472,9 @@ export function ActionBtn({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
-      className={`inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c] px-3.5 py-2 text-[12px] font-semibold text-white tracking-wide hover:bg-[#109c5f] active:bg-[#0c7548] transition-colors ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c] px-3.5 py-2 text-[12px] font-semibold text-white tracking-wide transition-colors hover:bg-[#109c5f] active:scale-[0.97] active:bg-[#0c7548] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50 ${className}`}
     >
       {children}
     </button>

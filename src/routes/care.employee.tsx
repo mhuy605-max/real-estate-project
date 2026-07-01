@@ -17,10 +17,11 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import {
   DashboardShell,
+  StatStrip,
   StatCard,
   Pill,
   PremiumCard,
@@ -30,6 +31,7 @@ import {
   inputCls,
   SectionHeader,
   ActionBtn,
+  useDashboardMotion,
 } from "@/components/care/DashboardShell";
 import { useCareLang } from "@/lib/care/i18n";
 import {
@@ -72,7 +74,7 @@ function EmployeeDashboard() {
   );
 
   const nav = [
-    { label: t("mycare.nav.requests"), key: "requests", icon: Inbox },
+    { label: t("mycare.nav.requests"), key: "requests", icon: Inbox, badge: openCount },
     { label: t("mycare.nav.housing"), key: "housing", icon: HomeIcon },
     { label: t("mycare.nav.progress"), key: "progress", icon: GitBranch },
   ];
@@ -86,8 +88,8 @@ function EmployeeDashboard() {
       onSelect={(k) => setTab(k as Tab)}
       identity={identity}
     >
-      {/* Stats strip */}
-      <div className="grid grid-cols-3 gap-3 mb-8">
+      {/* Stats strip — one bordered container with divide-x, not three boxed cards */}
+      <StatStrip>
         <StatCard
           label={t("mycare.stat.requests")}
           value={myRequests.length}
@@ -106,7 +108,7 @@ function EmployeeDashboard() {
           sub="current phase"
           tone="teal"
         />
-      </div>
+      </StatStrip>
 
       {tab === "requests" && <MyRequestsTab />}
       {tab === "housing" && <MyHousingTab />}
@@ -126,6 +128,7 @@ const reqSchema = z.object({
 function MyRequestsTab() {
   const { state, submitCareRequest, replyToCareRequest } = useCarePortal();
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useDashboardMotion();
   const me = state.session!;
 
   const mine = state.requests
@@ -187,7 +190,7 @@ function MyRequestsTab() {
                   <select className={inputCls()} {...form.register("category")}>
                     {CARE_CATEGORIES.map((c) => (
                       <option key={c} value={c}>
-                        {c}
+                        {t(`category.${c}`)}
                       </option>
                     ))}
                   </select>
@@ -223,7 +226,12 @@ function MyRequestsTab() {
 
       <div className="grid gap-5 lg:grid-cols-[340px_1fr]">
         {/* ── Request list ── */}
-        <div className="space-y-2">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerParent}
+          className="space-y-2"
+        >
           {mine.length === 0 ? (
             <EmptyState
               message={t("mycare.req.empty.list")}
@@ -232,7 +240,7 @@ function MyRequestsTab() {
                 <button
                   type="button"
                   onClick={() => setShowNew(true)}
-                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c]/15 px-3 py-1.5 text-[12px] font-medium text-[#14a76c] hover:bg-[#14a76c]/25 transition-colors"
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c]/15 px-3 py-1.5 text-[12px] font-medium text-[#14a76c] hover:bg-[#14a76c]/25 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/40"
                 >
                   <Plus className="h-3 w-3" />
                   {t("mycare.req.new")}
@@ -241,11 +249,12 @@ function MyRequestsTab() {
             />
           ) : (
             mine.map((r) => (
-              <button
+              <motion.button
                 key={r.id}
                 type="button"
+                variants={fadeUp}
                 onClick={() => setOpen(r.id)}
-                className={`block w-full rounded-xl border p-4 text-left transition-all duration-150 ${
+                className={`block w-full rounded-xl border p-4 text-left transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/40 ${
                   open === r.id
                     ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]"
                     : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"
@@ -268,10 +277,10 @@ function MyRequestsTab() {
                     {r.thread.length} message{r.thread.length !== 1 ? "s" : ""}
                   </div>
                 )}
-              </button>
+              </motion.button>
             ))
           )}
-        </div>
+        </motion.div>
 
         {/* ── Request detail ── */}
         <div>
@@ -487,6 +496,8 @@ function HousingTile({
 function ProgressTab() {
   const { state } = useCarePortal();
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useDashboardMotion();
+  const reduced = !!useReducedMotion();
   const stage = state.session?.stage ?? "Pre-Arrival";
   const idx = STAGES.indexOf(stage);
   const pct = STAGES.length > 1 ? Math.round((idx / (STAGES.length - 1)) * 100) : 0;
@@ -517,9 +528,9 @@ function ProgressTab() {
               style={{
                 background: "linear-gradient(90deg, #0b6b47, #14a76c)",
               }}
-              initial={{ width: 0 }}
+              initial={{ width: reduced ? `${pct}%` : 0 }}
               animate={{ width: `${pct}%` }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: reduced ? 0 : 0.8, ease: [0.22, 1, 0.36, 1] }}
             />
           </div>
           <p className="mt-3 text-[12px] text-black/45 leading-relaxed">
@@ -544,14 +555,20 @@ function ProgressTab() {
             {/* Vertical connector line */}
             <div className="absolute left-[22px] top-6 bottom-6 w-px bg-black/[0.07]" />
 
-            <div className="space-y-2">
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={staggerParent}
+              className="space-y-2"
+            >
               {STAGES.map((s, i) => {
                 const done = i < idx;
                 const current = i === idx;
                 const future = i > idx;
                 return (
-                  <div
+                  <motion.div
                     key={s}
+                    variants={fadeUp}
                     className={`relative flex items-center gap-4 rounded-xl border px-4 py-3.5 transition-all ${
                       current
                         ? "border-[#14a76c]/30 bg-[#14a76c]/[0.06]"
@@ -602,10 +619,10 @@ function ProgressTab() {
                         )}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
-            </div>
+            </motion.div>
           </div>
         </Card>
       </div>

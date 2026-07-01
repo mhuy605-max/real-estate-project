@@ -1,14 +1,14 @@
 import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-import { a as STAGES, c as useCareLang, l as useCarePortal, s as getCompanyName, t as CARE_CATEGORIES } from "./i18n-C-udbzCl.mjs";
+import { a as STAGES, c as useCareLang, l as useCarePortal, s as getCompanyName, t as CARE_CATEGORIES } from "./i18n-CMzyrgwE.mjs";
 import { A as Inbox, F as GitBranch, J as Clock, S as MapPin, X as Circle, Z as CircleCheck, at as CalendarDays, j as House, m as Plus, p as Send, r as Wallet } from "../_libs/lucide-react.mjs";
-import { a as motion, o as AnimatePresence } from "../_libs/framer-motion.mjs";
-import { a as EmptyState, c as SectionHeader, d as statusTone, i as DashboardShell, l as StatCard, n as Card, o as Pill, s as PremiumCard, t as ActionBtn, u as inputCls } from "./DashboardShell-ByRWoDhS.mjs";
+import { a as motion, o as AnimatePresence, t as useReducedMotion } from "../_libs/framer-motion.mjs";
+import { a as EmptyState, c as SectionHeader, d as inputCls, f as statusTone, i as DashboardShell, l as StatCard, n as Card, o as Pill, p as useDashboardMotion, s as PremiumCard, t as ActionBtn, u as StatStrip } from "./DashboardShell-B2q2rbIl.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
 import { a as objectType, i as enumType, o as stringType } from "../_libs/zod.mjs";
 import { n as useForm, t as u } from "../_libs/@hookform/resolvers+[...].mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/care.employee-a61p64NX.js
+//#region node_modules/.nitro/vite/services/ssr/assets/care.employee-BtPFn0nU.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var EBW = "text-[10px] uppercase tracking-[0.18em] text-black/32 font-medium";
@@ -32,7 +32,8 @@ function EmployeeDashboard() {
 		{
 			label: t("mycare.nav.requests"),
 			key: "requests",
-			icon: Inbox
+			icon: Inbox,
+			badge: openCount
 		},
 		{
 			label: t("mycare.nav.housing"),
@@ -53,29 +54,26 @@ function EmployeeDashboard() {
 		onSelect: (k) => setTab(k),
 		identity,
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid grid-cols-3 gap-3 mb-8",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
-						label: t("mycare.stat.requests"),
-						value: myRequests.length,
-						sub: "total submitted",
-						tone: "coral"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
-						label: t("mycare.stat.open"),
-						value: openCount,
-						sub: t("mycare.stat.open.sub"),
-						tone: "amber"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
-						label: t("mycare.stat.stage"),
-						value: me.stage ?? "—",
-						sub: "current phase",
-						tone: "teal"
-					})
-				]
-			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(StatStrip, { children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
+					label: t("mycare.stat.requests"),
+					value: myRequests.length,
+					sub: "total submitted",
+					tone: "coral"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
+					label: t("mycare.stat.open"),
+					value: openCount,
+					sub: t("mycare.stat.open.sub"),
+					tone: "amber"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
+					label: t("mycare.stat.stage"),
+					value: me.stage ?? "—",
+					sub: "current phase",
+					tone: "teal"
+				})
+			] }),
 			tab === "requests" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MyRequestsTab, {}),
 			tab === "housing" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MyHousingTab, {}),
 			tab === "progress" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProgressTab, {})
@@ -90,6 +88,7 @@ var reqSchema = objectType({
 function MyRequestsTab() {
 	const { state, submitCareRequest, replyToCareRequest } = useCarePortal();
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useDashboardMotion();
 	const me = state.session;
 	const mine = state.requests.filter((r) => r.employeeId === me.uid).sort((a, b) => b.submittedAt.localeCompare(a.submittedAt));
 	const [open, setOpen] = (0, import_react.useState)(mine[0]?.id ?? null);
@@ -161,7 +160,7 @@ function MyRequestsTab() {
 								...form.register("category"),
 								children: CARE_CATEGORIES.map((c) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", {
 									value: c,
-									children: c
+									children: t(`category.${c}`)
 								}, c))
 							})] }),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
@@ -192,7 +191,10 @@ function MyRequestsTab() {
 			}) }),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "grid gap-5 lg:grid-cols-[340px_1fr]",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+					initial: "hidden",
+					animate: "visible",
+					variants: staggerParent,
 					className: "space-y-2",
 					children: mine.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmptyState, {
 						message: t("mycare.req.empty.list"),
@@ -200,13 +202,14 @@ function MyRequestsTab() {
 						action: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 							type: "button",
 							onClick: () => setShowNew(true),
-							className: "inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c]/15 px-3 py-1.5 text-[12px] font-medium text-[#14a76c] hover:bg-[#14a76c]/25 transition-colors",
+							className: "inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c]/15 px-3 py-1.5 text-[12px] font-medium text-[#14a76c] hover:bg-[#14a76c]/25 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/40",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { className: "h-3 w-3" }), t("mycare.req.new")]
 						})
-					}) : mine.map((r) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+					}) : mine.map((r) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.button, {
 						type: "button",
+						variants: fadeUp,
 						onClick: () => setOpen(r.id),
-						className: `block w-full rounded-xl border p-4 text-left transition-all duration-150 ${open === r.id ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]" : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"}`,
+						className: `block w-full rounded-xl border p-4 text-left transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/40 ${open === r.id ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]" : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"}`,
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "flex items-center justify-between mb-2",
@@ -442,6 +445,8 @@ function HousingTile({ label, icon, children }) {
 function ProgressTab() {
 	const { state } = useCarePortal();
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useDashboardMotion();
+	const reduced = !!useReducedMotion();
 	const stage = state.session?.stage ?? "Pre-Arrival";
 	const idx = STAGES.indexOf(stage);
 	const pct = STAGES.length > 1 ? Math.round(idx / (STAGES.length - 1) * 100) : 0;
@@ -479,10 +484,10 @@ function ProgressTab() {
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
 							className: "h-full rounded-full",
 							style: { background: "linear-gradient(90deg, #0b6b47, #14a76c)" },
-							initial: { width: 0 },
+							initial: { width: reduced ? `${pct}%` : 0 },
 							animate: { width: `${pct}%` },
 							transition: {
-								duration: .8,
+								duration: reduced ? 0 : .8,
 								ease: [
 									.22,
 									1,
@@ -502,13 +507,17 @@ function ProgressTab() {
 				]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Card, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "relative",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute left-[22px] top-6 bottom-6 w-px bg-black/[0.07]" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute left-[22px] top-6 bottom-6 w-px bg-black/[0.07]" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+					initial: "hidden",
+					animate: "visible",
+					variants: staggerParent,
 					className: "space-y-2",
 					children: STAGES.map((s, i) => {
 						const done = i < idx;
 						const current = i === idx;
 						const future = i > idx;
-						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.div, {
+							variants: fadeUp,
 							className: `relative flex items-center gap-4 rounded-xl border px-4 py-3.5 transition-all ${current ? "border-[#14a76c]/30 bg-[#14a76c]/[0.06]" : done ? "border-emerald-500/15 bg-emerald-500/[0.03]" : "border-black/[0.04] bg-transparent"}`,
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 								className: "relative z-10 shrink-0",

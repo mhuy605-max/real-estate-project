@@ -212,6 +212,13 @@ const dicts: Record<Lang, Dict> = {
     "status.Resolved": "Resolved",
     "status.Closed": "Closed",
 
+    "category.Housing": "Housing",
+    "category.Paperwork": "Paperwork",
+    "category.Medical": "Medical",
+    "category.Schooling": "Schooling",
+    "category.Settlement": "Settlement",
+    "category.Other": "Other",
+
     /* ── Admin ── */
     "admin.title": "WITH Care Admin",
     "admin.nav.companies": "Companies",
@@ -530,6 +537,13 @@ const dicts: Record<Lang, Dict> = {
     "status.Resolved": "해결됨",
     "status.Closed": "종료",
 
+    "category.Housing": "주거",
+    "category.Paperwork": "서류",
+    "category.Medical": "의료",
+    "category.Schooling": "학교",
+    "category.Settlement": "정착",
+    "category.Other": "기타",
+
     "admin.title": "WITH Care 관리자",
     "admin.nav.companies": "회사",
     "admin.nav.employees": "직원",
@@ -845,6 +859,13 @@ const dicts: Record<Lang, Dict> = {
     "status.Pending Info": "Chờ thông tin",
     "status.Resolved": "Đã giải quyết",
     "status.Closed": "Đã đóng",
+
+    "category.Housing": "Nhà ở",
+    "category.Paperwork": "Giấy tờ",
+    "category.Medical": "Y tế",
+    "category.Schooling": "Trường học",
+    "category.Settlement": "Định cư",
+    "category.Other": "Khác",
 
     "admin.title": "Quản Trị WITH Care",
     "admin.nav.companies": "Công ty",

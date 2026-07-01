@@ -1,0 +1,1 @@
+import{G as e,X as t}from"./useStore-DgTVU5_6.js";import{a as n,i as r,o as i}from"./proxy-C5IHxwKd.js";var a=t(e(),1);function o(){!n.current&&r();let[e]=(0,a.useState)(i.current);return e}export{o as t};

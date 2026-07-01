@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DIhsRfvx.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-CSAjMtH1.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/__root.tsx",
@@ -10,21 +10,21 @@ var tsrStartManifest = () => ({ routes: {
 			"/with-property"
 		],
 		preloads: [
-			"/assets/index-DkD1poqQ.js",
+			"/assets/index-D9WyONIe.js",
 			"/assets/useStore-DgTVU5_6.js",
 			"/assets/link-BKBRwpNv.js"
 		],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-DkD1poqQ.js"
+			src: "/assets/index-D9WyONIe.js"
 		} }]
 	},
 	"/": {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-Ct71ma2D.js",
+			"/assets/routes-CTHAyd2f.js",
 			"/assets/dist-Cr8I0xe5.js",
 			"/assets/dist-BNSCem24.js",
 			"/assets/dist-DGPQGqKE.js",
@@ -51,18 +51,19 @@ var tsrStartManifest = () => ({ routes: {
 			"/care/privacy",
 			"/care/staff"
 		],
-		preloads: ["/assets/care-BQ_uQ54K.js"]
+		preloads: ["/assets/care-BDA2iAZs.js"]
 	},
 	"/employee-care": {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/employee-care.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/employee-care-ZrW2iu59.js",
+			"/assets/employee-care-D2hRxKKj.js",
 			"/assets/zod-D1KoSYNH.js",
 			"/assets/dist-DGPQGqKE.js",
 			"/assets/sheet-BzyU4H1i.js",
 			"/assets/dropdown-menu-BDPkfA1J.js",
 			"/assets/proxy-C5IHxwKd.js",
+			"/assets/use-reduced-motion-9CZ8axu8.js",
 			"/assets/createLucideIcon-DseYLrKT.js",
 			"/assets/arrow-right-ColWzrlD.js",
 			"/assets/building-2-BmzO3A-n.js",
@@ -90,13 +91,13 @@ var tsrStartManifest = () => ({ routes: {
 			"/portal/staff",
 			"/portal/"
 		],
-		preloads: ["/assets/portal-CRHt-Qq5.js"]
+		preloads: ["/assets/portal-B4zQcSeA.js"]
 	},
 	"/with-property": {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/with-property.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/with-property-Dvu-kAxf.js",
+			"/assets/with-property-CzHMFodY.js",
 			"/assets/dist-Cr8I0xe5.js",
 			"/assets/zod-D1KoSYNH.js",
 			"/assets/dist-BNSCem24.js",
@@ -125,9 +126,9 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/care.admin.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/care.admin-CMRKJHt4.js",
+			"/assets/care.admin-q1N-hF9w.js",
 			"/assets/zod-D1KoSYNH.js",
-			"/assets/DashboardShell-MfJMPXoK.js",
+			"/assets/DashboardShell-ByILcH3I.js",
 			"/assets/AnimatePresence-DI1WCo-N.js",
 			"/assets/proxy-C5IHxwKd.js",
 			"/assets/createLucideIcon-DseYLrKT.js",
@@ -145,11 +146,12 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/care.employee.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/care.employee-BiiE5aD2.js",
+			"/assets/care.employee-_PY8Wm48.js",
 			"/assets/zod-D1KoSYNH.js",
-			"/assets/DashboardShell-MfJMPXoK.js",
+			"/assets/DashboardShell-ByILcH3I.js",
 			"/assets/AnimatePresence-DI1WCo-N.js",
 			"/assets/proxy-C5IHxwKd.js",
+			"/assets/use-reduced-motion-9CZ8axu8.js",
 			"/assets/createLucideIcon-DseYLrKT.js",
 			"/assets/circle-check-DXHfgPm1.js",
 			"/assets/circle-C6GerpGq.js",
@@ -165,8 +167,8 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/care.login.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/care.login-DWQb-eOk.js",
-			"/assets/DashboardShell-MfJMPXoK.js",
+			"/assets/care.login-UEO2ym-H.js",
+			"/assets/DashboardShell-ByILcH3I.js",
 			"/assets/AnimatePresence-DI1WCo-N.js",
 			"/assets/proxy-C5IHxwKd.js",
 			"/assets/arrow-left-BEIb1ryP.js",
@@ -193,8 +195,9 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/care.staff.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/care.staff-ClJzOumb.js",
-			"/assets/DashboardShell-MfJMPXoK.js",
+			"/assets/care.staff-DhTUDCNr.js",
+			"/assets/DashboardShell-ByILcH3I.js",
+			"/assets/proxy-C5IHxwKd.js",
 			"/assets/building-2-BmzO3A-n.js",
 			"/assets/circle-check-DXHfgPm1.js",
 			"/assets/inbox-D_0lG-C2.js",
@@ -209,33 +212,33 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/portal.admin.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/portal.admin-D1KFUhb8.js",
+			"/assets/portal.admin-CDUfRRUw.js",
 			"/assets/dist-DGPQGqKE.js",
 			"/assets/sheet-BzyU4H1i.js",
 			"/assets/select-Dg2ffLAH.js",
 			"/assets/createLucideIcon-DseYLrKT.js",
 			"/assets/table-C1nuOmGl.js",
-			"/assets/PortalShell-Dz3EWjTC.js",
+			"/assets/PortalShell-CcO_Nl3Q.js",
 			"/assets/triangle-alert-CHDlNYtk.js",
 			"/assets/send-Cq56Eq2s.js",
 			"/assets/shield-CYu8KTo4.js",
 			"/assets/trending-up-DFSMh3u3.js",
 			"/assets/users-D8plQ4BA.js",
-			"/assets/portalTranslations-BbueCOl6.js"
+			"/assets/portalTranslations-qceh9jEx.js"
 		]
 	},
 	"/portal/investor": {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/portal.investor.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/portal.investor-DyJd80jQ.js",
+			"/assets/portal.investor-BCd4iM6h.js",
 			"/assets/dist-DGPQGqKE.js",
 			"/assets/sheet-BzyU4H1i.js",
 			"/assets/dist-DLUJofOk.js",
 			"/assets/generateCategoricalChart-CuHtoSpb.js",
 			"/assets/proxy-C5IHxwKd.js",
 			"/assets/circle-check-DXHfgPm1.js",
-			"/assets/PortalShell-Dz3EWjTC.js",
+			"/assets/PortalShell-CcO_Nl3Q.js",
 			"/assets/triangle-alert-CHDlNYtk.js",
 			"/assets/file-text-DdCO3Dmn.js",
 			"/assets/house-CqMaupqP.js",
@@ -243,14 +246,14 @@ var tsrStartManifest = () => ({ routes: {
 			"/assets/message-square-Ba981Hn2.js",
 			"/assets/send-Cq56Eq2s.js",
 			"/assets/trending-up-DFSMh3u3.js",
-			"/assets/portalTranslations-BbueCOl6.js"
+			"/assets/portalTranslations-qceh9jEx.js"
 		]
 	},
 	"/portal/login": {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/portal.login.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/portal.login-BS9Zu29Q.js",
+			"/assets/portal.login-B_YzeCVq.js",
 			"/assets/AnimatePresence-DI1WCo-N.js",
 			"/assets/proxy-C5IHxwKd.js",
 			"/assets/arrow-left-BEIb1ryP.js",
@@ -260,24 +263,24 @@ var tsrStartManifest = () => ({ routes: {
 			"/assets/circle-alert-Btc0pT6D.js",
 			"/assets/eye-u9HrvcnJ.js",
 			"/assets/lock-Dxs2g764.js",
-			"/assets/portalTranslations-BbueCOl6.js"
+			"/assets/portalTranslations-qceh9jEx.js"
 		]
 	},
 	"/portal/staff": {
 		filePath: "C:/Users/ACER/Documents/RealEsateProject/real-estate-project/src/routes/portal.staff.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/portal.staff-DxGfdHD-.js",
+			"/assets/portal.staff-jMAt3rUl.js",
 			"/assets/dist-DGPQGqKE.js",
 			"/assets/sheet-BzyU4H1i.js",
 			"/assets/select-Dg2ffLAH.js",
 			"/assets/building-2-BmzO3A-n.js",
 			"/assets/table-C1nuOmGl.js",
-			"/assets/PortalShell-Dz3EWjTC.js",
+			"/assets/PortalShell-CcO_Nl3Q.js",
 			"/assets/send-Cq56Eq2s.js",
 			"/assets/trending-up-DFSMh3u3.js",
 			"/assets/users-D8plQ4BA.js",
-			"/assets/portalTranslations-BbueCOl6.js"
+			"/assets/portalTranslations-qceh9jEx.js"
 		]
 	},
 	"/portal/": {

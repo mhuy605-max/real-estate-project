@@ -1,10 +1,11 @@
 import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-import { c as useCareLang, l as useCarePortal, n as CARE_STATUSES, s as getCompanyName } from "./i18n-C-udbzCl.mjs";
+import { c as useCareLang, l as useCarePortal, n as CARE_STATUSES, s as getCompanyName } from "./i18n-CMzyrgwE.mjs";
 import { A as Inbox, S as MapPin, Z as CircleCheck, b as MessageSquare, i as Users, ot as Building2, p as Send, t as Zap } from "../_libs/lucide-react.mjs";
-import { a as EmptyState, c as SectionHeader, d as statusTone, i as DashboardShell, l as StatCard, n as Card, o as Pill, s as PremiumCard, t as ActionBtn, u as inputCls } from "./DashboardShell-ByRWoDhS.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/care.staff-DB2qCtLk.js
+import { a as motion } from "../_libs/framer-motion.mjs";
+import { a as EmptyState, c as SectionHeader, d as inputCls, f as statusTone, i as DashboardShell, l as StatCard, n as Card, o as Pill, p as useDashboardMotion, s as PremiumCard, t as ActionBtn, u as StatStrip } from "./DashboardShell-B2q2rbIl.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/care.staff-CeflPtsU.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var EBW = "text-[10px] uppercase tracking-[0.18em] text-black/32 font-medium";
@@ -31,12 +32,14 @@ function StaffDashboard() {
 		{
 			label: t("staff.nav.mine"),
 			key: "mine",
-			icon: Inbox
+			icon: Inbox,
+			badge: openMine
 		},
 		{
 			label: t("staff.nav.unassigned"),
 			key: "unassigned",
-			icon: MessageSquare
+			icon: MessageSquare,
+			badge: unassignedCount
 		},
 		{
 			label: t("staff.nav.employees"),
@@ -52,29 +55,26 @@ function StaffDashboard() {
 		onSelect: (k) => setTab(k),
 		identity,
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid grid-cols-3 gap-3 mb-8",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
-						label: t("staff.stat.mine"),
-						value: myCount,
-						sub: openMine > 0 ? `${openMine} open` : "all clear",
-						tone: "coral"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
-						label: t("staff.stat.unassigned"),
-						value: unassignedCount,
-						sub: t("staff.stat.unassigned.sub"),
-						tone: "amber"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
-						label: t("staff.stat.employees"),
-						value: employeeCount,
-						sub: `${myCompanyIds.length} companies`,
-						tone: "teal"
-					})
-				]
-			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(StatStrip, { children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
+					label: t("staff.stat.mine"),
+					value: myCount,
+					sub: openMine > 0 ? `${openMine} open` : "all clear",
+					tone: "coral"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
+					label: t("staff.stat.unassigned"),
+					value: unassignedCount,
+					sub: t("staff.stat.unassigned.sub"),
+					tone: "amber"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
+					label: t("staff.stat.employees"),
+					value: employeeCount,
+					sub: `${myCompanyIds.length} companies`,
+					tone: "teal"
+				})
+			] }),
 			tab === "mine" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RequestsView, { scope: "mine" }),
 			tab === "unassigned" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RequestsView, { scope: "unassigned" }),
 			tab === "employees" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmployeesView, {})
@@ -84,6 +84,7 @@ function StaffDashboard() {
 function RequestsView({ scope }) {
 	const { state, assignCareRequest, updateCareRequestStatus, replyToCareRequest } = useCarePortal();
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useDashboardMotion();
 	const me = state.session;
 	const list = state.requests.filter((r) => scope === "mine" ? r.assignedStaffUid === me.uid : !r.assignedStaffUid).sort((a, b) => b.submittedAt.localeCompare(a.submittedAt));
 	const [open, setOpen] = (0, import_react.useState)(list[0]?.id ?? null);
@@ -98,7 +99,10 @@ function RequestsView({ scope }) {
 			sub: `${list.length} request${list.length !== 1 ? "s" : ""}`
 		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "grid gap-5 lg:grid-cols-[360px_1fr]",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+				initial: "hidden",
+				animate: "visible",
+				variants: staggerParent,
 				className: "space-y-2",
 				children: list.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmptyState, {
 					message: emptyMsg,
@@ -106,10 +110,11 @@ function RequestsView({ scope }) {
 				}) : list.map((r) => {
 					const isActive = open === r.id;
 					const companyName = getCompanyName(state.companies, r.companyId);
-					return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+					return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.button, {
 						type: "button",
+						variants: fadeUp,
 						onClick: () => setOpen(r.id),
-						className: `block w-full rounded-xl border p-4 text-left transition-all duration-150 ${isActive ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]" : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"}`,
+						className: `block w-full rounded-xl border p-4 text-left transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/40 ${isActive ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]" : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"}`,
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "flex items-center justify-between mb-2",
@@ -285,6 +290,7 @@ function RequestsView({ scope }) {
 function EmployeesView() {
 	const { state } = useCarePortal();
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useDashboardMotion();
 	const me = state.session;
 	const myCompanyIds = (0, import_react.useMemo)(() => Array.from(new Set(state.requests.filter((r) => r.assignedStaffUid === me.uid).map((r) => r.companyId).filter(Boolean))), [state.requests, me.uid]);
 	const employees = state.users.filter((u) => u.role === "employee" && u.companyId && myCompanyIds.includes(u.companyId));
@@ -311,9 +317,13 @@ function EmployeesView() {
 						className: `px-5 py-3.5 text-[10px] uppercase tracking-[0.18em] text-black/32 font-medium bg-black/[0.015] ${i >= 1 ? "hidden sm:table-cell" : ""}`,
 						children: col
 					}, col))
-				}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tbody", {
+				}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.tbody, {
+					initial: "hidden",
+					animate: "visible",
+					variants: staggerParent,
 					className: "divide-y divide-black/[0.04]",
-					children: employees.map((e) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tr", {
+					children: employees.map((e) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.tr, {
+						variants: fadeUp,
 						className: "hover:bg-black/[0.025] transition-colors",
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {

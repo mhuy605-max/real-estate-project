@@ -2,7 +2,7 @@ import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { g as Link } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-import { c as useCareLang, l as useCarePortal, t as CARE_CATEGORIES } from "./i18n-C-udbzCl.mjs";
+import { c as useCareLang, l as useCarePortal, t as CARE_CATEGORIES } from "./i18n-CMzyrgwE.mjs";
 import { $ as ChevronUp, D as Languages, H as Ellipsis, J as Clock, L as FileText, M as HeartHandshake, N as GraduationCap, R as FileCheck, S as MapPin, Z as CircleCheck, c as Stethoscope, d as Shield, dt as ArrowRight, h as Plane, i as Users, j as House, k as KeyRound, n as X, nt as ChevronDown, ot as Building2, q as Compass, t as Zap, u as Sparkles, x as Menu, y as Minus } from "../_libs/lucide-react.mjs";
 import { a as motion, i as useMotionValue, n as useSpring, r as useMotionTemplate, t as useReducedMotion } from "../_libs/framer-motion.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
@@ -11,7 +11,7 @@ import { n as useForm, t as u } from "../_libs/@hookform/resolvers+[...].mjs";
 import { n as SheetClose, r as SheetContent, t as Sheet } from "./sheet-Cj8uvqUW.mjs";
 import { i as DropdownMenuTrigger, n as DropdownMenuContent, r as DropdownMenuItem, t as DropdownMenu } from "./dropdown-menu-NQwLQ7z6.mjs";
 import { t as with_logo_default } from "./with-logo-BnTFlW0T.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/employee-care-CHzj52VA.js
+//#region node_modules/.nitro/vite/services/ssr/assets/employee-care-DDXXIdUc.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function EmployeeCarePageWrapper() {
@@ -536,23 +536,23 @@ function SectionHeader({ eyebrow, title, sub }) {
 }
 var CARE_PHOTOS = [
 	{
-		src: "https://picsum.photos/seed/withcare-housing/600/450",
-		alt: "Modern apartment in Ho Chi Minh City",
+		src: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80",
+		alt: "Modern apartment building in Ho Chi Minh City",
 		label: "Housing"
 	},
 	{
-		src: "https://picsum.photos/seed/withcare-paperwork/600/450",
-		alt: "Paperwork and documents",
+		src: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=600&q=80",
+		alt: "Paperwork and documents on a desk",
 		label: "Paperwork"
 	},
 	{
-		src: "https://picsum.photos/seed/withcare-healthcare/600/450",
-		alt: "Healthcare consultation",
+		src: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80",
+		alt: "Doctor consulting with a patient",
 		label: "Healthcare"
 	},
 	{
-		src: "https://picsum.photos/seed/withcare-schooling/600/450",
-		alt: "Children at international school",
+		src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80",
+		alt: "Children at an international school",
 		label: "Schooling"
 	}
 ];
@@ -1393,7 +1393,7 @@ function RequestForm() {
 								...form.register("category"),
 								children: CARE_CATEGORIES.map((c) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", {
 									value: c,
-									children: c
+									children: t(`category.${c}`)
 								}, c))
 							})
 						}),

@@ -2,11 +2,11 @@ import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { g as Link, l as useRouterState, v as useNavigate } from "../_libs/@tanstack/react-router+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-import { c as useCareLang, l as useCarePortal } from "./i18n-C-udbzCl.mjs";
+import { c as useCareLang, l as useCarePortal } from "./i18n-CMzyrgwE.mjs";
 import { t as with_logo_black_default } from "./with-logo-black-CurIuk3w.mjs";
 import { M as HeartHandshake, w as LogOut } from "../_libs/lucide-react.mjs";
-import { a as motion, o as AnimatePresence } from "../_libs/framer-motion.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/DashboardShell-ByRWoDhS.js
+import { a as motion, o as AnimatePresence, t as useReducedMotion } from "../_libs/framer-motion.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/DashboardShell-B2q2rbIl.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 /**
@@ -16,6 +16,41 @@ var import_jsx_runtime = require_jsx_runtime();
 */
 var EC_BG = "#f6faf8";
 var EC_SIDEBAR = "#ffffff";
+function useDashboardMotion() {
+	const reduced = !!useReducedMotion();
+	return {
+		reduced,
+		fadeUp: {
+			hidden: {
+				opacity: reduced ? 1 : 0,
+				y: reduced ? 0 : 10
+			},
+			visible: {
+				opacity: 1,
+				y: 0,
+				transition: reduced ? { duration: 0 } : {
+					duration: .35,
+					ease: [
+						.16,
+						1,
+						.3,
+						1
+					]
+				}
+			}
+		},
+		staggerParent: {
+			hidden: {},
+			visible: { transition: reduced ? {
+				staggerChildren: 0,
+				delayChildren: 0
+			} : {
+				staggerChildren: .045,
+				delayChildren: .02
+			} }
+		}
+	};
+}
 var LANGS = [
 	{
 		code: "en",
@@ -36,7 +71,7 @@ function CareLangSwitcher() {
 		className: "flex items-center gap-0.5 rounded-full border border-black/[0.08] bg-black/[0.03] px-1 py-1",
 		children: LANGS.map((l) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
 			onClick: () => setLang(l.code),
-			className: `rounded-full px-2.5 py-1 text-[11px] font-medium tracking-wide transition-all ${lang === l.code ? "bg-[#14a76c] text-white" : "text-black/40 hover:text-black/70"}`,
+			className: `rounded-full px-2.5 py-1 text-[11px] font-medium tracking-wide transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50 ${lang === l.code ? "bg-[#14a76c] text-white" : "text-black/40 hover:text-black/70"}`,
 			children: l.label
 		}, l.code))
 	});
@@ -46,6 +81,7 @@ function DashboardShell({ title, role, nav, active, onSelect, children, identity
 	const { t } = useCareLang();
 	const navigate = useNavigate();
 	const pathname = useRouterState({ select: (s) => s.location.pathname });
+	const reduced = !!useReducedMotion();
 	(0, import_react.useEffect)(() => {
 		if (!state.session || state.session.role !== role) navigate({
 			to: "/care/login",
@@ -78,7 +114,7 @@ function DashboardShell({ title, role, nav, active, onSelect, children, identity
 						className: "px-5 pt-6 pb-5 border-b border-black/[0.06]",
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
 							to: "/employee-care",
-							className: "flex flex-col items-start gap-2.5 group",
+							className: "flex flex-col items-start gap-2.5 group rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50",
 							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
 								src: with_logo_black_default,
 								alt: "WITH",
@@ -121,11 +157,26 @@ function DashboardShell({ title, role, nav, active, onSelect, children, identity
 							const isActive = active === item.key;
 							return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 								onClick: () => onSelect(item.key),
-								className: `relative flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-[13px] font-medium transition-all duration-150 ${isActive ? "bg-[#14a76c]/[0.10] text-[#0b6b47]" : "text-black/45 hover:bg-black/[0.03] hover:text-black/75"}`,
+								className: `relative flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-left text-[13px] font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50 ${isActive ? "bg-[#14a76c]/[0.10] text-[#0b6b47]" : "text-black/45 hover:bg-black/[0.03] hover:text-black/75"}`,
 								children: [
-									isActive && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute left-0 top-1/2 -translate-y-1/2 h-4 w-0.5 rounded-full bg-[#14a76c]" }),
+									isActive && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.span, {
+										layoutId: "dash-nav-indicator",
+										transition: reduced ? { duration: 0 } : {
+											type: "spring",
+											stiffness: 380,
+											damping: 32
+										},
+										className: "absolute left-0 top-1/2 -translate-y-1/2 h-4 w-0.5 rounded-full bg-[#14a76c]"
+									}),
 									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon, { className: `h-[15px] w-[15px] shrink-0 transition-colors ${isActive ? "text-[#14a76c]" : ""}` }),
-									item.label
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										className: "flex-1",
+										children: item.label
+									}),
+									typeof item.badge === "number" && item.badge > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+										className: "flex h-4 min-w-4 items-center justify-center rounded-full bg-[#14a76c] px-1 text-[9px] font-bold text-white tabular-nums",
+										children: item.badge
+									})
 								]
 							}, item.key);
 						})
@@ -139,7 +190,7 @@ function DashboardShell({ title, role, nav, active, onSelect, children, identity
 									logout();
 									navigate({ to: "/care/login" });
 								},
-								className: "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-black/35 hover:bg-black/[0.03] hover:text-black/65 transition-colors",
+								className: "flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-[13px] text-black/35 hover:bg-black/[0.03] hover:text-black/65 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LogOut, { className: "h-[15px] w-[15px]" }), t("dash.signOut")]
 							})
 						})
@@ -180,11 +231,25 @@ function DashboardShell({ title, role, nav, active, onSelect, children, identity
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 						className: "md:hidden border-b border-black/[0.06] px-4 py-2.5 flex gap-1.5 flex-wrap",
-						children: nav.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-							onClick: () => onSelect(item.key),
-							className: `rounded-full px-3 py-1.5 text-[11px] font-medium transition-all ${active === item.key ? "bg-[#14a76c] text-white" : "bg-black/[0.05] text-black/55 hover:text-black/85"}`,
-							children: item.label
-						}, item.key))
+						children: nav.map((item) => {
+							const isActive = active === item.key;
+							return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+								onClick: () => onSelect(item.key),
+								className: "relative rounded-full px-3 py-1.5 text-[11px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50",
+								children: [isActive && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.span, {
+									layoutId: "dash-mobile-tab-indicator",
+									transition: reduced ? { duration: 0 } : {
+										type: "spring",
+										stiffness: 380,
+										damping: 32
+									},
+									className: "absolute inset-0 rounded-full bg-[#14a76c]"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+									className: `relative ${isActive ? "text-white" : "text-black/55 hover:text-black/85"}`,
+									children: item.label
+								})]
+							}, item.key);
+						})
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 						className: "flex-1 px-6 py-7 md:px-8",
@@ -193,7 +258,7 @@ function DashboardShell({ title, role, nav, active, onSelect, children, identity
 							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
 								initial: {
 									opacity: 0,
-									y: 8
+									y: reduced ? 0 : 8
 								},
 								animate: {
 									opacity: 1,
@@ -201,7 +266,7 @@ function DashboardShell({ title, role, nav, active, onSelect, children, identity
 								},
 								exit: { opacity: 0 },
 								transition: {
-									duration: .2,
+									duration: reduced ? 0 : .2,
 									ease: "easeOut"
 								},
 								children
@@ -213,6 +278,21 @@ function DashboardShell({ title, role, nav, active, onSelect, children, identity
 		})]
 	});
 }
+function StatStrip({ children }) {
+	const { fadeUp, staggerParent } = useDashboardMotion();
+	const items = Array.isArray(children) ? children : [children];
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+		initial: "hidden",
+		animate: "visible",
+		variants: staggerParent,
+		className: "mb-8 grid grid-cols-2 divide-x divide-y divide-black/[0.06] overflow-hidden rounded-2xl border border-black/[0.07] bg-white shadow-[0_1px_2px_rgba(13,31,22,0.04)] sm:flex sm:divide-y-0",
+		children: items.map((child, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+			variants: fadeUp,
+			className: "sm:flex-1 sm:min-w-0",
+			children: child
+		}, i))
+	});
+}
 function StatCard({ label, value, sub, tone = "default" }) {
 	const toneColor = {
 		coral: "text-[#14a76c]",
@@ -221,22 +301,15 @@ function StatCard({ label, value, sub, tone = "default" }) {
 		sky: "text-sky-600",
 		default: "text-[#0d1f16]"
 	}[tone];
-	const toneBorder = {
-		coral: "hover:border-[#14a76c]/25",
-		teal: "hover:border-[#0b6b47]/25",
-		amber: "hover:border-amber-500/25",
-		sky: "hover:border-sky-500/25",
-		default: "hover:border-black/15"
-	}[tone];
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: `rounded-xl border border-black/[0.07] bg-white px-5 py-4 shadow-[0_1px_2px_rgba(13,31,22,0.04)] transition-all duration-200 hover:bg-[#f5faf7] ${toneBorder}`,
+		className: "px-5 py-4 transition-colors duration-200 hover:bg-[#f5faf7]",
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "text-[10px] uppercase tracking-[0.18em] text-black/38 mb-2",
 				children: label
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: `text-2xl font-semibold tracking-tight ${toneColor}`,
+				className: `text-2xl font-semibold tracking-tight tabular-nums ${toneColor}`,
 				children: value
 			}),
 			sub && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -271,14 +344,14 @@ function statusTone(status) {
 }
 function Card({ children, className }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-		className: `rounded-2xl border border-black/[0.07] bg-white shadow-[0_1px_2px_rgba(13,31,22,0.04)] p-5 ${className ?? ""}`,
+		className: `rounded-2xl border border-black/[0.07] bg-white shadow-[0_20px_40px_-32px_rgba(13,31,22,0.18)] p-5 ${className ?? ""}`,
 		children
 	});
 }
 function PremiumCard({ children, className = "", accent, noPad }) {
 	const accentGlow = accent === "coral" || accent === "teal" ? "radial-gradient(ellipse 80% 60% at 0% 0%, rgba(20,167,108,0.07), transparent)" : void 0;
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: `relative overflow-hidden rounded-xl border border-black/[0.08] bg-white shadow-[0_1px_2px_rgba(13,31,22,0.04)] ${noPad ? "" : "p-5"} ${className}`,
+		className: `relative overflow-hidden rounded-xl border border-black/[0.08] bg-white shadow-[0_20px_40px_-32px_rgba(13,31,22,0.18)] ${noPad ? "" : "p-5"} ${className}`,
 		children: [accentGlow && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 			className: "pointer-events-none absolute inset-0",
 			style: { background: accentGlow }
@@ -305,8 +378,9 @@ function SectionHeader({ title, action, sub }) {
 }
 function ActionBtn({ children, onClick, className = "" }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
+		type: "button",
 		onClick,
-		className: `inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c] px-3.5 py-2 text-[12px] font-semibold text-white tracking-wide hover:bg-[#109c5f] active:bg-[#0c7548] transition-colors ${className}`,
+		className: `inline-flex items-center gap-1.5 rounded-lg bg-[#14a76c] px-3.5 py-2 text-[12px] font-semibold text-white tracking-wide transition-colors hover:bg-[#109c5f] active:scale-[0.97] active:bg-[#0c7548] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/50 ${className}`,
 		children
 	});
 }
@@ -327,4 +401,4 @@ function EmptyState({ message, icon, action }) {
 	});
 }
 //#endregion
-export { EmptyState as a, SectionHeader as c, statusTone as d, DashboardShell as i, StatCard as l, Card as n, Pill as o, CareLangSwitcher as r, PremiumCard as s, ActionBtn as t, inputCls as u };
+export { EmptyState as a, SectionHeader as c, inputCls as d, statusTone as f, DashboardShell as i, StatCard as l, Card as n, Pill as o, useDashboardMotion as p, CareLangSwitcher as r, PremiumCard as s, ActionBtn as t, StatStrip as u };

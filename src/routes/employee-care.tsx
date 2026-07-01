@@ -557,23 +557,23 @@ function SectionHeader({ eyebrow, title, sub }: { eyebrow?: string; title: strin
 /* Photo strip between hero and How It Works */
 const CARE_PHOTOS = [
   {
-    src: "https://picsum.photos/seed/withcare-housing/600/450",
-    alt: "Modern apartment in Ho Chi Minh City",
+    src: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80",
+    alt: "Modern apartment building in Ho Chi Minh City",
     label: "Housing",
   },
   {
-    src: "https://picsum.photos/seed/withcare-paperwork/600/450",
-    alt: "Paperwork and documents",
+    src: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=600&q=80",
+    alt: "Paperwork and documents on a desk",
     label: "Paperwork",
   },
   {
-    src: "https://picsum.photos/seed/withcare-healthcare/600/450",
-    alt: "Healthcare consultation",
+    src: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=600&q=80",
+    alt: "Doctor consulting with a patient",
     label: "Healthcare",
   },
   {
-    src: "https://picsum.photos/seed/withcare-schooling/600/450",
-    alt: "Children at international school",
+    src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=80",
+    alt: "Children at an international school",
     label: "Schooling",
   },
 ];
@@ -1162,7 +1162,7 @@ function RequestForm() {
               <select className={inputCls} {...form.register("category")}>
                 {CARE_CATEGORIES.map((c) => (
                   <option key={c} value={c}>
-                    {c}
+                    {t(`category.${c}`)}
                   </option>
                 ))}
               </select>

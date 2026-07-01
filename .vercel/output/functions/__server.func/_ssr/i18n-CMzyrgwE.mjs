@@ -1,7 +1,7 @@
 import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/i18n-C-udbzCl.js
+//#region node_modules/.nitro/vite/services/ssr/assets/i18n-CMzyrgwE.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var CARE_CATEGORIES = [
@@ -585,6 +585,12 @@ var dicts = {
 		"status.Pending Info": "Pending Info",
 		"status.Resolved": "Resolved",
 		"status.Closed": "Closed",
+		"category.Housing": "Housing",
+		"category.Paperwork": "Paperwork",
+		"category.Medical": "Medical",
+		"category.Schooling": "Schooling",
+		"category.Settlement": "Settlement",
+		"category.Other": "Other",
 		"admin.title": "WITH Care Admin",
 		"admin.nav.companies": "Companies",
 		"admin.nav.employees": "Employees",
@@ -876,6 +882,12 @@ var dicts = {
 		"status.Pending Info": "정보 대기",
 		"status.Resolved": "해결됨",
 		"status.Closed": "종료",
+		"category.Housing": "주거",
+		"category.Paperwork": "서류",
+		"category.Medical": "의료",
+		"category.Schooling": "학교",
+		"category.Settlement": "정착",
+		"category.Other": "기타",
 		"admin.title": "WITH Care 관리자",
 		"admin.nav.companies": "회사",
 		"admin.nav.employees": "직원",
@@ -1167,6 +1179,12 @@ var dicts = {
 		"status.Pending Info": "Chờ thông tin",
 		"status.Resolved": "Đã giải quyết",
 		"status.Closed": "Đã đóng",
+		"category.Housing": "Nhà ở",
+		"category.Paperwork": "Giấy tờ",
+		"category.Medical": "Y tế",
+		"category.Schooling": "Trường học",
+		"category.Settlement": "Định cư",
+		"category.Other": "Khác",
 		"admin.title": "Quản Trị WITH Care",
 		"admin.nav.companies": "Công ty",
 		"admin.nav.employees": "Nhân viên",

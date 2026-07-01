@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 import {
   Building2,
   CheckCircle2,
@@ -13,6 +14,7 @@ import {
 
 import {
   DashboardShell,
+  StatStrip,
   StatCard,
   Pill,
   PremiumCard,
@@ -22,6 +24,7 @@ import {
   inputCls,
   SectionHeader,
   ActionBtn,
+  useDashboardMotion,
 } from "@/components/care/DashboardShell";
 import { useCarePortal, CARE_STATUSES, getCompanyName, type CareStatus } from "@/lib/care/store";
 import { useCareLang } from "@/lib/care/i18n";
@@ -65,8 +68,13 @@ function StaffDashboard() {
   );
 
   const nav = [
-    { label: t("staff.nav.mine"), key: "mine", icon: Inbox },
-    { label: t("staff.nav.unassigned"), key: "unassigned", icon: MessageSquare },
+    { label: t("staff.nav.mine"), key: "mine", icon: Inbox, badge: openMine },
+    {
+      label: t("staff.nav.unassigned"),
+      key: "unassigned",
+      icon: MessageSquare,
+      badge: unassignedCount,
+    },
     { label: t("staff.nav.employees"), key: "employees", icon: Users },
   ];
 
@@ -79,8 +87,8 @@ function StaffDashboard() {
       onSelect={(k) => setTab(k as Tab)}
       identity={identity}
     >
-      {/* Stats strip */}
-      <div className="grid grid-cols-3 gap-3 mb-8">
+      {/* Stats strip — one bordered container with divide-x, not three boxed cards */}
+      <StatStrip>
         <StatCard
           label={t("staff.stat.mine")}
           value={myCount}
@@ -99,7 +107,7 @@ function StaffDashboard() {
           sub={`${myCompanyIds.length} companies`}
           tone="teal"
         />
-      </div>
+      </StatStrip>
 
       {tab === "mine" && <RequestsView scope="mine" />}
       {tab === "unassigned" && <RequestsView scope="unassigned" />}
@@ -112,6 +120,7 @@ function StaffDashboard() {
 function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
   const { state, assignCareRequest, updateCareRequestStatus, replyToCareRequest } = useCarePortal();
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useDashboardMotion();
   const me = state.session!;
 
   const list = state.requests
@@ -134,7 +143,12 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
 
       <div className="grid gap-5 lg:grid-cols-[360px_1fr]">
         {/* ── Request list ── */}
-        <div className="space-y-2">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerParent}
+          className="space-y-2"
+        >
           {list.length === 0 ? (
             <EmptyState message={emptyMsg} icon={<Inbox className="h-5 w-5 text-black/30" />} />
           ) : (
@@ -142,11 +156,12 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
               const isActive = open === r.id;
               const companyName = getCompanyName(state.companies, r.companyId);
               return (
-                <button
+                <motion.button
                   key={r.id}
                   type="button"
+                  variants={fadeUp}
                   onClick={() => setOpen(r.id)}
-                  className={`block w-full rounded-xl border p-4 text-left transition-all duration-150 ${
+                  className={`block w-full rounded-xl border p-4 text-left transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/40 ${
                     isActive
                       ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]"
                       : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"
@@ -179,11 +194,11 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
                     </div>
                     <span className="text-[10px] text-black/22 tabular-nums">{r.submittedAt}</span>
                   </div>
-                </button>
+                </motion.button>
               );
             })
           )}
-        </div>
+        </motion.div>
 
         {/* ── Detail panel ── */}
         <div>
@@ -337,6 +352,7 @@ function RequestsView({ scope }: { scope: "mine" | "unassigned" }) {
 function EmployeesView() {
   const { state } = useCarePortal();
   const { t } = useCareLang();
+  const { fadeUp, staggerParent } = useDashboardMotion();
   const me = state.session!;
 
   const myCompanyIds = useMemo(
@@ -390,9 +406,18 @@ function EmployeesView() {
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-black/[0.04]">
+            <motion.tbody
+              initial="hidden"
+              animate="visible"
+              variants={staggerParent}
+              className="divide-y divide-black/[0.04]"
+            >
               {employees.map((e) => (
-                <tr key={e.uid} className="hover:bg-black/[0.025] transition-colors">
+                <motion.tr
+                  key={e.uid}
+                  variants={fadeUp}
+                  className="hover:bg-black/[0.025] transition-colors"
+                >
                   <td className="px-5 py-3.5">
                     <div className="flex items-center gap-2.5">
                       <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#14a76c]/12 text-[11px] font-bold text-[#14a76c]">
@@ -432,9 +457,9 @@ function EmployeesView() {
                       <span className="text-[12px] text-black/22">—</span>
                     )}
                   </td>
-                </tr>
+                </motion.tr>
               ))}
-            </tbody>
+            </motion.tbody>
           </table>
         </PremiumCard>
       )}

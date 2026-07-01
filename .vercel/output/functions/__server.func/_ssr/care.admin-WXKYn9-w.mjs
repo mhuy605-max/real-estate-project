@@ -1,14 +1,14 @@
 import { o as __toESM } from "../_runtime.mjs";
 import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { c as require_jsx_runtime } from "../_libs/@radix-ui/react-arrow+[...].mjs";
-import { a as STAGES, c as useCareLang, l as useCarePortal, n as CARE_STATUSES, o as getCareStaff, s as getCompanyName, t as CARE_CATEGORIES } from "./i18n-C-udbzCl.mjs";
+import { a as STAGES, c as useCareLang, l as useCarePortal, n as CARE_STATUSES, o as getCareStaff, s as getCompanyName, t as CARE_CATEGORIES } from "./i18n-CMzyrgwE.mjs";
 import { A as Inbox, I as Funnel, S as MapPin, Z as CircleCheck, i as Users, j as House, m as Plus, ot as Building2, p as Send, z as FileChartColumnIncreasing } from "../_libs/lucide-react.mjs";
 import { a as motion, o as AnimatePresence } from "../_libs/framer-motion.mjs";
-import { a as EmptyState, c as SectionHeader, d as statusTone, i as DashboardShell, l as StatCard, n as Card, o as Pill, s as PremiumCard, t as ActionBtn, u as inputCls } from "./DashboardShell-ByRWoDhS.mjs";
+import { a as EmptyState, c as SectionHeader, d as inputCls, f as statusTone, i as DashboardShell, l as StatCard, n as Card, o as Pill, p as useDashboardMotion, s as PremiumCard, t as ActionBtn, u as StatStrip } from "./DashboardShell-B2q2rbIl.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
 import { a as objectType, i as enumType, n as coerce, o as stringType } from "../_libs/zod.mjs";
 import { n as useForm, t as u } from "../_libs/@hookform/resolvers+[...].mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/care.admin-BjlVHfVt.js
+//#region node_modules/.nitro/vite/services/ssr/assets/care.admin-WXKYn9-w.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var EBW = "text-[10px] uppercase tracking-[0.18em] text-black/32 font-medium";
@@ -40,7 +40,8 @@ function AdminDashboard() {
 		{
 			label: t("admin.nav.requests"),
 			key: "requests",
-			icon: Inbox
+			icon: Inbox,
+			badge: openCount
 		},
 		{
 			label: t("admin.nav.reports"),
@@ -56,35 +57,32 @@ function AdminDashboard() {
 		onSelect: (k) => setTab(k),
 		identity,
 		children: [
-			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "grid grid-cols-2 gap-3 sm:grid-cols-4 mb-8",
-				children: [
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
-						label: t("admin.stat.companies"),
-						value: state.companies.length,
-						sub: t("admin.stat.companies.sub"),
-						tone: "teal"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
-						label: t("admin.stat.employees"),
-						value: state.users.filter((u) => u.role === "employee").length,
-						sub: t("admin.stat.employees.sub"),
-						tone: "coral"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
-						label: t("admin.stat.openRequests"),
-						value: openCount,
-						sub: t("admin.stat.openRequests.sub"),
-						tone: "amber"
-					}),
-					/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
-						label: t("admin.stat.reports"),
-						value: state.reports.length,
-						sub: t("admin.stat.reports.sub"),
-						tone: "sky"
-					})
-				]
-			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(StatStrip, { children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
+					label: t("admin.stat.companies"),
+					value: state.companies.length,
+					sub: t("admin.stat.companies.sub"),
+					tone: "teal"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
+					label: t("admin.stat.employees"),
+					value: state.users.filter((u) => u.role === "employee").length,
+					sub: t("admin.stat.employees.sub"),
+					tone: "coral"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
+					label: t("admin.stat.openRequests"),
+					value: openCount,
+					sub: t("admin.stat.openRequests.sub"),
+					tone: "amber"
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatCard, {
+					label: t("admin.stat.reports"),
+					value: state.reports.length,
+					sub: t("admin.stat.reports.sub"),
+					tone: "sky"
+				})
+			] }),
 			tab === "companies" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CompaniesTab, {}),
 			tab === "employees" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmployeesTab, {}),
 			tab === "requests" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RequestsTab, {}),
@@ -116,6 +114,7 @@ var tierPill = {
 function CompaniesTab() {
 	const { state, createCareCompany } = useCarePortal();
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useDashboardMotion();
 	const [show, setShow] = (0, import_react.useState)(false);
 	const form = useForm({
 		resolver: u(companySchema),
@@ -237,12 +236,16 @@ function CompaniesTab() {
 						className: `pb-3 ${EBW} font-medium ${i >= 2 ? i === 2 ? "hidden sm:table-cell" : "hidden md:table-cell" : ""}`,
 						children: col
 					}, col))
-				}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tbody", {
+				}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.tbody, {
+					initial: "hidden",
+					animate: "visible",
+					variants: staggerParent,
 					className: "divide-y divide-black/[0.04]",
 					children: state.companies.map((c) => {
 						const used = seatsUsed(c.id);
 						const pct = c.seats > 0 ? used / c.seats : 0;
-						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tr", {
+						return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.tr, {
+							variants: fadeUp,
 							className: "group hover:bg-black/[0.025] transition-colors",
 							children: [
 								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("td", {
@@ -316,6 +319,7 @@ var empSchema = objectType({
 function EmployeesTab() {
 	const { state, createCareEmployee, updateCareEmployee } = useCarePortal();
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useDashboardMotion();
 	const [filter, setFilter] = (0, import_react.useState)("all");
 	const [show, setShow] = (0, import_react.useState)(false);
 	const [edit, setEdit] = (0, import_react.useState)(null);
@@ -461,9 +465,13 @@ function EmployeesTab() {
 							className: `pb-3 ${EBW} font-medium ${i === 1 ? "hidden sm:table-cell" : ""} ${i === 3 ? "hidden sm:table-cell" : ""}`,
 							children: col
 						}, col))
-					}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("tbody", {
+					}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.tbody, {
+						initial: "hidden",
+						animate: "visible",
+						variants: staggerParent,
 						className: "divide-y divide-black/[0.04]",
-						children: employees.map((e) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("tr", {
+						children: employees.map((e) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.tr, {
+							variants: fadeUp,
 							onClick: () => setEdit(e.uid),
 							className: `cursor-pointer transition-colors ${edit === e.uid ? "bg-[#14a76c]/[0.07]" : "hover:bg-black/[0.025]"}`,
 							children: [
@@ -610,6 +618,7 @@ function EmployeesTab() {
 function RequestsTab() {
 	const { state, assignCareRequest, updateCareRequestStatus, replyToCareRequest } = useCarePortal();
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useDashboardMotion();
 	const [fCompany, setFCompany] = (0, import_react.useState)("all");
 	const [fCat, setFCat] = (0, import_react.useState)("all");
 	const [fStatus, setFStatus] = (0, import_react.useState)("all");
@@ -648,7 +657,10 @@ function RequestsTab() {
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", {
 							value: "all",
 							children: t("dash.allCategories")
-						}), CARE_CATEGORIES.map((c) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { children: c }, c))]
+						}), CARE_CATEGORIES.map((c) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", {
+							value: c,
+							children: t(`category.${c}`)
+						}, c))]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("select", {
 						className: inputCls("max-w-[130px] py-1.5 text-[12px]"),
@@ -666,15 +678,19 @@ function RequestsTab() {
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "grid gap-5 lg:grid-cols-[380px_1fr]",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+					initial: "hidden",
+					animate: "visible",
+					variants: staggerParent,
 					className: "space-y-2",
 					children: list.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmptyState, {
 						message: t("req.empty.list"),
 						icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Inbox, { className: "h-5 w-5 text-black/30" })
-					}) : list.map((r) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+					}) : list.map((r) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(motion.button, {
 						type: "button",
+						variants: fadeUp,
 						onClick: () => setOpen(r.id),
-						className: `block w-full rounded-xl border p-4 text-left transition-all duration-150 ${open === r.id ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]" : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"}`,
+						className: `block w-full rounded-xl border p-4 text-left transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#14a76c]/40 ${open === r.id ? "border-[#14a76c]/35 bg-[#14a76c]/[0.07]" : "border-black/[0.06] bg-black/[0.02] hover:border-black/10 hover:bg-black/[0.04]"}`,
 						children: [
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "flex items-center justify-between mb-1.5",
@@ -833,6 +849,7 @@ var repSchema = objectType({
 function ReportsTab() {
 	const { state, generateCareReport } = useCarePortal();
 	const { t } = useCareLang();
+	const { fadeUp, staggerParent } = useDashboardMotion();
 	const [show, setShow] = (0, import_react.useState)(false);
 	const form = useForm({
 		resolver: u(repSchema),
@@ -923,45 +940,51 @@ function ReportsTab() {
 			state.reports.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(EmptyState, {
 				message: t("rep.empty"),
 				icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileChartColumnIncreasing, { className: "h-5 w-5 text-black/30" })
-			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+				initial: "hidden",
+				animate: "visible",
+				variants: staggerParent,
 				className: "grid gap-4 md:grid-cols-2",
-				children: state.reports.map((r) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(PremiumCard, {
-					accent: r.kind === "Annual" ? "teal" : void 0,
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "flex items-start justify-between mb-3",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-									className: "font-mono text-[10px] text-black/22",
-									children: r.id
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-									className: "mt-1 text-[14px] font-semibold text-black/92",
-									children: getCompanyName(state.companies, r.companyId)
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-									className: "text-[12px] text-black/38 mt-0.5",
-									children: r.periodLabel
-								})
-							] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pill, {
-								tone: r.kind === "Annual" ? "ok" : "info",
-								children: r.kind
-							})]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-[13px] text-black/60 leading-relaxed border-t border-black/[0.06] pt-3",
-							children: r.summary
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "mt-3 flex items-center gap-1.5 text-[10px] text-black/28",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "h-3 w-3 text-emerald-500/60" }),
-								t("dash.generated"),
-								" ",
-								new Date(r.generatedAt).toLocaleDateString()
-							]
-						})
-					]
+				children: state.reports.map((r) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(motion.div, {
+					variants: fadeUp,
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(PremiumCard, {
+						accent: r.kind === "Annual" ? "teal" : void 0,
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "flex items-start justify-between mb-3",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "font-mono text-[10px] text-black/22",
+										children: r.id
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+										className: "mt-1 text-[14px] font-semibold text-black/92",
+										children: getCompanyName(state.companies, r.companyId)
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+										className: "text-[12px] text-black/38 mt-0.5",
+										children: r.periodLabel
+									})
+								] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pill, {
+									tone: r.kind === "Annual" ? "ok" : "info",
+									children: r.kind
+								})]
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-[13px] text-black/60 leading-relaxed border-t border-black/[0.06] pt-3",
+								children: r.summary
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "mt-3 flex items-center gap-1.5 text-[10px] text-black/28",
+								children: [
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { className: "h-3 w-3 text-emerald-500/60" }),
+									t("dash.generated"),
+									" ",
+									new Date(r.generatedAt).toLocaleDateString()
+								]
+							})
+						]
+					})
 				}, r.id))
 			})
 		]
